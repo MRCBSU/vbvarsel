@@ -1,10 +1,26 @@
-from calcparams import *
-from elbo import *
 import numpy as np
-import typing
-import typing_extensions
 import os
 import pandas as pd
+
+import hygiene
+import dataSimCrook
+from calcparams import *
+from elbo import ELBO_Computation
+from scipy.stats import beta
+
+# classical geometric schedule T(k) = T0 * alpha^k
+# T0 is the initial temperature
+def geometric_schedule(T0, alpha, k, n):
+    if k < n:
+        return T0 * (alpha**k)
+    else:
+        return 1
+
+
+# classical harmonic schedule T(k) = T0 / (1 + alpha * k)
+# T0 is the initial temperature
+def harmonic_schedule(T0, alpha, k):
+    return T0 / (1 + alpha * k)
 
 
 # MAIN RUN FUNCTION
@@ -13,12 +29,10 @@ def run(
     K,
     alpha0,
     beta0,
-    v0,
     a0,
     m0,
     b0,
     d,
-    delta0,
     C,
     threshold,
     max_itr,
@@ -26,7 +40,8 @@ def run(
     annealing="fixed",
     max_annealed_itr=10,
     Ctrick=True,
-):
+    ):
+
     (N, XDim) = np.shape(X)
 
     # params:
@@ -65,7 +80,7 @@ def run(
         S = calcS(Z=Z, X=X, xd=xd)
         betakj = calcbetakj_annealed(K=K, XDim=XDim, c=C, NK=NK, beta0=beta0, T=T)
         m = calcM_annealed(
-            K=K, XDim=XDim, beta0=beta0, m0=m0, NK=NK, xd=xd, S=betakj, c=C, T=T
+            K=K, XDim=XDim, beta0=beta0, m0=m0, NK=NK, xd=xd, betakj=betakj, c=C, T=T
         )
         bkj = calcB_annealed(
             W0=b0, xd=xd, K=K, m0=m0, XDim=XDim, beta0=beta0, S=S, c=C, NK=NK, T=T
@@ -99,7 +114,7 @@ def run(
             trick=Ctrick,
         )
 
-        lb = elbo_computation(
+        lb = ELBO_Computation().compute(
             XDim=XDim,
             K=K,
             N=N,
@@ -159,12 +174,106 @@ def load_data(data_loc: str | os.PathLike, clean_too: bool = False) -> list:
     raw_data = pd.DataFrame(data_loc)
 
     if clean_too:
-        import hygiene
 
         normalised_data = hygiene.normalise_data(raw_data)
         shuffled_data = hygiene.shuffle_data(normalised_data)
         return shuffled_data
     return raw_data
 
-if __name__ == '__main__':
-    pass
+
+if __name__ == "__main__":
+
+    import inspect
+    import pprint
+    def inspector(func_name):
+        sig, func_locals = inspect.signature(func_name), locals()
+        return [" : ".join([str(func_locals[param.name]), type(func_locals[param.name])]) for param in sig.parameters.values()]
+
+    n_observations = [10]
+    n_variables = 200
+    n_relevants = [
+        10,
+        20,
+        50,
+        100,
+    ]  # For example, change this to vary the number of relevant variables
+    mixture_proportions = [0.5, 0.3, 0.2]
+    means = [0, 2, -2]
+
+    # MODEL AVERAGING
+
+    # setting the hyperparameters
+
+    # convergence threshold
+    threshold = 1e-1
+
+    K1 = 5  # num components in inference
+
+    # alpha0 = 0.01 #prior coefficient count (for Dir)
+    alpha0 = 1 / (K1)  # cabassi
+
+    beta0 = (1e-3) * 1.0
+    a0 = 3.0
+
+    # variable selection
+    d0 = 1
+
+    T_max = 1.0
+
+    max_itr = 25
+
+    max_models = 10
+    convergence_ELBO = []
+    convergence_itr = []
+    clust_predictions = []
+    variable_selected = []
+    times = []
+    ARIs = []
+    n_relevant_var = []
+    n_obs = []
+
+    n_rel_rel = []  # correct relevant
+
+    n_irr_irr = []  # correct irrelevant
+
+    for p in range(len(n_observations)):
+        for n_rel in range(len(n_relevants)):
+            for i in range(max_models):
+
+                # print("Model " + str(i))
+                # print("obs " + str(p))
+                # print("rel " + str(n_rel))
+                # print()
+
+                n_relevant_var.append(n_relevants[n_rel])
+                # print(n_observations[p])
+                n_obs.append(n_observations[p])
+
+                variance_covariance_matrix = np.identity(n_relevants[n_rel])
+
+                data_crook = dataSimCrook.SimulateData(
+                    n_observations[p],
+                    n_variables,
+                    n_relevants[n_rel],
+                    mixture_proportions,
+                    means,
+                    variance_covariance_matrix,
+                )
+                crook_data = data_crook.data_sim()
+                perms = data_crook.permutation()
+                data_crook.shuffle_sim_data(crook_data, perms)
+                
+                (N,XDim) = np.shape(crook_data)
+        
+            C = np.ones(XDim)  
+            W0 = (1e-1)*np.eye(XDim) #prior cov (bigger: smaller covariance)
+            v0 = XDim + 2. 
+            m0 = np.zeros(XDim) #prior mean
+            for j in range(XDim):
+                m0[j] = np.mean(crook_data[:, j])
+            
+            delta0 = beta.rvs(1, 1, size=XDim)
+            T0 = 1
+            # Measure the execution time of the following code
+            mu, S, invc, pik, Z, lower_bound, Cs, itr = run(X=data_crook.simulation_object["shuffled_data"], K=K1, alpha0=alpha0, beta0=beta0, a0=a0, m0=m0, b0=W0, d=d0, C=C, 
+                                                           threshold=threshold, max_itr=max_itr)

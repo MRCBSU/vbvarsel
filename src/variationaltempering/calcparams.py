@@ -1,6 +1,6 @@
 import numpy as np
 import math
-from scipy.special import digamma, psi, gammaln, multigammaln, gamma
+from scipy.special import digamma
 
 def calcAlphak_annealed(NK, alpha0, T):
     alpha = (NK + alpha0 + T - 1) / T
@@ -188,10 +188,10 @@ def calcN2_annealed(C, d, expF0, T):
     return N2 , lnN2
     
 def calcC_annealed(XDim, N, K, X, b, a, m, beta, d, C, Z, sigma_0, mu_0, T, trick=False):
-    expF = calcexpF(X, XDim, K, N, b, a, m, beta, Z)
+    expF = calcexpF(X, b, a, m, beta, Z)
     expF0 = calcexpF0(X, N, K, XDim, Z, sigma_0, mu_0)
-    N1, lnN1 = calcN1_annealed(XDim, C, d, expF, T, N)
-    N2, lnN2 = calcN2_annealed(XDim, C, d, expF0, T, N)
+    N1, lnN1 = calcN1_annealed(C, d, expF, T)
+    N2, lnN2 = calcN2_annealed(C, d, expF0, T)
 
     epsilon = 1e-40
     
