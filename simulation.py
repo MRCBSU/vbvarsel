@@ -441,7 +441,7 @@ def harmonic_schedule( T0, alpha, k, n):
     return T0 / (1 + alpha * k)
 
 # MAIN RUN FUNCTION 
-def run(X, K, alpha0, beta0, a0, m0, b0, d, C, threshold, T0 = 1., annealing = "fixed", max_annealed_itr = 10, Ctrick = True):
+def run(X, K, alpha0, beta0, a0, m0, b0, d, C, threshold, T, annealing = "fixed", max_annealed_itr = 10, Ctrick = True):
     (N,XDim) = shape(X)
     
     
@@ -524,145 +524,146 @@ def cluster_prediction(rsp):
 # SIMULATIONS 
 
 # Parameters for simulations
-# n_observations = [100, 1000] # number of observations to simulate
-# n_variables = 200 # number of variables to simulate
-# n_relevants = [10, 20, 50, 100]  # number of variables that are relevant
-# mixture_proportions = [0.5, 0.3, 0.2] # ~ proportion of observations in each cluster, length of the array defines number of simulated clusters
-# means = [0, 2, -2] # mean of the gaussian distribution for each cluster
+n_observations = [100, 1000] # number of observations to simulate
+n_variables = 200 # number of variables to simulate
+n_relevants = [10, 20, 50, 100]  # number of variables that are relevant
+mixture_proportions = [0.5, 0.3, 0.2] # ~ proportion of observations in each cluster, length of the array defines number of simulated clusters
+means = [0, 2, -2] # mean of the gaussian distribution for each cluster
 
-# # Prior settings and Hyperparameters for VBVarSel
+# Prior settings and Hyperparameters for VBVarSel
     
-# threshold = 1e-1 # convergence threshold
-# K1 = 5 # maximum number of clusters
+threshold = 1e-1 # convergence threshold
+K1 = 5 # maximum number of clusters
 
-# # prior coefficient count, or concentration parameter, for Dirichelet prior on the mixture proportions
-# # this parameter can be interpreted as pseudocounts, i.e. the effective prior number of observations associated with each mixture component.
-# alpha0 = 1/(K1) # or set to 0.01
+# prior coefficient count, or concentration parameter, for Dirichelet prior on the mixture proportions
+# this parameter can be interpreted as pseudocounts, i.e. the effective prior number of observations associated with each mixture component.
+alpha0 = 1/(K1) # or set to 0.01
 
-# # shrinkage parameter of the Gaussian conditional prior on the cluster mean
-# # influences the tightness and spread of the cluster, with smaller shrinkage leading to tighter clusters.
-# beta0 = (1e-3)*1. 
+# shrinkage parameter of the Gaussian conditional prior on the cluster mean
+# influences the tightness and spread of the cluster, with smaller shrinkage leading to tighter clusters.
+beta0 = (1e-3)*1. 
 
-# # degrees of freedom, for the Gamma prior on the cluster precision
-# # controls the shape of the Gamma distribution, the higher the degree of freedom, the more peaked
-# a0 = 3.
+# degrees of freedom, for the Gamma prior on the cluster precision
+# controls the shape of the Gamma distribution, the higher the degree of freedom, the more peaked
+a0 = 3.
     
-# # shape parameter of the Beta distribution on the probability of selection
-# # d0 = 1, the Beta distribution turns into a uniform distribution.
-# d0 = 1
+# shape parameter of the Beta distribution on the probability of selection
+# d0 = 1, the Beta distribution turns into a uniform distribution.
+d0 = 1
 
-# # maximum/starting annealing temperature
-# # T_max = 1 means no annealing
-# T_max = 1.
-
-# # maximum number of iterations
-# max_itr = 25
-
-# # number of models to run for model averaging
-# max_models = 10
+# maximum/starting annealing temperature
+# T_max = 1 means no annealing
+T0 = 1.
 
 
-# convergence_ELBO = []
-# convergence_itr = []
-# clust_predictions = []
-# variable_selected = []
-# times = []
-# ARIs = []
-# n_relevant_var = []
-# n_obs = []
+# maximum number of iterations
+max_itr = 25
 
-# n_rel_rel = [] # correctly selected relevant variables
-# n_irr_irr = [] # correctly discarded irrelevant variables
+# number of models to run for model averaging
+max_models = 10
 
-# #END
 
-# # goal is to do simultaneous clustering and variable selection
+convergence_ELBO = []
+convergence_itr = []
+clust_predictions = []
+variable_selected = []
+times = []
+ARIs = []
+n_relevant_var = []
+n_obs = []
 
-# # user output
-# # array of variable selections `variable_selected`
-# # array of cluster_assignments `clust_predictions`
-# # uses variational inference vs mcmc 
-# # can run 1000s of observations and many variables very fast
+n_rel_rel = [] # correctly selected relevant variables
+n_irr_irr = [] # correctly discarded irrelevant variables
 
-# for p in range(len(n_observations)):
-#     for n_rel in range(len(n_relevants)):
-#         for i in range(max_models):
+#END
+
+# goal is to do simultaneous clustering and variable selection
+
+# user output
+# array of variable selections `variable_selected`
+# array of cluster_assignments `clust_predictions`
+# uses variational inference vs mcmc 
+# can run 1000s of observations and many variables very fast
+
+for p in range(len(n_observations)):
+    for n_rel in range(len(n_relevants)):
+        for i in range(max_models):
             
-#             print("Model " + str(i))
-#             print("obs " + str(p))
-#             print("rel " + str(n_rel))
-#             print()
+            print("Model " + str(i))
+            print("obs " + str(p))
+            print("rel " + str(n_rel))
+            print()
             
-#             n_relevant_var.append(n_relevants[n_rel])
-#             n_obs.append(n_observations[p])
+            n_relevant_var.append(n_relevants[n_rel])
+            n_obs.append(n_observations[p])
     
-#             variance_covariance_matrix = np.identity(n_relevants[n_rel])
-#             X, X_shuffled, true_labels, index_array = simulation_data_crook(n_observations[p], n_variables, n_relevants[n_rel], mixture_proportions, means, variance_covariance_matrix)
+            variance_covariance_matrix = np.identity(n_relevants[n_rel])
+            X, X_shuffled, true_labels, index_array = simulation_data_crook(n_observations[p], n_variables, n_relevants[n_rel], mixture_proportions, means, variance_covariance_matrix)
     
-#             (N,XDim) = shape(X)
+            (N,XDim) = shape(X)
         
-#             C = np.ones(XDim)  
-#             W0 = (1e-1)*eye(XDim) #prior cov (bigger: smaller covariance)
-#             v0 = XDim + 2. 
-#             m0 = zeros(XDim) #prior mean
-#             for j in range(XDim):
-#                 m0[j] = np.mean(X[:, j])
+            C = np.ones(XDim)  
+            W0 = (1e-1)*eye(XDim) #prior cov (bigger: smaller covariance)
+            v0 = XDim + 2. 
+            m0 = zeros(XDim) #prior mean
+            for j in range(XDim):
+                m0[j] = np.mean(X[:, j])
             
-#             delta0 = beta.rvs(d0, d0, size=XDim)
+            delta0 = beta.rvs(d0, d0, size=XDim)
         
-#             # Measure the execution time of the following code
-#             start_time = time.time()
-#             mu, S, invc, pik, Z, lower_bound, Cs, itr = run(X_shuffled, K1, alpha0, beta0, v0, a0, m0, W0, d0, delta0, C, 
-#                                                            threshold, max_itr, T0 = T0 , annealing = "fixed", max_annealed_itr = 10, Ctrick = True)
-#             end_time = time.time()
-#             execution_time = end_time - start_time
+            # Measure the execution time of the following code
+            start_time = time.time()
+            mu, S, invc, pik, Z, lower_bound, Cs, itr = run(X_shuffled, K1, alpha0, beta0, v0, a0, m0, W0, d0, delta0, C, 
+                                                           threshold, max_itr, T0)
+            end_time = time.time()
+            execution_time = end_time - start_time
     
-#             times.append(execution_time)
+            times.append(execution_time)
     
-#             NK = Z.sum(axis=0)
+            NK = Z.sum(axis=0)
     
-#             convergence_ELBO.append(lower_bound[-1])
-#             convergence_itr.append(itr)
+            convergence_ELBO.append(lower_bound[-1])
+            convergence_itr.append(itr)
     
-#             clust_pred = [np.argmax(r) for r in Z]
-#             clust_predictions.append(clust_pred)
+            clust_pred = [np.argmax(r) for r in Z]
+            clust_predictions.append(clust_pred)
     
-#             ari = adjusted_rand_score(np.array(true_labels), np.array(clust_pred))
-#             ARIs.append(ari)
+            ari = adjusted_rand_score(np.array(true_labels), np.array(clust_pred))
+            ARIs.append(ari)
     
-#             original_order = np.argsort(index_array)
-#             var_selection_ordered = np.around(np.array(Cs)[original_order])
-#             variable_selected.append(var_selection_ordered)
+            original_order = np.argsort(index_array)
+            var_selection_ordered = np.around(np.array(Cs)[original_order])
+            variable_selected.append(var_selection_ordered)
             
-#             unique_counts, counts = np.unique(np.around(var_selection_ordered[:n_relevants[n_rel]]), return_counts=True)
+            unique_counts, counts = np.unique(np.around(var_selection_ordered[:n_relevants[n_rel]]), return_counts=True)
        
-#             # Find the index of the specific element (e.g., element 0) in the unique_counts array
-#             element_to_extract = 1
-#             index_of_element = np.where(unique_counts == element_to_extract)[0]
+            # Find the index of the specific element (e.g., element 0) in the unique_counts array
+            element_to_extract = 1
+            index_of_element = np.where(unique_counts == element_to_extract)[0]
 
-#             # Extract the counts of the specific element from the counts array
-#             counts_of_element = counts[index_of_element]
-#             n_rel_rel.append(counts_of_element[0])
+            # Extract the counts of the specific element from the counts array
+            counts_of_element = counts[index_of_element]
+            n_rel_rel.append(counts_of_element[0])
     
         
 
-#             unique_counts, counts = np.unique(np.around(var_selection_ordered[n_relevants[n_rel]:]), return_counts=True)
+            unique_counts, counts = np.unique(np.around(var_selection_ordered[n_relevants[n_rel]:]), return_counts=True)
         
-#             # Find the index of the specific element (e.g., element 0) in the unique_counts array
-#             element_to_extract = 0
-#             index_of_element = np.where(unique_counts == element_to_extract)[0]
+            # Find the index of the specific element (e.g., element 0) in the unique_counts array
+            element_to_extract = 0
+            index_of_element = np.where(unique_counts == element_to_extract)[0]
 
-#             # Extract the counts of the specific element from the counts array
-#             counts_of_element = counts[index_of_element]
-#             n_irr_irr.append(counts_of_element[0])
+            # Extract the counts of the specific element from the counts array
+            counts_of_element = counts[index_of_element]
+            n_irr_irr.append(counts_of_element[0])
 
-# #add as option to print or something along those lines w/option to save
-# #plotting? add way to change hyperparams
-# df_results = pd.DataFrame({'n_observations' : n_obs, 'n_relevant' : n_relevant_var, 'ARI' : ARIs, 'n_rel_rel' : n_rel_rel, 'n_irr_irr' : n_irr_irr, 
-#                         'time' : times, 'convergence ELBO' : convergence_ELBO, 'convergence itr' : convergence_itr})
+#add as option to print or something along those lines w/option to save
+#plotting? add way to change hyperparams
+df_results = pd.DataFrame({'n_observations' : n_obs, 'n_relevant' : n_relevant_var, 'ARI' : ARIs, 'n_rel_rel' : n_rel_rel, 'n_irr_irr' : n_irr_irr, 
+                        'time' : times, 'convergence ELBO' : convergence_ELBO, 'convergence itr' : convergence_itr})
     
-# # SAVING AS CSV
-# df_results.to_csv('simulation_studies_crook_results.csv', index=False)
+# SAVING AS CSV
+df_results.to_csv('simulation_studies_crook_results.csv', index=False)
 
 
 if __name__ == "__main__":

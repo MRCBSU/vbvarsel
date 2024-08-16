@@ -7,6 +7,8 @@ import dataSimCrook
 from calcparams import *
 from elbo import ELBO_Computation
 from scipy.stats import beta
+from sklearn.metrics import adjusted_rand_score
+
 
 # classical geometric schedule T(k) = T0 * alpha^k
 # T0 is the initial temperature
@@ -23,25 +25,93 @@ def harmonic_schedule(T0, alpha, k):
     return T0 / (1 + alpha * k)
 
 
+def establish_hyperparameters(**kwargs):
+    '''Function to set hyperparameters, otherwise will return an object
+    with default values.
+    
+    Paramaters:
+        **kwargs: keywords arguments, see below.
+    Returns:
+        hyperparams: dict -> dictionary of hyperparameter values to be used
+        in sumulations.
+
+    Valid keyword arguments:
+        `threshold`: a threshold for convergence, default is 1e-1
+        `k1`: maximum clusters, default is 5
+        `alpha0`: prior coefficient count, default is 1/k1
+        `beta0`:
+        `a0`:
+        `d0`:
+        `t_max`:
+        `max_itr`:
+        `max_models`:
+    '''
+
+
+    hyperparams = {
+        #Convergence threshold
+        "threshold" : kwargs.get('threshold', 1e-1),
+        #Max clusters
+        "k1" : kwargs.get('k1', 5),
+        # shrinkage parameter of the Gaussian conditional prior on the cluster mean
+        # influences the tightness and spread of the cluster, with smaller shrinkage leading to tighter clusters.
+        "beta0" : kwargs.get("beta0", (1e-3)*1.),
+        # degrees of freedom, for the Gamma prior on the cluster precision
+        # controls the shape of the Gamma distribution, the higher the degree of freedom, the more peaked
+        "a0" : kwargs.get("a0", 3.),
+        # shape parameter of the Beta distribution on the probability of selection
+        "d0" : kwargs.get('d0', 1),
+        # maximum/starting annealing temperature
+        # T_max = 1 means no annealing
+        "t_max" : kwargs.get('t_max', 1.),
+        # maximum number of iterations
+        "max_itr" : kwargs.get("max_itr", 25),
+        # number of models to run for model averaging
+        "max_models" : kwargs.get("max_models", 10)
+    }
+
+    # prior coefficient count, or concentration parameter, for Dirichelet prior on the mixture proportions
+    # this parameter can be interpreted as pseudocounts, i.e. the effective prior number of observations associated with each mixture component.
+    #has to be calculated outside of the dict because it relies on another dict value and afaik there's no way to look introspectively into a dict
+    hyperparams['alpha0'] = kwargs.get('alpha0', 1/hyperparams["k1"])
+
+    return hyperparams
+
+def establish_sim_params(n_observations:list[int]=[10], 
+                         n_variables:int =50, 
+                         n_relevants:list[int]=[10,50,80],
+                         mixture_proportions:list[float]=[0.5, 0.3, 0.2],
+                         means:list[int] = [0, 2, -2]):
+    return {
+        "n_observations":n_observations,
+        "n_variables":n_variables,
+        "n_relevants": n_relevants,
+        "mixture_proportions": mixture_proportions,
+        "means": means
+    }        
+
 # MAIN RUN FUNCTION
 def run(
     X,
-    K,
-    alpha0,
-    beta0,
-    a0,
     m0,
     b0,
-    d,
     C,
-    threshold,
-    max_itr,
-    T0=1.0,
-    annealing="fixed",
+    hyperparameters,
+    # simulated_vars,
+    annealing="fixed",#
     max_annealed_itr=10,
     Ctrick=True,
     ):
-
+    
+    K = hyperparameters['k1']
+    max_itr = hyperparameters['max_itr']
+    threshold = hyperparameters['threshold']
+    T = hyperparameters['t_max']
+    alpha0 = hyperparameters['alpha0']
+    beta0 = hyperparameters['beta0']
+    a0 = hyperparameters['a0']
+    b0 = hyperparameters['b0']
+    d0 = hyperparameters['d0']
     (N, XDim) = np.shape(X)
 
     # params:
@@ -62,18 +132,17 @@ def run(
     while itr < max_itr:
 
         if annealing == "geometric":
-            cooling_rate = (1 / T0) ** (1 / (max_annealed_itr - 1))
-            T = geometric_schedule(T0, cooling_rate, itr, max_annealed_itr)
+            cooling_rate = (1 / T) ** (1 / (max_annealed_itr - 1))
+            T = geometric_schedule(T, cooling_rate, itr, max_annealed_itr)
         elif annealing == "harmonic":
-            cooling_rate = (T0 - 1) / max_annealed_itr
-            T = harmonic_schedule(T0, cooling_rate, itr, max_annealed_itr)
+            cooling_rate = (T - 1) / max_annealed_itr
+            T = harmonic_schedule(T, cooling_rate, itr, max_annealed_itr)
         elif annealing == "fixed":
-            T = T0
+            T = T
 
         NK = Z.sum(axis=0)
 
         # M-like-step
-
         alphak = calcAlphak_annealed(NK=NK, alpha0=alpha0, T=T)
         akj = calcAkj_annealed(K=K, J=XDim, c=C, NK=NK, a0=a0, T=T)
         xd = calcXd(Z=Z, X=X)
@@ -85,7 +154,7 @@ def run(
         bkj = calcB_annealed(
             W0=b0, xd=xd, K=K, m0=m0, XDim=XDim, beta0=beta0, S=S, c=C, NK=NK, T=T
         )
-        delta = calcDelta_annealed(C=C, d=d, T=T)
+        delta = calcDelta_annealed(C=C, d=d0, T=T)
 
         # E-like-step
         mu = expSigma(X=X, XDim=XDim, betak=betakj, m=m, b=bkj, a=akj, C=C)
@@ -105,7 +174,7 @@ def run(
             a=akj,
             m=m,
             beta=betakj,
-            d=d,
+            d=d0,
             C=C,
             Z=Z,
             sigma_0=sigma_sq_0,
@@ -120,7 +189,7 @@ def run(
             N=N,
             C=C,
             Z=Z,
-            d=d,
+            d=d0,
             delta=delta,
             beta=betakj,
             beta0=beta0,
@@ -149,7 +218,7 @@ def run(
 
         itr += 1
 
-    return m, S, invc, pik, Z, lower_bound, C, itr
+    return Z, lower_bound, C, itr
 
 
 def load_data(data_loc: str | os.PathLike, clean_too: bool = False) -> list:
@@ -182,47 +251,16 @@ def load_data(data_loc: str | os.PathLike, clean_too: bool = False) -> list:
 
 
 if __name__ == "__main__":
+    hp = establish_hyperparameters(t_max=11)
+    print(hp)
+    sp = establish_sim_params(
+        n_observations = [10],
+        n_variables = 200,
+        n_relevants = [10,20,50,100,],
+        mixture_proportions = [0.5, 0.3, 0.2],
+        means = [0, 2, -2]
+    )
 
-    import inspect
-    import pprint
-    def inspector(func_name):
-        sig, func_locals = inspect.signature(func_name), locals()
-        return [" : ".join([str(func_locals[param.name]), type(func_locals[param.name])]) for param in sig.parameters.values()]
-
-    n_observations = [10]
-    n_variables = 200
-    n_relevants = [
-        10,
-        20,
-        50,
-        100,
-    ]  # For example, change this to vary the number of relevant variables
-    mixture_proportions = [0.5, 0.3, 0.2]
-    means = [0, 2, -2]
-
-    # MODEL AVERAGING
-
-    # setting the hyperparameters
-
-    # convergence threshold
-    threshold = 1e-1
-
-    K1 = 5  # num components in inference
-
-    # alpha0 = 0.01 #prior coefficient count (for Dir)
-    alpha0 = 1 / (K1)  # cabassi
-
-    beta0 = (1e-3) * 1.0
-    a0 = 3.0
-
-    # variable selection
-    d0 = 1
-
-    T_max = 1.0
-
-    max_itr = 25
-
-    max_models = 10
     convergence_ELBO = []
     convergence_itr = []
     clust_predictions = []
@@ -236,27 +274,27 @@ if __name__ == "__main__":
 
     n_irr_irr = []  # correct irrelevant
 
-    for p in range(len(n_observations)):
-        for n_rel in range(len(n_relevants)):
-            for i in range(max_models):
+    for p, q in enumerate(sp["n_observations"]):
+        for n, o in enumerate(sp["n_relevants"]):
+            for i in range(hp["max_models"]):
 
                 # print("Model " + str(i))
                 # print("obs " + str(p))
                 # print("rel " + str(n_rel))
                 # print()
 
-                n_relevant_var.append(n_relevants[n_rel])
+                n_relevant_var.append(sp["n_relevants"][n])
                 # print(n_observations[p])
-                n_obs.append(n_observations[p])
+                n_obs.append(sp["n_observations"][p])
 
-                variance_covariance_matrix = np.identity(n_relevants[n_rel])
-
+                variance_covariance_matrix = np.identity(sp["n_relevants"][n])
+                # print(f"with loop: {np.shape(variance_covariance_matrix)}")
                 data_crook = dataSimCrook.SimulateData(
-                    n_observations[p],
-                    n_variables,
-                    n_relevants[n_rel],
-                    mixture_proportions,
-                    means,
+                    sp["n_observations"][p],
+                    sp["n_variables"],
+                    sp["n_relevants"][n],
+                    sp["mixture_proportions"],
+                    sp["means"],
                     variance_covariance_matrix,
                 )
                 crook_data = data_crook.data_sim()
@@ -267,13 +305,53 @@ if __name__ == "__main__":
         
             C = np.ones(XDim)  
             W0 = (1e-1)*np.eye(XDim) #prior cov (bigger: smaller covariance)
-            v0 = XDim + 2. 
             m0 = np.zeros(XDim) #prior mean
             for j in range(XDim):
                 m0[j] = np.mean(crook_data[:, j])
             
             delta0 = beta.rvs(1, 1, size=XDim)
-            T0 = 1
+            T = 1
             # Measure the execution time of the following code
-            mu, S, invc, pik, Z, lower_bound, Cs, itr = run(X=data_crook.simulation_object["shuffled_data"], K=K1, alpha0=alpha0, beta0=beta0, a0=a0, m0=m0, b0=W0, d=d0, C=C, 
-                                                           threshold=threshold, max_itr=max_itr)
+            Z, lower_bound, Cs, iterations = run(X=data_crook.simulation_object["shuffled_data"],
+                                     hyper_params = hp,
+                                     delta0 = delta0,
+                                     m0=m0, 
+                                     b0=W0, 
+                                     C=C)
+            print(iterations)
+
+            NK = Z.sum(axis=0)
+            convergence_ELBO.append(lower_bound[-1])
+            convergence_itr.append(itr)
+    
+            clust_pred = [np.argmax(r) for r in Z]
+            clust_predictions.append(clust_pred)
+    
+            ari = adjusted_rand_score(np.array(true_labels), np.array(clust_pred))
+            ARIs.append(ari)
+    
+            original_order = np.argsort(index_array)
+            var_selection_ordered = np.around(np.array(Cs)[original_order])
+            variable_selected.append(var_selection_ordered)
+            
+            unique_counts, counts = np.unique(np.around(var_selection_ordered[:n_relevants[n_rel]]), return_counts=True)
+       
+            # Find the index of the specific element (e.g., element 0) in the unique_counts array
+            element_to_extract = 1
+            index_of_element = np.where(unique_counts == element_to_extract)[0]
+
+            # Extract the counts of the specific element from the counts array
+            counts_of_element = counts[index_of_element]
+            n_rel_rel.append(counts_of_element[0])
+    
+        
+
+            unique_counts, counts = np.unique(np.around(var_selection_ordered[n_relevants[n_rel]:]), return_counts=True)
+        
+            # Find the index of the specific element (e.g., element 0) in the unique_counts array
+            element_to_extract = 0
+            index_of_element = np.where(unique_counts == element_to_extract)[0]
+
+            # Extract the counts of the specific element from the counts array
+            counts_of_element = counts[index_of_element]
+            n_irr_irr.append(counts_of_element[0])
