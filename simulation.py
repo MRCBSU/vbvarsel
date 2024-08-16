@@ -441,7 +441,7 @@ def harmonic_schedule( T0, alpha, k, n):
     return T0 / (1 + alpha * k)
 
 # MAIN RUN FUNCTION 
-def run(X, K, alpha0, beta0, a0, m0, b0, d, C, threshold, T, annealing = "fixed", max_annealed_itr = 10, Ctrick = True):
+def run(X, K, alpha0, beta0, a0, m0, b0, d, delta0, C, threshold, T, annealing = "fixed", max_annealed_itr = 10, Ctrick = True):
     (N,XDim) = shape(X)
     
     
@@ -461,7 +461,7 @@ def run(X, K, alpha0, beta0, a0, m0, b0, d, C, threshold, T, annealing = "fixed"
     converged = False 
 
     # while itr < max_itr:
-    while not converged:
+    while itr < max_itr:
         if annealing == "geometric":
             cooling_rate = (1 / T0) ** (1 / (max_annealed_itr - 1))
             T = geometric_schedule(T0, cooling_rate, itr, max_annealed_itr)
@@ -524,7 +524,7 @@ def cluster_prediction(rsp):
 # SIMULATIONS 
 
 # Parameters for simulations
-n_observations = [100, 1000] # number of observations to simulate
+n_observations = [10, 100] # number of observations to simulate
 n_variables = 200 # number of variables to simulate
 n_relevants = [10, 20, 50, 100]  # number of variables that are relevant
 mixture_proportions = [0.5, 0.3, 0.2] # ~ proportion of observations in each cluster, length of the array defines number of simulated clusters
@@ -656,96 +656,97 @@ for p in range(len(n_observations)):
             # Extract the counts of the specific element from the counts array
             counts_of_element = counts[index_of_element]
             n_irr_irr.append(counts_of_element[0])
-
+print(f"conv: {convergence_ELBO} \n, inter: {convergence_itr} \n, clusters: {clust_predictions} \n \
+                var sel: {variable_selected} \n time: {time} \n  aris: {ARIs} \n rels: {n_relevant_var} \n  obs: {n_obs} \n")
 #add as option to print or something along those lines w/option to save
 #plotting? add way to change hyperparams
-df_results = pd.DataFrame({'n_observations' : n_obs, 'n_relevant' : n_relevant_var, 'ARI' : ARIs, 'n_rel_rel' : n_rel_rel, 'n_irr_irr' : n_irr_irr, 
-                        'time' : times, 'convergence ELBO' : convergence_ELBO, 'convergence itr' : convergence_itr})
+# df_results = pd.DataFrame({'n_observations' : n_obs, 'n_relevant' : n_relevant_var, 'ARI' : ARIs, 'n_rel_rel' : n_rel_rel, 'n_irr_irr' : n_irr_irr, 
+#                         'time' : times, 'convergence ELBO' : convergence_ELBO, 'convergence itr' : convergence_itr})
     
-# SAVING AS CSV
-df_results.to_csv('simulation_studies_crook_results.csv', index=False)
+# # SAVING AS CSV
+# df_results.to_csv('simulation_studies_crook_results.csv', index=False)
 
 
-if __name__ == "__main__":
-    #BEGIN
-##VALUES FOR SIMULATION, DEFAULTS PROVIDED, GIVE USER OPTION TO OVERWRITE IF THEY SO CHOOSE
-# SIMULATIONS 
+# if __name__ == "__main__":
+#     #BEGIN
+# ##VALUES FOR SIMULATION, DEFAULTS PROVIDED, GIVE USER OPTION TO OVERWRITE IF THEY SO CHOOSE
+# # SIMULATIONS 
 
-# SIMULATIONS 
+# # SIMULATIONS 
 
-# Parameters for simulations
-    n_observations = [10] # number of observations to simulate
-    n_variables = 200 # number of variables to simulate
-    n_relevants = [10, 20, 50, 100]  # number of variables that are relevant
-    mixture_proportions = [0.5, 0.3, 0.2] # ~ proportion of observations in each cluster, length of the array defines number of simulated clusters
-    means = [0, 2, -2] # mean of the gaussian distribution for each cluster
+# # Parameters for simulations
+#     n_observations = [10] # number of observations to simulate
+#     n_variables = 200 # number of variables to simulate
+#     n_relevants = [10, 20, 50, 100]  # number of variables that are relevant
+#     mixture_proportions = [0.5, 0.3, 0.2] # ~ proportion of observations in each cluster, length of the array defines number of simulated clusters
+#     means = [0, 2, -2] # mean of the gaussian distribution for each cluster
 
-    # Prior settings and Hyperparameters for VBVarSel
+#     # Prior settings and Hyperparameters for VBVarSel
         
-    threshold = 1e-1 # convergence threshold
-    K1 = 5 # maximum number of clusters
+#     threshold = 1e-1 # convergence threshold
+#     K1 = 5 # maximum number of clusters
 
-    # prior coefficient count, or concentration parameter, for Dirichelet prior on the mixture proportions
-    # this parameter can be interpreted as pseudocounts, i.e. the effective prior number of observations associated with each mixture component.
-    alpha0 = 1/(K1) # or set to 0.01
+#     # prior coefficient count, or concentration parameter, for Dirichelet prior on the mixture proportions
+#     # this parameter can be interpreted as pseudocounts, i.e. the effective prior number of observations associated with each mixture component.
+#     alpha0 = 1/(K1) # or set to 0.01
 
-    # shrinkage parameter of the Gaussian conditional prior on the cluster mean
-    # influences the tightness and spread of the cluster, with smaller shrinkage leading to tighter clusters.
-    beta0 = (1e-3)*1. 
+#     # shrinkage parameter of the Gaussian conditional prior on the cluster mean
+#     # influences the tightness and spread of the cluster, with smaller shrinkage leading to tighter clusters.
+#     beta0 = (1e-3)*1. 
 
-    # degrees of freedom, for the Gamma prior on the cluster precision
-    # controls the shape of the Gamma distribution, the higher the degree of freedom, the more peaked
-    a0 = 3.
+#     # degrees of freedom, for the Gamma prior on the cluster precision
+#     # controls the shape of the Gamma distribution, the higher the degree of freedom, the more peaked
+#     a0 = 3.
         
-    # shape parameter of the Beta distribution on the probability of selection
-    # d0 = 1, the Beta distribution turns into a uniform distribution.
-    d0 = 1
+#     # shape parameter of the Beta distribution on the probability of selection
+#     # d0 = 1, the Beta distribution turns into a uniform distribution.
+#     d0 = 1
 
-    # maximum/starting annealing temperature
-    # T_max = 1 means no annealing
-    T_max = 1.
+#     # maximum/starting annealing temperature
+#     # T_max = 1 means no annealing
+#     T_max = 1.
 
-    # maximum number of iterations
-    max_itr = 25
+#     # maximum number of iterations
+#     max_itr = 25
 
-    # number of models to run for model averaging
-    max_models = 10
+#     # number of models to run for model averaging
+#     max_models = 10
 
 
-    convergence_ELBO = []
-    convergence_itr = []
-    clust_predictions = []
-    variable_selected = []
-    times = []
-    ARIs = []
-    n_relevant_var = []
-    n_obs = []
+#     convergence_ELBO = []
+#     convergence_itr = []
+#     clust_predictions = []
+#     variable_selected = []
+#     times = []
+#     ARIs = []
+#     n_relevant_var = []
+#     n_obs = []
 
-    n_rel_rel = [] # correctly selected relevant variables
-    n_irr_irr = [] # correctly discarded irrelevant variables
+#     n_rel_rel = [] # correctly selected relevant variables
+#     n_irr_irr = [] # correctly discarded irrelevant variables
 
-    #END
+#     #END
 
-    # goal is to do simultaneous clustering and variable selection
+#     # goal is to do simultaneous clustering and variable selection
 
-    # user output
-    # array of variable selections `variable_selected`
-    # array of cluster_assignments `clust_predictions`
-    # uses variational inference vs mcmc 
-    # can run 1000s of observations and many variables very fast
+#     # user output
+#     # array of variable selections `variable_selected`
+#     # array of cluster_assignments `clust_predictions`
+#     # uses variational inference vs mcmc 
+#     # can run 1000s of observations and many variables very fast
 
-    for p in range(len(n_observations)):
-        for n_rel in range(len(n_relevants)):
-            for i in range(max_models):
+#     for p in range(len(n_observations)):
+#         for n_rel in range(len(n_relevants)):
+#             for i in range(max_models):
                 
-                print("Model " + str(i))
-                print("obs " + str(p))
-                print("rel " + str(n_rel))
-                print()
+#                 print("Model " + str(i))
+#                 print("obs " + str(p))
+#                 print("rel " + str(n_rel))
+#                 print()
                 
-                n_relevant_var.append(n_relevants[n_rel])
-                n_obs.append(n_observations[p])
+#                 n_relevant_var.append(n_relevants[n_rel])
+#                 n_obs.append(n_observations[p])
         
-                # variance_covariance_matrix = np.identity(n_relevants[n_rel])
-                # X = simulation_data_crook(n_observations[p], n_variables, n_relevants[n_rel], mixture_proportions, means, variance_covariance_matrix)
-                # print(X)
+#                 # variance_covariance_matrix = np.identity(n_relevants[n_rel])
+#                 # X = simulation_data_crook(n_observations[p], n_variables, n_relevants[n_rel], mixture_proportions, means, variance_covariance_matrix)
+#                 # print(X)

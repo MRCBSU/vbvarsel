@@ -1,11 +1,13 @@
 import numpy as np
 import os
 import pandas as pd
+import time
 
 import hygiene
 import dataSimCrook
 from calcparams import *
 from elbo import ELBO_Computation
+
 from scipy.stats import beta
 from sklearn.metrics import adjusted_rand_score
 
@@ -88,16 +90,20 @@ def establish_sim_params(n_observations:list[int]=[10],
         "n_relevants": n_relevants,
         "mixture_proportions": mixture_proportions,
         "means": means
-    }        
+    }   
+
+def extract_els(el, unique_counts, counts):
+    index_of_element = np.where(unique_counts == el)[0]
+    counts_of_element = counts[index_of_element]
+    return counts_of_element[0]
 
 # MAIN RUN FUNCTION
-def run(
+def run_sim(
     X,
     m0,
     b0,
     C,
     hyperparameters,
-    # simulated_vars,
     annealing="fixed",#
     max_annealed_itr=10,
     Ctrick=True,
@@ -110,8 +116,8 @@ def run(
     alpha0 = hyperparameters['alpha0']
     beta0 = hyperparameters['beta0']
     a0 = hyperparameters['a0']
-    b0 = hyperparameters['b0']
     d0 = hyperparameters['d0']
+    
     (N, XDim) = np.shape(X)
 
     # params:
@@ -162,7 +168,7 @@ def run(
         pik = expPi(alpha0=alpha0, NK=NK)
         f0 = calcF0(X=X, XDim=XDim, sigma_0=sigma_sq_0, mu_0=mu_0, C=C)
 
-        Z = calcZ_annealed(
+        Z0 = calcZ_annealed(
             exp_ln_pi=pik, exp_ln_gam=invc, exp_ln_mu=mu, f0=f0, N=N, K=K, C=C, T=T
         )
         C = calcC_annealed(
@@ -176,7 +182,7 @@ def run(
             beta=betakj,
             d=d0,
             C=C,
-            Z=Z,
+            Z=Z0,
             sigma_0=sigma_sq_0,
             mu_0=mu_0,
             T=T,
@@ -188,7 +194,7 @@ def run(
             K=K,
             N=N,
             C=C,
-            Z=Z,
+            Z=Z0,
             d=d0,
             delta=delta,
             beta=betakj,
@@ -250,17 +256,15 @@ def load_data(data_loc: str | os.PathLike, clean_too: bool = False) -> list:
     return raw_data
 
 
-if __name__ == "__main__":
-    hp = establish_hyperparameters(t_max=11)
-    print(hp)
-    sp = establish_sim_params(
-        n_observations = [10],
-        n_variables = 200,
-        n_relevants = [10,20,50,100,],
-        mixture_proportions = [0.5, 0.3, 0.2],
-        means = [0, 2, -2]
-    )
+def main(sp: object, hp: object):
+    '''Function that runs the simulation.
 
+    Params:
+        sp: object -> An object of simulation paramaters to apply to the simulation. 
+            For more information please see the `establish_sim_params` function.
+        hp: object -> An object of hyperparamters to apply to the simulation.
+            For more information please see the `establish_hyperparameters` function.
+    '''
     convergence_ELBO = []
     convergence_itr = []
     clust_predictions = []
@@ -270,17 +274,17 @@ if __name__ == "__main__":
     n_relevant_var = []
     n_obs = []
 
-    n_rel_rel = []  # correct relevant
+    n_rel_correct = []  # correct relevant
 
-    n_irr_irr = []  # correct irrelevant
+    n_irr_correct = []  # correct irrelevant
 
     for p, q in enumerate(sp["n_observations"]):
         for n, o in enumerate(sp["n_relevants"]):
             for i in range(hp["max_models"]):
 
-                # print("Model " + str(i))
-                # print("obs " + str(p))
-                # print("rel " + str(n_rel))
+                print("Model " + str(i))
+                print("obs " + str(q))
+                print("rel " + str(o))
                 # print()
 
                 n_relevant_var.append(sp["n_relevants"][n])
@@ -301,57 +305,69 @@ if __name__ == "__main__":
                 perms = data_crook.permutation()
                 data_crook.shuffle_sim_data(crook_data, perms)
                 
-                (N,XDim) = np.shape(crook_data)
+                N, XDim = np.shape(crook_data)
+                C = np.ones(XDim)  
+                W0 = (1e-1)*np.eye(XDim) #prior cov (bigger: smaller covariance)
+                m0 = np.zeros(XDim) #prior mean
+                for j in range(XDim):
+                    m0[j] = np.mean(crook_data[:, j])
+                
+                # delta0 = beta.rvs(1, 1, size=XDim)
+                start_time = time.time()
+                # Measure the execution time of the following code
+                Z, lower_bound, Cs, iterations = run_sim(X=data_crook.simulation_object["shuffled_data"],
+                                        hyperparameters=hp,
+                                        m0=m0, 
+                                        b0=W0, 
+                                        C=C)
+                end_time = time.time()
+                run_time = end_time - start_time
+                print(f"runtime: {run_time}")
+                times.append(run_time)
+
+                convergence_ELBO.append(lower_bound[-1])
+                convergence_itr.append(iterations)
         
-            C = np.ones(XDim)  
-            W0 = (1e-1)*np.eye(XDim) #prior cov (bigger: smaller covariance)
-            m0 = np.zeros(XDim) #prior mean
-            for j in range(XDim):
-                m0[j] = np.mean(crook_data[:, j])
-            
-            delta0 = beta.rvs(1, 1, size=XDim)
-            T = 1
-            # Measure the execution time of the following code
-            Z, lower_bound, Cs, iterations = run(X=data_crook.simulation_object["shuffled_data"],
-                                     hyper_params = hp,
-                                     delta0 = delta0,
-                                     m0=m0, 
-                                     b0=W0, 
-                                     C=C)
-            print(iterations)
-
-            NK = Z.sum(axis=0)
-            convergence_ELBO.append(lower_bound[-1])
-            convergence_itr.append(itr)
-    
-            clust_pred = [np.argmax(r) for r in Z]
-            clust_predictions.append(clust_pred)
-    
-            ari = adjusted_rand_score(np.array(true_labels), np.array(clust_pred))
-            ARIs.append(ari)
-    
-            original_order = np.argsort(index_array)
-            var_selection_ordered = np.around(np.array(Cs)[original_order])
-            variable_selected.append(var_selection_ordered)
-            
-            unique_counts, counts = np.unique(np.around(var_selection_ordered[:n_relevants[n_rel]]), return_counts=True)
-       
-            # Find the index of the specific element (e.g., element 0) in the unique_counts array
-            element_to_extract = 1
-            index_of_element = np.where(unique_counts == element_to_extract)[0]
-
-            # Extract the counts of the specific element from the counts array
-            counts_of_element = counts[index_of_element]
-            n_rel_rel.append(counts_of_element[0])
-    
+                clust_pred = [np.argmax(r) for r in Z]
+                clust_predictions.append(clust_pred)
         
-
-            unique_counts, counts = np.unique(np.around(var_selection_ordered[n_relevants[n_rel]:]), return_counts=True)
+                ari = adjusted_rand_score(np.array(data_crook.simulation_object['true_labels']), np.array(clust_pred))
+                ARIs.append(ari)
         
-            # Find the index of the specific element (e.g., element 0) in the unique_counts array
-            element_to_extract = 0
-            index_of_element = np.where(unique_counts == element_to_extract)[0]
+                original_order = np.argsort(perms)
+                var_selection_ordered = np.around(np.array(Cs)[original_order])
+                variable_selected.append(var_selection_ordered)
+                
+                #Find correct relevant variables
+                unique_counts, counts = np.unique(np.around(var_selection_ordered[:sp["n_relevants"][n]]), return_counts=True)
+                # Find the index of the specific element (e.g., element 0) in the unique_counts array
+                element_to_extract = 1
+                # Extract the counts of the specific element from the counts array
+                counts_of_element = extract_els(element_to_extract, unique_counts, counts)
+                n_rel_correct.append(counts_of_element)        
 
-            # Extract the counts of the specific element from the counts array
-            counts_of_element = counts[index_of_element]
-            n_irr_irr.append(counts_of_element[0])
+                #Find correct irrelevant variables
+                unique_counts, counts = np.unique(np.around(var_selection_ordered[sp["n_relevants"][n]:]), return_counts=True)
+                # Find the index of the specific element (e.g., element 0) in the unique_counts array
+                element_to_extract = 0
+                # Extract the counts of the specific element from the counts array
+                counts_of_element = extract_els(element_to_extract, unique_counts, counts)
+                n_irr_correct.append(counts_of_element)
+
+    print(f"conv: {convergence_ELBO} \n, inter: {convergence_itr} \n, clusters: {clust_predictions} \n \
+                var sel: {variable_selected} \n time: {times} \n  aris: {ARIs} \n rels: {n_relevant_var} \n  obs: {n_obs} \n")
+
+
+if __name__ == "__main__":
+    starttime = time.time()
+    hp = establish_hyperparameters(t_max=1)
+
+    sp = establish_sim_params(
+        n_observations = [20],
+        n_variables = 200,
+        n_relevants = [10,20,50,100,],
+        mixture_proportions = [0.5, 0.3, 0.2],
+        means = [0, 2, -2]
+    )
+    main(sp, hp)
+    print(time.time()-starttime)
