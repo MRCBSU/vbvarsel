@@ -456,7 +456,9 @@ def calcC_annealed(XDim,
 
 if __name__ == "__main__":
     
-    x = calcAlphak_annealed(5,1,1)
+    x = expPi(np.ndarray([1]), np.ndarray([1]))
+
     print(x)
+    print(type(x))
     
     pass
