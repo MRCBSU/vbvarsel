@@ -1,9 +1,7 @@
 import numpy as np
-import os
 import pandas as pd
 import time
 
-import hygiene
 import dataSimCrook
 from calcparams import *
 from elbo import ELBO_Computation
@@ -15,6 +13,16 @@ from sklearn.metrics import adjusted_rand_score
 # classical geometric schedule T(k) = T0 * alpha^k
 # T0 is the initial temperature
 def geometric_schedule(T0, alpha, k, n):
+    '''Function to calculate geometric annealing.
+
+    Params:
+        T0: int -> initial temperature for annealing.
+        alpha:
+        k:
+        n:
+
+    Returns: 1, if k >= n, else T * alpha^k
+    '''
     if k < n:
         return T0 * (alpha**k)
     else:
@@ -24,6 +32,16 @@ def geometric_schedule(T0, alpha, k, n):
 # classical harmonic schedule T(k) = T0 / (1 + alpha * k)
 # T0 is the initial temperature
 def harmonic_schedule(T0, alpha, k):
+    '''Function to calculate harmonic annealing.
+
+    Params:
+        T0: int -> the initial temperature
+        alpha:
+        k:
+    
+    Returns:
+        Quotient of T0 by (1 + alpha * k)
+    '''
     return T0 / (1 + alpha * k)
 
 
@@ -31,59 +49,76 @@ def establish_hyperparameters(**kwargs):
     '''Function to set hyperparameters, otherwise will return an object
     with default values.
     
-    Paramaters:
+    Params:
         **kwargs: keywords arguments, see below.
     Returns:
         hyperparams: dict -> dictionary of hyperparameter values to be used
         in sumulations.
 
     Valid keyword arguments:
-        `threshold`: a threshold for convergence, default is 1e-1
-        `k1`: maximum clusters, default is 5
-        `alpha0`: prior coefficient count, default is 1/k1
-        `beta0`:
-        `a0`:
-        `d0`:
-        `t_max`:
-        `max_itr`:
-        `max_models`:
+        `threshold`: a threshold for convergence. Default is 1e-1.
+        `k1`: maximum clusters. Default is 5.
+        `alpha0`: prior coefficient count, or concentration parameter, for 
+            Dirichelet prior on the mixture proportions. This parameter can 
+            be interpreted as pseudocounts, i.e. the effective prior number of
+            observations associated with each mixture component. Default is 1/k1.
+        `beta0`: shrinkage parameter of the Gaussian conditional prior on the
+            cluster mean influences the tightness and spread of the cluster, 
+            with smaller shrinkage leading to tighter clusters. Default is 1e-3.
+        `a0`: degrees of freedom, for the Gamma prior on the cluster precision
+            controls the shape of the Gamma distribution, the higher the 
+            degree of freedom, the more peaked. Default is 3.0.
+        `d0`: shape parameter of the Beta distribution on the probability of
+            selection. With d0 = 1, the Beta distribution turns into a uniform
+            distribution. Default is 1.
+        `t_max`: maximum/starting annealing temperature. Default 1 means no 
+            annealing.
+        `max_itr`: maximum number of iterations. Default is 25.
+        `max_models`: number of models to run for model averaging. Default is 10.
     '''
 
 
     hyperparams = {
-        #Convergence threshold
         "threshold" : kwargs.get('threshold', 1e-1),
-        #Max clusters
         "k1" : kwargs.get('k1', 5),
-        # shrinkage parameter of the Gaussian conditional prior on the cluster mean
-        # influences the tightness and spread of the cluster, with smaller shrinkage leading to tighter clusters.
-        "beta0" : kwargs.get("beta0", (1e-3)*1.),
-        # degrees of freedom, for the Gamma prior on the cluster precision
-        # controls the shape of the Gamma distribution, the higher the degree of freedom, the more peaked
+        "beta0" : kwargs.get("beta0", 1e-3),
         "a0" : kwargs.get("a0", 3.),
-        # shape parameter of the Beta distribution on the probability of selection
         "d0" : kwargs.get('d0', 1),
-        # maximum/starting annealing temperature
-        # T_max = 1 means no annealing
         "t_max" : kwargs.get('t_max', 1.),
-        # maximum number of iterations
         "max_itr" : kwargs.get("max_itr", 25),
-        # number of models to run for model averaging
         "max_models" : kwargs.get("max_models", 10)
     }
 
-    # prior coefficient count, or concentration parameter, for Dirichelet prior on the mixture proportions
-    # this parameter can be interpreted as pseudocounts, i.e. the effective prior number of observations associated with each mixture component.
+
     #has to be calculated outside of the dict because it relies on another dict value and afaik there's no way to look introspectively into a dict
     hyperparams['alpha0'] = kwargs.get('alpha0', 1/hyperparams["k1"])
 
     return hyperparams
 
-def establish_sim_params(n_observations:list[int]=[10], 
+def establish_sim_params(n_observations:list[int]=[10, 100], 
                          n_variables:int =50, 
                          n_relevants:list[int]=[10,50,80],
                          mixture_proportions:list[float]=[0.5, 0.3, 0.2],
-                         means:list[int] = [0, 2, -2]):
+                         means:list[int] = [0, 2, -2]
+                         ):
+    '''Function to establish simulation parameters. These do NOT include hyper-
+    parameters which can be set using the `establish_hyperparameters` function.
+    If no arguments are passed, default values will be used instead.
+
+    Params:
+        n_observations:list[int] -> A list of number observations to observe in
+            the simulation. 
+        n_variables:int -> The number of variables to consider.
+        n_relevants:list[int] -> List of integer values representing different
+            proportions of relevant variables to test for.
+        mixture_proportions:list[float] -> List of float values for ~ proportion 
+            of observations in each cluster, length of the array defines number 
+            of simulated clusters. Values should be between 0 and 1.
+        means:list[int] -> List of integers of gaussian distributions for each 
+            cluster.
+    Returns:
+        Object wrapping each of the params as a key to its passed value.
+    '''
     return {
         "n_observations":n_observations,
         "n_variables":n_variables,
@@ -92,7 +127,16 @@ def establish_sim_params(n_observations:list[int]=[10],
         "means": means
     }   
 
-def extract_els(el, unique_counts, counts):
+def extract_els(el:int, unique_counts:np.ndarray, counts:np.ndarray) -> int:
+    '''Function to extract elements from counts of a matrix.
+
+    Params:
+        el:int -> element of interest (can it only be 1 or 0?)
+        unique_counts:ndarray -> array of unique counts from a matrix
+        counts:ndarray -> array of total counts from a matrix
+    Returns:
+        counts_of_element[0]:int -> integer of counts of targeted element.
+    '''
     index_of_element = np.where(unique_counts == el)[0]
     counts_of_element = counts[index_of_element]
     return counts_of_element[0]
@@ -117,7 +161,7 @@ def run_sim(
     beta0 = hyperparameters['beta0']
     a0 = hyperparameters['a0']
     d0 = hyperparameters['d0']
-    
+
     (N, XDim) = np.shape(X)
 
     # params:
@@ -207,7 +251,6 @@ def run_sim(
             b0=b0,
             m=m,
             m0=m0,
-            exp_ln_pi=pik,
             exp_ln_gam=invc,
             exp_ln_mu=mu,
             f0=f0,
@@ -227,33 +270,6 @@ def run_sim(
     return Z, lower_bound, C, itr
 
 
-def load_data(data_loc: str | os.PathLike, clean_too: bool = False) -> list:
-    """Loads data to be be used in simulations with option to clean data.
-
-    Parameters:
-
-    data_loc: str|os.Pathlike
-        The file location of the spreadsheet, must be in CSV format.
-    clean_too: bool, optional
-        A flag to enable pre-determined cleaning. Should only be set to TRUE if
-        using PAM50 datasets, data reformatting operations may not apply to
-        other datasets, in which case a user should take the returned dataframe
-        from this function and reformat their data as needed.
-
-    Returns:
-
-    raw_data|shuffled_data: list
-        An array of data.
-    """
-
-    raw_data = pd.DataFrame(data_loc)
-
-    if clean_too:
-
-        normalised_data = hygiene.normalise_data(raw_data)
-        shuffled_data = hygiene.shuffle_data(normalised_data)
-        return shuffled_data
-    return raw_data
 
 
 def main(sp: object, hp: object):
@@ -356,18 +372,3 @@ def main(sp: object, hp: object):
 
     print(f"conv: {convergence_ELBO} \n, inter: {convergence_itr} \n, clusters: {clust_predictions} \n \
                 var sel: {variable_selected} \n time: {times} \n  aris: {ARIs} \n rels: {n_relevant_var} \n  obs: {n_obs} \n")
-
-
-if __name__ == "__main__":
-    starttime = time.time()
-    hp = establish_hyperparameters(t_max=1)
-
-    sp = establish_sim_params(
-        n_observations = [20],
-        n_variables = 200,
-        n_relevants = [10,20,50,100,],
-        mixture_proportions = [0.5, 0.3, 0.2],
-        means = [0, 2, -2]
-    )
-    main(sp, hp)
-    print(time.time()-starttime)

@@ -1,12 +1,12 @@
 import numpy as np
 import pandas as pd
 import typing
-
+import os
 
 
 # This doesn't seem to be utilised
 def normalise_data(data: pd.DataFrame) -> list:
-
+    '''Function that returns a normalised dataframe from a non-normalised input.'''
     # Compute the mean and standard deviation of each column
     mean = np.mean(data, axis=0)
     std = np.std(data, axis=0)
@@ -19,98 +19,60 @@ def normalise_data(data: pd.DataFrame) -> list:
 
 # Nor does this
 def shuffle_data(
-    data: pd.DataFrame, out: int = 0
+    normalised_data: pd.DataFrame, out: int = 0
 ) -> typing.Union[pd.Series, np.ndarray]:
+    '''Shuffles a DataFrame of normalised data.
+
+    Params:
+        normalised_data: pd.DataFrame -> A normalisd dataframe.
+        out: int -> how many columns to exclude
+
+    Returns:
+        shuffled_data, shuffled_indices: pd.Series, np.ndarray -> a tuple of
+            shuffled data and their corresponding indices.
+    '''
 
     # Number of columns
-    num_columns = np.shape(data)[1] - out
+    num_columns = np.shape(normalised_data)[1] - out
 
     # Generate a permutation of column indices
     shuffled_indices = np.random.permutation(num_columns)
 
     # Concatenate with the indices of the last 10 columns
     shuffled_indices = np.concatenate(
-        (shuffled_indices, np.arange(num_columns, np.shape(data)[1]))
+        (shuffled_indices, np.arange(num_columns, np.shape(normalised_data)[1]))
     )
 
     # Shuffle the columns of the matrix
-    shuffled_data = data[:, shuffled_indices]
+    shuffled_data = normalised_data[:, shuffled_indices]
 
     return shuffled_data, shuffled_indices
 
 
+def load_data(data_loc: str | os.PathLike, clean_too: bool = False) -> list:
+    """Loads data to be be used in simulations with option to clean data.
 
-if __name__ == "__main__":
-    import dataSimCrook
-    n_observations = [10, 50]
-    n_variables = 200
-    n_relevants = [
-        10,
-        20,
-        50,
-        100,
-    ]  # For example, change this to vary the number of relevant variables
-    mixture_proportions = [0.5, 0.3, 0.2]
-    means = [0, 2, -2]
+    Parameters:
 
-    # MODEL AVERAGING
+    data_loc: str|os.Pathlike
+        The file location of the spreadsheet, must be in CSV format.
+    clean_too: bool, optional
+        A flag to enable pre-determined cleaning. Should only be set to TRUE if
+        using PAM50 datasets, data reformatting operations may not apply to
+        other datasets, in which case a user should take the returned dataframe
+        from this function and reformat their data as needed.
 
-    # setting the hyperparameters
+    Returns:
 
-    # convergence threshold
-    threshold = 1e-1
+    raw_data|shuffled_data: list
+        An array of data.
+    """
 
-    K1 = 5  # num components in inference
+    raw_data = pd.DataFrame(data_loc)
 
-    # alpha0 = 0.01 #prior coefficient count (for Dir)
-    alpha0 = 1 / (K1)  # cabassi
+    if clean_too:
 
-    beta0 = (1e-3) * 1.0
-    a0 = 3.0
-
-    # variable selection
-    d = 1
-
-    T_max = 1.0
-
-    max_itr = 25
-
-    max_models = 10
-    convergence_ELBO = []
-    convergence_itr = []
-    clust_predictions = []
-    variable_selected = []
-    times = []
-    ARIs = []
-    n_relevant_var = []
-    n_obs = []
-
-    n_rel_rel = []  # correct relevant
-
-    n_irr_irr = []  # correct irrelevant
-
-    for p in range(len(n_observations)):
-        for n_rel in range(len(n_relevants)):
-            for i in range(max_models):
-
-                print("Model " + str(i))
-                print("obs " + str(p))
-                print("rel " + str(n_rel))
-                print()
-                n_relevant_var.append(n_relevants[n_rel])
-                n_obs.append(n_observations[p])
-
-                variance_covariance_matrix = np.identity(n_relevants[n_rel])
-
-                data_crook = dataSimCrook.SimulateData(
-                    n_observations[p],
-                    n_variables,
-                    n_relevants[n_rel],
-                    mixture_proportions,
-                    means,
-                    variance_covariance_matrix,
-                )
-                d = data_crook.data_sim()
-                perms = data_crook.permutation()
-                data_crook.shuffle_sim_data(d, perms)
-                print(data_crook.simulation_object)
+        normalised_data = normalise_data(raw_data)
+        shuffled_data = shuffle_data(normalised_data)
+        return shuffled_data
+    return raw_data
