@@ -95,8 +95,8 @@ def establish_hyperparameters(**kwargs):
 
     return hyperparams
 
-def establish_sim_params(n_observations:list[int]=[10, 100], 
-                         n_variables:int =50, 
+def establish_sim_params(n_observations:list[int]=[100, 1000], 
+                         n_variables:int =200, 
                          n_relevants:list[int]=[10,50,80],
                          mixture_proportions:list[float]=[0.5, 0.3, 0.2],
                          means:list[int] = [0, 2, -2]
@@ -108,7 +108,8 @@ def establish_sim_params(n_observations:list[int]=[10, 100],
     Params:
         n_observations:list[int] -> A list of number observations to observe in
             the simulation. 
-        n_variables:int -> The number of variables to consider.
+        n_variables:int -> The number of variables to consider. Should ALWAYS
+            be higher than the largest number in n_relevants.
         n_relevants:list[int] -> List of integer values representing different
             proportions of relevant variables to test for.
         mixture_proportions:list[float] -> List of float values for ~ proportion 
@@ -139,7 +140,10 @@ def extract_els(el:int, unique_counts:np.ndarray, counts:np.ndarray) -> int:
     '''
     index_of_element = np.where(unique_counts == el)[0]
     counts_of_element = counts[index_of_element]
-    return counts_of_element[0]
+    if len(counts_of_element) == 0:
+        return 0
+    else:
+        return counts_of_element[0]
 
 # MAIN RUN FUNCTION
 def run_sim(
@@ -186,7 +190,7 @@ def run_sim(
             T = geometric_schedule(T, cooling_rate, itr, max_annealed_itr)
         elif annealing == "harmonic":
             cooling_rate = (T - 1) / max_annealed_itr
-            T = harmonic_schedule(T, cooling_rate, itr, max_annealed_itr)
+            T = harmonic_schedule(T, cooling_rate, itr)
         elif annealing == "fixed":
             T = T
 
@@ -272,7 +276,7 @@ def run_sim(
 
 
 
-def main(sp: object, hp: object):
+def main(sp: object, hp: object, annealing_type="fixed"):
     '''Function that runs the simulation.
 
     Params:
@@ -335,7 +339,8 @@ def main(sp: object, hp: object):
                                         hyperparameters=hp,
                                         m0=m0, 
                                         b0=W0, 
-                                        C=C)
+                                        C=C,
+                                        annealing=annealing_type)
                 end_time = time.time()
                 run_time = end_time - start_time
                 print(f"runtime: {run_time}")
@@ -372,3 +377,11 @@ def main(sp: object, hp: object):
 
     print(f"conv: {convergence_ELBO} \n, inter: {convergence_itr} \n, clusters: {clust_predictions} \n \
                 var sel: {variable_selected} \n time: {times} \n  aris: {ARIs} \n rels: {n_relevant_var} \n  obs: {n_obs} \n")
+
+if __name__ == "__main__":
+
+    hp = establish_hyperparameters()
+    sp = establish_sim_params()
+
+    main(sp, hp, annealing_type="geometric")
+    pass

@@ -1,4 +1,3 @@
 virtualEnv/
 venv.ps1
-tests/
 __pycache__/

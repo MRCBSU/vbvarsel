@@ -63,6 +63,7 @@ class SimulateData:
     def irrelevant_vars(self):
         """Returns array of irrelevant variables in simulation."""
         n_irrelevant = self.n_variables - self.n_relevant
+        print(n_irrelevant)
         irrelevant_variables = np.random.randn(self.n_observations, n_irrelevant)
         return irrelevant_variables
 

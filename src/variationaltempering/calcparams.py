@@ -3,22 +3,38 @@ import math
 from scipy.special import digamma
 
 def calcAlphak_annealed(NK, alpha0, T):
+    #A57
     '''Function to find the annealing of alphaK
 
     Params:
-        NK:
+        NK: number
         alpha0: Prior coefficient count
-        T: 
+        T: annealing temperature
     
     '''
     alpha = (NK + alpha0 + T - 1) / T
     return alpha
 
 def calcAkj_annealed(K, J, c, NK, a0, T):
+    '''Function to calculate the annealing of akj
+
+    Params:
+        K:
+        J:
+        c:
+        NK:
+        a0:
+        T:
+
+    Returns:
+        akj:
+    
+    '''
+    #A60
     c = np.array(c).reshape(1, J)
     NK = np.array(NK).reshape(K, 1)
-    a = (c * NK / 2 + a0 + T - 1)/T
-    return a
+    akj = (c * NK / 2 + a0 + T - 1)/T
+    return akj
 
 def calcXd(Z, X):
     '''Function to find Xd
@@ -77,6 +93,7 @@ def calcS(Z, X, xd):
     return S
 
 def calcbetakj_annealed(K, XDim, c, NK, beta0, T):
+    #A58
     '''Function to calculate betaKJ annealing.
 
     Params:
@@ -96,6 +113,7 @@ def calcbetakj_annealed(K, XDim, c, NK, beta0, T):
     return beta
 
 def calcM_annealed(K, XDim, beta0, m0, NK, xd, betakj, c, T):
+    #A59
     '''Function to calculate M annealing.
 
     Params:
@@ -152,9 +170,9 @@ def calcDelta_annealed(C, d, T):
     '''Function to calculate annealing of Delta
 
     Params:
-        C:
-        d:
-        T:
+        C: covariate selection indicators
+        d: shape of the Beta prior on the covariate selection probabilities
+        T: annealing temperature
     
     Returns:
         Array of calculate annealing
@@ -193,11 +211,12 @@ def expSigma(X, XDim, betak, m, b, a, C):
     return s
 
 def expPi(alpha0,NK):
+    #A45
     '''Function to calculate expPi
     
     Params:
-        alpha0:
-        NK:
+        alpha0: concentration of the Dirichlet prior on the mixture weights π
+        NK: number of expected observations associated with the Kth component
 
     Returns:
         pik:
@@ -258,13 +277,14 @@ def calcZ_annealed(exp_ln_pi, exp_ln_gam, exp_ln_mu, f0, N, K, C, T):
     '''Function to calculate annealing on Z
 
     Params:
-        exp_ln_gam:
-        exp_ln_mu:
-        f0:
-        N:
-        K:
-        C:
-        T:
+        exp_ln_pi: expected natural log of pi
+        exp_ln_gam: expected natural log of gamma
+        exp_ln_mu: expected natural log of mu
+        f0: 
+        N: the nth observation
+        K: the kth cluster of the observation
+        C: covariate selection indicator
+        T: annealing temperature
 
     Returns:
         Z1:
@@ -294,7 +314,6 @@ def normal(x, mu, sigma):
     p = 1 / math.sqrt(2 * math.pi * sigma**2)
     n = p * np.exp(-0.5 * ((x - mu)**2)/(sigma**2))
     return n
-
 
 def calcexpF(X, b, a, m, beta, Z):
     '''Function to calculate expF
@@ -333,7 +352,6 @@ def calcexpF(X, b, a, m, beta, Z):
 
     return expF
 
-
 def calcexpF0(X, N, K, XDim, Z, sigma_0, mu_0):
     '''Function to calculate exp of F0
 
@@ -364,6 +382,7 @@ def calcexpF0(X, N, K, XDim, Z, sigma_0, mu_0):
     return expF0
 
 def calcN1_annealed(C, d, expF, T):
+    #A53
     '''Function to calculate the annealing of N1
     
     Params:
@@ -381,6 +400,7 @@ def calcN1_annealed(C, d, expF, T):
     return N1 , lnN1
     
 def calcN2_annealed(C, d, expF0, T):
+    #A54
     '''Function to calculate annealing of N2
 
     Params:
@@ -456,7 +476,7 @@ def calcC_annealed(XDim,
 
 if __name__ == "__main__":
     
-    x = expPi(np.ndarray([1]), np.ndarray([1]))
+    x = expSigma([[1,1,1,1],[0,0,0,0]], 1, 1, 1, [[[1,1,0],[1,0,1]]], [[[1,1,0],[1,0,1]]], 1)
 
     print(x)
     print(type(x))
