@@ -10,39 +10,39 @@ from scipy.stats import beta
 from sklearn.metrics import adjusted_rand_score
 
 
-# classical geometric schedule T(k) = T0 * alpha^k
+# classical geometric schedule T(k) = T0 * alpha^k where k is the current iteration
 # T0 is the initial temperature
-def geometric_schedule(T0, alpha, k, n):
+def geometric_schedule(T0, alpha, itr, max_annealed_itr):
     '''Function to calculate geometric annealing.
 
     Params:
         T0: int -> initial temperature for annealing.
-        alpha:
-        k:
-        n:
+        alpha: float -> cooling rate 
+        itr: int -> current iteration
+        max_annealed_itr: int -> maximum number of iteration to use annealing 
 
-    Returns: 1, if k >= n, else T * alpha^k
+    Returns: 1, if itr >= max_annealed_itr, else T * alpha^itr
     '''
-    if k < n:
-        return T0 * (alpha**k)
+    if itr < max_annealed_itr:
+        return T0 * (alpha**itr)
     else:
         return 1
 
 
-# classical harmonic schedule T(k) = T0 / (1 + alpha * k)
+# classical harmonic schedule T(k) = T0 / (1 + alpha * k) where k is the current iteration
 # T0 is the initial temperature
-def harmonic_schedule(T0, alpha, k):
+def harmonic_schedule(T0, alpha, itr):
     '''Function to calculate harmonic annealing.
 
     Params:
         T0: int -> the initial temperature
-        alpha:
-        k:
+        alpha: float -> cooling rate 
+        itr: int -> current iteration
     
     Returns:
-        Quotient of T0 by (1 + alpha * k)
+        Quotient of T0 by (1 + alpha * itr)
     '''
-    return T0 / (1 + alpha * k)
+    return T0 / (1 + alpha * itr)
 
 
 def establish_hyperparameters(**kwargs):
@@ -197,18 +197,18 @@ def run_sim(
         NK = Z.sum(axis=0)
 
         # M-like-step
-        alphak = calcAlphak_annealed(NK=NK, alpha0=alpha0, T=T)
-        akj = calcAkj_annealed(K=K, J=XDim, c=C, NK=NK, a0=a0, T=T)
+        alphak = calcAlphak(NK=NK, alpha0=alpha0, T=T)
+        akj = calcAkj(K=K, J=XDim, c=C, NK=NK, a0=a0, T=T)
         xd = calcXd(Z=Z, X=X)
         S = calcS(Z=Z, X=X, xd=xd)
-        betakj = calcbetakj_annealed(K=K, XDim=XDim, c=C, NK=NK, beta0=beta0, T=T)
-        m = calcM_annealed(
+        betakj = calcbetakj(K=K, XDim=XDim, c=C, NK=NK, beta0=beta0, T=T)
+        m = calcM(
             K=K, XDim=XDim, beta0=beta0, m0=m0, NK=NK, xd=xd, betakj=betakj, c=C, T=T
         )
-        bkj = calcB_annealed(
+        bkj = calcB(
             W0=b0, xd=xd, K=K, m0=m0, XDim=XDim, beta0=beta0, S=S, c=C, NK=NK, T=T
         )
-        delta = calcDelta_annealed(C=C, d=d0, T=T)
+        delta = calcDelta(C=C, d=d0, T=T)
 
         # E-like-step
         mu = expSigma(X=X, XDim=XDim, betak=betakj, m=m, b=bkj, a=akj, C=C)
@@ -216,10 +216,10 @@ def run_sim(
         pik = expPi(alpha0=alpha0, NK=NK)
         f0 = calcF0(X=X, XDim=XDim, sigma_0=sigma_sq_0, mu_0=mu_0, C=C)
 
-        Z0 = calcZ_annealed(
+        Z0 = calcZ(
             exp_ln_pi=pik, exp_ln_gam=invc, exp_ln_mu=mu, f0=f0, N=N, K=K, C=C, T=T
         )
-        C = calcC_annealed(
+        C = calcC(
             XDim=XDim,
             N=N,
             K=K,

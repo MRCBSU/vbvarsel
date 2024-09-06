@@ -2,46 +2,47 @@ import numpy as np
 import math
 from scipy.special import digamma
 
-def calcAlphak_annealed(NK, alpha0, T):
+def calcAlphak(NK, alpha0, T):
     #A57
-    '''Function to find the annealing of alphaK
+    ''' Function to find the updated variational parameter alphaK, i.e., the concentration parameter for 
+            Dirichelet posterior distribution on the mixture proportions
 
     Params:
         NK: number
         alpha0: Prior coefficient count
-        T: annealing temperature
+        T: annealing temperature (T = 1 when annealing is not used)
     
     '''
     alpha = (NK + alpha0 + T - 1) / T
     return alpha
 
-def calcAkj_annealed(K, J, c, NK, a0, T):
-    '''Function to calculate the annealing of akj
+def calcAkj(K, J, C, NK, a0, T):
+    '''Function to calculate the updated variational parameter akj
 
     Params:
-        K:
-        J:
-        c:
-        NK:
-        a0:
-        T:
+        K: int -> Maximum number of clusters
+        J: int -> number of covariates
+        C: array[] -> covariate selection indicators
+        NK: number of observations assigned to each cluster K
+        a0: degrees of freedom, for the Gamma prior
+        T: annealing temperature (T = 1 when annealing is not used)
 
     Returns:
-        akj:
+        akj: updated variational parameter for the degrees of freedom of the posterior Gamma distribution
     
     '''
     #A60
-    c = np.array(c).reshape(1, J)
+    C = np.array(C).reshape(1, J)
     NK = np.array(NK).reshape(K, 1)
-    akj = (c * NK / 2 + a0 + T - 1)/T
+    akj = (C * NK / 2 + a0 + T - 1)/T
     return akj
 
 def calcXd(Z, X):
     '''Function to find Xd
 
     Params:
-        Z:
-        X:
+        Z: cluster assignment matrix
+        X: input data
     
     Returns:
         xd
@@ -92,54 +93,54 @@ def calcS(Z, X, xd):
 
     return S
 
-def calcbetakj_annealed(K, XDim, c, NK, beta0, T):
+def calcbetakj(K, XDim, C, NK, beta0, T):
     #A58
-    '''Function to calculate betaKJ annealing.
+    '''Function to calculate the updated variational parameter betaKJ.
 
     Params:
-        K:
-        XDim:
-        c:
+        K: maximum number of clusters
+        XDim: 
+        C: covariate selection indicators
         NK:
-        beta:
+        beta0: shrinkage parameter of the Gaussian conditional prior
         T:
     
     Returns:
-        beta:
+        beta: updated variational shrinkage parameter for the Gaussian conditional posterior
     '''
-    c = np.array(c).reshape(1, XDim)
+    C = np.array(C).reshape(1, XDim)
     NK = np.array(NK).reshape(K, 1)
-    beta = (c * NK + beta0)/T
+    beta = (C * NK + beta0)/T
     return beta
 
-def calcM_annealed(K, XDim, beta0, m0, NK, xd, betakj, c, T):
+def calcM(K, XDim, beta0, m0, NK, xd, betakj, C, T):
     #A59
-    '''Function to calculate M annealing.
+    '''Function to calculate the updated variational parameter M.
 
     Params:
         K:
         XDim:
-        beta0:
-        m0:
+        beta0: shrinkage parameter of the Gaussian conditional prior
+        m0: prior cluster means
         NK:
         xd:
-        betakj:
-        c:
+        betakj: updated variational shrinkage parameter for the Gaussian conditional posterior
+        C: covariate selection indicators
         T:
 
     Returns:   
-        m:
+        m: updated variational cluster means
     
     '''
     m0 = np.array(m0).reshape(1, XDim)
     NK = np.array(NK).reshape(K, 1)
-    c = np.array(c).reshape(1, XDim)
+    C = np.array(C).reshape(1, XDim)
     
-    m = (beta0 * m0 + c * NK * xd) / (betakj * T)
+    m = (beta0 * m0 + C * NK * xd) / (betakj * T)
     return m
 
-def calcB_annealed(W0, xd, K, m0, XDim, beta0, S, c, NK, T):
-    '''Function to calculate annealing of B
+def calcB(W0, xd, K, m0, XDim, beta0, S, C, NK, T):
+    '''Function to calculate the updated variational parameter B
 
     Params:
         W0:
@@ -149,7 +150,7 @@ def calcB_annealed(W0, xd, K, m0, XDim, beta0, S, c, NK, T):
         XDim:
         beta0:
         S:
-        c:
+        C:
         NK:
         T:
 
@@ -162,12 +163,12 @@ def calcB_annealed(W0, xd, K, m0, XDim, beta0, S, c, NK, T):
     Q0 = xd - m0[None, :]
     for k in range(K):
         M[k, np.diag_indices(XDim)] = 1/(W0 + epsilon) + NK[k]*np.diag(S[k])*c
-        M[k, np.diag_indices(XDim)] += ((beta0*NK[k]*c) / (beta0 + c*NK[k])) * Q0[k]**2
+        M[k, np.diag_indices(XDim)] += ((beta0*NK[k]*C) / (beta0 + C*NK[k])) * Q0[k]**2
     M = M/(2*T)
     return M
 
-def calcDelta_annealed(C, d, T):
-    '''Function to calculate annealing of Delta
+def calcDelta(C, d, T):
+    '''Function to calculate the updated variational parameter Delta
 
     Params:
         C: covariate selection indicators
@@ -189,7 +190,7 @@ def expSigma(X, XDim, betak, m, b, a, C):
         m:
         b:
         a:
-        C:
+        C: covariate selection indicators
 
     Returns:
         s:
@@ -273,8 +274,8 @@ def calcF0(X, XDim, sigma_0, mu_0, C):
 
     return f0
 
-def calcZ_annealed(exp_ln_pi, exp_ln_gam, exp_ln_mu, f0, N, K, C, T):
-    '''Function to calculate annealing on Z
+def calcZ(exp_ln_pi, exp_ln_gam, exp_ln_mu, f0, N, K, C, T):
+    '''Function to the updated variational parameter Z
 
     Params:
         exp_ln_pi: expected natural log of pi
@@ -300,12 +301,12 @@ def calcZ_annealed(exp_ln_pi, exp_ln_gam, exp_ln_mu, f0, N, K, C, T):
     return Z1
 
 def normal(x, mu, sigma):
-    '''Function to calculate normal(?)
+    '''Function to get a normal distribution
 
     Params:
-        x:
-        mu:
-        sigma:
+        x: data
+        mu: mean of the normal distribution
+        sigma: standard deviation of the normal distribution
     
     Returns:
         n:
@@ -327,7 +328,7 @@ def calcexpF(X, b, a, m, beta, Z):
         Z:
     
     Returns:
-        expF:
+        expF: intermediate factor to calculate the updated covariate selection indicators
 
     '''
     X_exp = X[:, None, :]
@@ -365,7 +366,7 @@ def calcexpF0(X, N, K, XDim, Z, sigma_0, mu_0):
         mu_0:
 
     Returns:
-        expF0:
+        expF0: intermediate factor to calculate the updated covariate selection indicators
     
     '''
     expF0 = np.zeros(XDim)
@@ -381,9 +382,9 @@ def calcexpF0(X, N, K, XDim, Z, sigma_0, mu_0):
         expF0[j] = s
     return expF0
 
-def calcN1_annealed(C, d, expF, T):
+def calcN1(C, d, expF, T):
     #A53
-    '''Function to calculate the annealing of N1
+    '''Function to calculate N1
     
     Params:
         C:
@@ -392,16 +393,16 @@ def calcN1_annealed(C, d, expF, T):
         T:
     
     Returns:
-        N2, lnN21
+        N1, lnN1: intermediate factors to calculate the updated covariate selection indicators
     '''
     expDelta = digamma((C + d + T - 1)/T) - digamma((2*d + 2*T - 1)/T)
     lnN1 = (expDelta + expF)/(T)
     N1 = np.exp(lnN1)
     return N1 , lnN1
     
-def calcN2_annealed(C, d, expF0, T):
+def calcN2(C, d, expF0, T):
     #A54
-    '''Function to calculate annealing of N2
+    '''Function to calculate N2
 
     Params:
         C:
@@ -410,14 +411,14 @@ def calcN2_annealed(C, d, expF0, T):
         T:
 
     Returns:
-        N2, lnN2:
+        N2, lnN2: intermediate factors to calculate the updated covariate selection indicators
     '''
     expDelta = digamma((T - C + d)/T) - digamma((2*d + 2*T - 1)/T)
     lnN2 = (expDelta + expF0)/(T)
     N2 = np.exp(lnN2)
     return N2 , lnN2
     
-def calcC_annealed(XDim, 
+def calcC(XDim, 
                    N, 
                    K, 
                    X, 
@@ -433,7 +434,7 @@ def calcC_annealed(XDim,
                    T, 
                    trick=False
                    ):
-    '''Function to calculate the annealing of C
+    '''Function to calculate the updated variational parameter C, covariate selection indicators
 
     Params:
         XDim:
@@ -450,15 +451,15 @@ def calcC_annealed(XDim,
         sigma_0:
         mu_0:
         T:
-        trick:
+        trick: bool -> whether to use or not a mathematical trick to avoid numerical errors
 
     Returns:
         C0:
     '''
     expF = calcexpF(X, b, a, m, beta, Z)
     expF0 = calcexpF0(X, N, K, XDim, Z, sigma_0, mu_0)
-    N1, lnN1 = calcN1_annealed(C, d, expF, T)
-    N2, lnN2 = calcN2_annealed(C, d, expF0, T)
+    N1, lnN1 = calcN1(C, d, expF, T)
+    N2, lnN2 = calcN2(C, d, expF0, T)
 
     epsilon = 1e-40
     
