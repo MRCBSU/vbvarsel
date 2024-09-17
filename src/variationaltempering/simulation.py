@@ -2,13 +2,15 @@ import numpy as np
 import pandas as pd
 import time
 
-import dataSimCrook
+from dataSimCrook import SimulateCrookData
+from global_parameters import Hyperparameters, SimulationParameters
 from calcparams import *
 from elbo import ELBO_Computation
 
 from scipy.stats import beta
 from sklearn.metrics import adjusted_rand_score
 
+from dataclasses import dataclass, field
 
 # classical geometric schedule T(k) = T0 * alpha^k where k is the current iteration
 # T0 is the initial temperature
@@ -45,89 +47,6 @@ def harmonic_schedule(T0, alpha, itr):
     return T0 / (1 + alpha * itr)
 
 
-def establish_hyperparameters(**kwargs):
-    '''Function to set hyperparameters, otherwise will return an object
-    with default values.
-    
-    Params:
-        **kwargs: keywords arguments, see below.
-    Returns:
-        hyperparams: dict -> dictionary of hyperparameter values to be used
-        in sumulations.
-
-    Valid keyword arguments:
-        `threshold`: a threshold for convergence. Default is 1e-1.
-        `k1`: maximum clusters. Default is 5.
-        `alpha0`: prior coefficient count, or concentration parameter, for 
-            Dirichelet prior on the mixture proportions. This parameter can 
-            be interpreted as pseudocounts, i.e. the effective prior number of
-            observations associated with each mixture component. Default is 1/k1.
-        `beta0`: shrinkage parameter of the Gaussian conditional prior on the
-            cluster mean influences the tightness and spread of the cluster, 
-            with smaller shrinkage leading to tighter clusters. Default is 1e-3.
-        `a0`: degrees of freedom, for the Gamma prior on the cluster precision
-            controls the shape of the Gamma distribution, the higher the 
-            degree of freedom, the more peaked. Default is 3.0.
-        `d0`: shape parameter of the Beta distribution on the probability of
-            selection. With d0 = 1, the Beta distribution turns into a uniform
-            distribution. Default is 1.
-        `t_max`: maximum/starting annealing temperature. Default 1 means no 
-            annealing.
-        `max_itr`: maximum number of iterations. Default is 25.
-        `max_models`: number of models to run for model averaging. Default is 10.
-    '''
-
-
-    hyperparams = {
-        "threshold" : kwargs.get('threshold', 1e-1),
-        "k1" : kwargs.get('k1', 5),
-        "beta0" : kwargs.get("beta0", 1e-3),
-        "a0" : kwargs.get("a0", 3.),
-        "d0" : kwargs.get('d0', 1),
-        "t_max" : kwargs.get('t_max', 1.),
-        "max_itr" : kwargs.get("max_itr", 25),
-        "max_models" : kwargs.get("max_models", 10)
-    }
-
-
-    #has to be calculated outside of the dict because it relies on another dict value and afaik there's no way to look introspectively into a dict
-    hyperparams['alpha0'] = kwargs.get('alpha0', 1/hyperparams["k1"])
-
-    return hyperparams
-
-def establish_sim_params(n_observations:list[int]=[100, 1000], 
-                         n_variables:int =200, 
-                         n_relevants:list[int]=[10,50,80],
-                         mixture_proportions:list[float]=[0.5, 0.3, 0.2],
-                         means:list[int] = [0, 2, -2]
-                         ):
-    '''Function to establish simulation parameters. These do NOT include hyper-
-    parameters which can be set using the `establish_hyperparameters` function.
-    If no arguments are passed, default values will be used instead.
-
-    Params:
-        n_observations:list[int] -> A list of number observations to observe in
-            the simulation. 
-        n_variables:int -> The number of variables to consider. Should ALWAYS
-            be higher than the largest number in n_relevants.
-        n_relevants:list[int] -> List of integer values representing different
-            proportions of relevant variables to test for.
-        mixture_proportions:list[float] -> List of float values for ~ proportion 
-            of observations in each cluster, length of the array defines number 
-            of simulated clusters. Values should be between 0 and 1.
-        means:list[int] -> List of integers of gaussian distributions for each 
-            cluster.
-    Returns:
-        Object wrapping each of the params as a key to its passed value.
-    '''
-    return {
-        "n_observations":n_observations,
-        "n_variables":n_variables,
-        "n_relevants": n_relevants,
-        "mixture_proportions": mixture_proportions,
-        "means": means
-    }   
-
 def extract_els(el:int, unique_counts:np.ndarray, counts:np.ndarray) -> int:
     '''Function to extract elements from counts of a matrix.
 
@@ -151,20 +70,20 @@ def run_sim(
     m0,
     b0,
     C,
-    hyperparameters,
-    annealing="fixed",#
+    hyperparameters: Hyperparameters,
+    annealing="fixed",
     max_annealed_itr=10,
     Ctrick=True,
     ):
     
-    K = hyperparameters['k1']
-    max_itr = hyperparameters['max_itr']
-    threshold = hyperparameters['threshold']
-    T = hyperparameters['t_max']
-    alpha0 = hyperparameters['alpha0']
-    beta0 = hyperparameters['beta0']
-    a0 = hyperparameters['a0']
-    d0 = hyperparameters['d0']
+    K = hyperparameters.k1
+    max_itr = hyperparameters.max_itr
+    threshold = hyperparameters.threshold
+    T = hyperparameters.t_max
+    alpha0 = hyperparameters.alpha0
+    beta0 = hyperparameters.beta0
+    a0 = hyperparameters.a0
+    d0 = hyperparameters.d0
 
     (N, XDim) = np.shape(X)
 
@@ -276,7 +195,9 @@ def run_sim(
 
 
 
-def main(sp: object, hp: object, annealing_type="fixed"):
+def main(simulation_parameters: SimulationParameters, 
+         hyperparameters: Hyperparameters, 
+         annealing_type:str="fixed"):
     '''Function that runs the simulation.
 
     Params:
@@ -298,27 +219,27 @@ def main(sp: object, hp: object, annealing_type="fixed"):
 
     n_irr_correct = []  # correct irrelevant
 
-    for p, q in enumerate(sp["n_observations"]):
-        for n, o in enumerate(sp["n_relevants"]):
-            for i in range(hp["max_models"]):
+    for p, q in enumerate(simulation_parameters.n_observations):
+        for n, o in enumerate(simulation_parameters.n_relevants):
+            for i in range(hyperparameters.max_models):
 
                 print("Model " + str(i))
                 print("obs " + str(q))
                 print("rel " + str(o))
                 # print()
 
-                n_relevant_var.append(sp["n_relevants"][n])
+                n_relevant_var.append(simulation_parameters.n_relevants[n])
                 # print(n_observations[p])
-                n_obs.append(sp["n_observations"][p])
+                n_obs.append(simulation_parameters.n_observations[p])
 
-                variance_covariance_matrix = np.identity(sp["n_relevants"][n])
+                variance_covariance_matrix = np.identity(simulation_parameters.n_relevants[n])
                 # print(f"with loop: {np.shape(variance_covariance_matrix)}")
-                data_crook = dataSimCrook.SimulateData(
-                    sp["n_observations"][p],
-                    sp["n_variables"],
-                    sp["n_relevants"][n],
-                    sp["mixture_proportions"],
-                    sp["means"],
+                data_crook = SimulateCrookData(
+                    simulation_parameters.n_observations[p],
+                    simulation_parameters.n_variables,
+                    simulation_parameters.n_relevants[n],
+                    simulation_parameters.mixture_proportions,
+                    simulation_parameters.means,
                     variance_covariance_matrix,
                 )
                 crook_data = data_crook.data_sim()
@@ -336,7 +257,7 @@ def main(sp: object, hp: object, annealing_type="fixed"):
                 start_time = time.time()
                 # Measure the execution time of the following code
                 Z, lower_bound, Cs, iterations = run_sim(X=data_crook.simulation_object["shuffled_data"],
-                                        hyperparameters=hp,
+                                        hyperparameters=hyperparameters,
                                         m0=m0, 
                                         b0=W0, 
                                         C=C,
@@ -360,7 +281,7 @@ def main(sp: object, hp: object, annealing_type="fixed"):
                 variable_selected.append(var_selection_ordered)
                 
                 #Find correct relevant variables
-                unique_counts, counts = np.unique(np.around(var_selection_ordered[:sp["n_relevants"][n]]), return_counts=True)
+                unique_counts, counts = np.unique(np.around(var_selection_ordered[:simulation_parameters.n_relevants[n]]), return_counts=True)
                 # Find the index of the specific element (e.g., element 0) in the unique_counts array
                 element_to_extract = 1
                 # Extract the counts of the specific element from the counts array
@@ -368,7 +289,7 @@ def main(sp: object, hp: object, annealing_type="fixed"):
                 n_rel_correct.append(counts_of_element)        
 
                 #Find correct irrelevant variables
-                unique_counts, counts = np.unique(np.around(var_selection_ordered[sp["n_relevants"][n]:]), return_counts=True)
+                unique_counts, counts = np.unique(np.around(var_selection_ordered[simulation_parameters.n_relevants[n]:]), return_counts=True)
                 # Find the index of the specific element (e.g., element 0) in the unique_counts array
                 element_to_extract = 0
                 # Extract the counts of the specific element from the counts array
@@ -380,8 +301,11 @@ def main(sp: object, hp: object, annealing_type="fixed"):
 
 if __name__ == "__main__":
 
-    hp = establish_hyperparameters()
-    sp = establish_sim_params()
+    simulationparameters = SimulationParameters([10,100], 50, [2,4,6], [0.2, 0.4, 0.7], [0,-2,2])
+    print(simulationparameters)
 
-    main(sp, hp, annealing_type="geometric")
-    pass
+    # hp = establish_hyperparameters()
+    # sp = establish_sim_params()
+
+    # main(sp, hp, annealing_type="geometric")
+    # pass

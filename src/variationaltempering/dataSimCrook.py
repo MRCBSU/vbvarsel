@@ -1,6 +1,6 @@
 import numpy as np
 
-class SimulateData:
+class SimulateCrookData:
     """
     A class to represent simulated data as described by Crook et al.
 
@@ -27,9 +27,9 @@ class SimulateData:
 
     def __init__(
         self,
-        n_observations: list[int],
+        n_observations:int,
         n_variables: int,
-        n_relevant: list,
+        n_relevant: int,
         mixture_proportions: list,
         means: list,
         variance_covariance_matrix: np.ndarray,
@@ -67,7 +67,6 @@ class SimulateData:
     def irrelevant_vars(self):
         """Returns array of irrelevant variables in simulation."""
         n_irrelevant = self.n_variables - self.n_relevant
-        print(n_irrelevant)
         irrelevant_variables = np.random.randn(self.n_observations, n_irrelevant)
         return irrelevant_variables
 

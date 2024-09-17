@@ -41,8 +41,10 @@ def calcXd(Z, X):
     '''Function to find Xd
 
     Params:
-        Z: cluster assignment matrix
-        X: input data
+        Z: np.ndarray
+            cluster assignment matrix
+        X: np.ndarray
+            input data
     
     Returns:
         xd
@@ -99,7 +101,7 @@ def calcbetakj(K, XDim, C, NK, beta0, T):
 
     Params:
         K: maximum number of clusters
-        XDim: 
+        XDim: number of variables (columns)
         C: covariate selection indicators
         NK:
         beta0: shrinkage parameter of the Gaussian conditional prior
