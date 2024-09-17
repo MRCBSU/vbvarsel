@@ -12,13 +12,17 @@ class SimulateData:
     n_relevant : int
         Number of variables that are relevant.
     mixture_proportions : np.ndarray
-        Proportion of observations in each cluster, length of the array defines number of simulated clusters.
+        Proportion of observations in each cluster, length of the array defines 
+        number of simulated clusters.
     means : np.ndarray
         Mean of the Gaussian distribution for each cluster.
     variance_covariance_matrix : np.ndarray
         Matrix of variance and covariance for simulation.
     simulation_object : dict
         Object containing results of data attributes from simulation.
+
+    These attributes mirror the simulation parameters, which are set via the
+    `establish_sim_params` function in `simulation.py`.
     """
 
     def __init__(
