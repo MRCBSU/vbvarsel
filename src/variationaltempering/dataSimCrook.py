@@ -1,4 +1,5 @@
 import numpy as np
+from experiment_data import SimulatedValues
 
 class SimulateCrookData:
     """
@@ -40,9 +41,9 @@ class SimulateCrookData:
         self.mixture_proportions = mixture_proportions
         self.means = means
         self.variance_covariance_matrix = variance_covariance_matrix
-        self.simulation_object = {}
+        self.SimulatedValues = SimulatedValues()
 
-    # Simulate relevant variables
+
     def relevant_vars(self):
         """Returns array of relevant variables for use in simulation."""
         samples = []
@@ -58,17 +59,15 @@ class SimulateCrookData:
             samples.append(sample)
 
         # Convert list of samples to numpy array
-        self.simulation_object["true_labels"] = true_labels
-        relevant_variables = np.array(samples)
-        return relevant_variables
+        self.SimulatedValues.true_labels = true_labels
+        return np.array(samples)
 
-        # Simulate irrelevant variables
 
     def irrelevant_vars(self):
         """Returns array of irrelevant variables in simulation."""
         n_irrelevant = self.n_variables - self.n_relevant
-        irrelevant_variables = np.random.randn(self.n_observations, n_irrelevant)
-        return irrelevant_variables
+        return np.random.randn(self.n_observations, n_irrelevant)
+         
 
     def data_sim(self):
         """Returns simulated data array."""
@@ -76,17 +75,17 @@ class SimulateCrookData:
         relevant_variables = self.relevant_vars()
         irrelevant_variables = self.irrelevant_vars()
         data = np.hstack((relevant_variables, irrelevant_variables))
-        self.simulation_object["data"] = data
+        self.SimulatedValues.data = data
         return data
 
-    # Make the permutations for the simulation
+
     def permutation(self):
         """Returns permutations for simulation."""
         permutations = np.random.permutation(self.n_variables)
-        self.simulation_object["permutation"] = permutations
+        self.SimulatedValues.permutations = permutations
         return permutations
 
-    # Shuffle the variables
+
     def shuffle_sim_data(self, data, permutation):
         """Shuffles randomised data for simulation.
 
@@ -97,17 +96,15 @@ class SimulateCrookData:
                 Array of permutations generated from `self.permutations()`
         """
         shuffled_data = data[:, permutation]
-        self.simulation_object["shuffled_data"] = shuffled_data
+        self.SimulatedValues.shuffled_data = shuffled_data
 
-    # Now data contains 100 observations with 200 variables, where the first n_relevant are drawn
-    # from the Gaussian mixtures and the rest are irrelevant variables from standard Gaussian.
+    
+if __name__ == '__main__':
+    test = np.random.permutation(10)
+    print(test)
 
-    # permutation is just np.random.permutation(n_variables) <- this can be another function
-    # data is just an np function on a couple of supplied variables, one of which is made in this for loop
-    # shuffled data comes from data
-    # true_labels is created in the for loop as well
+    scd = SimulateCrookData(10, 100, 10, [0.5, 0.3, 0.2], [0, 2, -2],  np.identity(10))
+    scd.relevant_vars()
+    print(SimulatedValues.true_labels)
 
-    # i would rather return a dictionary of values or try to break these out into disparate functions
-    # having functions returns more than one thing feels a) very unpythonic and b) imo is a bit confusing
-
-    # return data, shuffled_data, true_labels, permutation
+    

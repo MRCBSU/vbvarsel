@@ -417,7 +417,3 @@ class ELBO_Computation:
         i_t = _ninth_term(XDim, d, delta, C, T)
 
         return a_t + b_t + c_t + d_t + e_t - (f_t + g_t + h_t + i_t) * T    
-
-if __name__ == '__main__':
-    import calcparams
-    print(dir(calcparams))

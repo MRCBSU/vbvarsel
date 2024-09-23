@@ -6,11 +6,66 @@ from dataSimCrook import SimulateCrookData
 from global_parameters import Hyperparameters, SimulationParameters
 from calcparams import *
 from elbo import ELBO_Computation
+from custodian import UserDataHandler
 
 from scipy.stats import beta
 from sklearn.metrics import adjusted_rand_score
 
 from dataclasses import dataclass, field
+
+class Results:
+
+    def __init__(self):
+        self.convergence_ELBO = []
+        self.convergence_itr = []
+        self.clust_predictions = []
+        self.variable_selected = []
+        self.runtimes = []
+        self.ARIs = []
+        self.relevants = []
+        self.observations = []
+        self.correct_rel_vars = []  # correct relevant
+        self.correct_irr_vars = []  # correct irrelevant
+    
+    def add_elbo(self, elbo:float) -> None:
+        '''Function to append the ELBO convergence.'''
+        self.convergence_ELBO.append(elbo)
+    
+    def add_convergence(self, iteration:int) -> None:
+        '''Function to append convergence iteration.'''
+        self.convergence_itr.append(iteration)
+
+    def add_prediction(self, predictions:list[int]) -> None:
+        '''Function to append predicted cluster.'''
+        self.clust_predictions.append(predictions)
+    
+    def add_selected_variables(self, variables: np.ndarray[float]) -> None:
+        '''Function to append selected variables.'''
+        self.variable_selected.append(variables)
+
+    def add_runtimes(self, runtime: float) -> None:
+        '''Function to append runtime.'''
+        self.runtimes.append(runtime)
+
+    def add_ari(self, ari:float) -> None:
+        '''Function to append the Adjusted Rand Index.'''
+        self.ARIs.append(ari)
+    
+    def add_relevants(self, relevant: int) -> None:
+        '''Function to append the relevant selected variables.'''
+        self.relevants.append(relevant)
+
+    def add_observations(self, observation: int) -> None:
+        '''Function to append the number of observations.'''
+        self.observations.append(observation)
+
+    def add_correct_rel_vars(self, correct: int) -> None:
+        '''Function to append the relevant correct variables.'''
+        self.correct_rel_vars.append(correct)
+
+    def add_correct_irr_vars(self, incorrect: int) -> None:
+        '''Function to append the correct irrelevant variables.'''
+        self.correct_irr_vars.append(incorrect)
 
 # classical geometric schedule T(k) = T0 * alpha^k where k is the current iteration
 # T0 is the initial temperature
@@ -18,10 +73,14 @@ def geometric_schedule(T0, alpha, itr, max_annealed_itr):
     '''Function to calculate geometric annealing.
 
     Params:
-        T0: int -> initial temperature for annealing.
-        alpha: float -> cooling rate 
-        itr: int -> current iteration
-        max_annealed_itr: int -> maximum number of iteration to use annealing 
+        T0: int
+            initial temperature for annealing.
+        alpha: float
+            cooling rate 
+        itr: int
+            current iteration
+        max_annealed_itr: int
+            maximum number of iteration to use annealing 
 
     Returns: 1, if itr >= max_annealed_itr, else T * alpha^itr
     '''
@@ -37,9 +96,12 @@ def harmonic_schedule(T0, alpha, itr):
     '''Function to calculate harmonic annealing.
 
     Params:
-        T0: int -> the initial temperature
-        alpha: float -> cooling rate 
-        itr: int -> current iteration
+        T0: int
+            the initial temperature
+        alpha: float
+            cooling rate 
+        itr: int
+            current iteration
     
     Returns:
         Quotient of T0 by (1 + alpha * itr)
@@ -51,9 +113,12 @@ def extract_els(el:int, unique_counts:np.ndarray, counts:np.ndarray) -> int:
     '''Function to extract elements from counts of a matrix.
 
     Params:
-        el:int -> element of interest (can it only be 1 or 0?)
-        unique_counts:ndarray -> array of unique counts from a matrix
-        counts:ndarray -> array of total counts from a matrix
+        el: int 
+            element of interest (can it only be 1 or 0?)
+        unique_counts: NDarray
+            array of unique counts from a matrix
+        counts: NDarray
+            array of total counts from a matrix
     Returns:
         counts_of_element[0]:int -> integer of counts of targeted element.
     '''
@@ -65,7 +130,7 @@ def extract_els(el:int, unique_counts:np.ndarray, counts:np.ndarray) -> int:
         return counts_of_element[0]
 
 # MAIN RUN FUNCTION
-def run_sim(
+def _run_sim(
     X,
     m0,
     b0,
@@ -74,8 +139,38 @@ def run_sim(
     annealing="fixed",
     max_annealed_itr=10,
     Ctrick=True,
-    ):
-    
+    ) -> tuple:
+    '''Private function to handle running the simulation. Should not be called
+    directly, it is used from the function `main`.
+
+    X: pd.DataFrame
+        The dataframe of shuffled and normalised data. Can be either a dataset
+        the user has supplied or a simulated dataset from the `dataSimCrook`
+        module. 
+    m0:
+    b0:
+    C:
+    hyperparameters: Hyperparameters
+        An object of specified hyperparameters
+    annealing: str
+        The type of annealing to apply to the simulation. Can be one of 
+        "fixed", "geometric" or "harmonic", "fixed" does not apply annealing.
+        (Default "fixed")
+    max_annealed_itr: int
+        How many iterations to apply the annealing function. (Default 10)
+    CTrick: bool
+        Not sure what this does (Default True)
+
+    Returns
+    -------
+    Tuple(Z: np.NDarray, lower_bound: list, _C: np.NDarray, itr: int)
+        A tuple of experimental results.
+        Z is an NDarray of Dirchilet data
+        lower_bound is the calculated lower_bound of the experiment
+        _C is the calculated value of C
+        itr is the number of iterations performed for the annealing function
+           
+    '''
     K = hyperparameters.k1
     max_itr = hyperparameters.max_itr
     threshold = hyperparameters.threshold
@@ -117,15 +212,15 @@ def run_sim(
 
         # M-like-step
         alphak = calcAlphak(NK=NK, alpha0=alpha0, T=T)
-        akj = calcAkj(K=K, J=XDim, c=C, NK=NK, a0=a0, T=T)
+        akj = calcAkj(K=K, J=XDim, C=C, NK=NK, a0=a0, T=T)
         xd = calcXd(Z=Z, X=X)
         S = calcS(Z=Z, X=X, xd=xd)
-        betakj = calcbetakj(K=K, XDim=XDim, c=C, NK=NK, beta0=beta0, T=T)
+        betakj = calcbetakj(K=K, XDim=XDim, C=C, NK=NK, beta0=beta0, T=T)
         m = calcM(
-            K=K, XDim=XDim, beta0=beta0, m0=m0, NK=NK, xd=xd, betakj=betakj, c=C, T=T
+            K=K, XDim=XDim, beta0=beta0, m0=m0, NK=NK, xd=xd, betakj=betakj, C=C, T=T
         )
         bkj = calcB(
-            W0=b0, xd=xd, K=K, m0=m0, XDim=XDim, beta0=beta0, S=S, c=C, NK=NK, T=T
+            W0=b0, xd=xd, K=K, m0=m0, XDim=XDim, beta0=beta0, S=S, C=C, NK=NK, T=T
         )
         delta = calcDelta(C=C, d=d0, T=T)
 
@@ -138,7 +233,7 @@ def run_sim(
         Z0 = calcZ(
             exp_ln_pi=pik, exp_ln_gam=invc, exp_ln_mu=mu, f0=f0, N=N, K=K, C=C, T=T
         )
-        C = calcC(
+        _C = calcC(
             XDim=XDim,
             N=N,
             K=K,
@@ -160,7 +255,7 @@ def run_sim(
             XDim=XDim,
             K=K,
             N=N,
-            C=C,
+            C=_C,
             Z=Z0,
             d=d0,
             delta=delta,
@@ -190,7 +285,7 @@ def run_sim(
 
         itr += 1
 
-    return Z, lower_bound, C, itr
+    return Z, lower_bound, _C, itr
 
 
 
@@ -201,23 +296,17 @@ def main(simulation_parameters: SimulationParameters,
     '''Function that runs the simulation.
 
     Params:
-        sp: object -> An object of simulation paramaters to apply to the simulation. 
-            For more information please see the `establish_sim_params` function.
-        hp: object -> An object of hyperparamters to apply to the simulation.
-            For more information please see the `establish_hyperparameters` function.
+        simulation_parameters: SimulationParameters
+            An object of simulation paramaters to apply to the simulation. 
+        hyperparameters: Hyperparameters
+            An object of hyperparamters to apply to the simulation.
+        annealing_type: str
+            The type of annealing to apply to the simulation, can be one of
+            "geometric", "harmonic" or "fixed", the latter of which does not
+            apply any annealing. (Default "fixed")
     '''
-    convergence_ELBO = []
-    convergence_itr = []
-    clust_predictions = []
-    variable_selected = []
-    times = []
-    ARIs = []
-    n_relevant_var = []
-    n_obs = []
 
-    n_rel_correct = []  # correct relevant
-
-    n_irr_correct = []  # correct irrelevant
+    results = Results() 
 
     for p, q in enumerate(simulation_parameters.n_observations):
         for n, o in enumerate(simulation_parameters.n_relevants):
@@ -226,14 +315,11 @@ def main(simulation_parameters: SimulationParameters,
                 print("Model " + str(i))
                 print("obs " + str(q))
                 print("rel " + str(o))
-                # print()
-
-                n_relevant_var.append(simulation_parameters.n_relevants[n])
-                # print(n_observations[p])
-                n_obs.append(simulation_parameters.n_observations[p])
+                
+                results.add_relevants(simulation_parameters.n_relevants[n])
+                results.add_observations(simulation_parameters.n_observations[p])
 
                 variance_covariance_matrix = np.identity(simulation_parameters.n_relevants[n])
-                # print(f"with loop: {np.shape(variance_covariance_matrix)}")
                 data_crook = SimulateCrookData(
                     simulation_parameters.n_observations[p],
                     simulation_parameters.n_variables,
@@ -256,56 +342,83 @@ def main(simulation_parameters: SimulationParameters,
                 # delta0 = beta.rvs(1, 1, size=XDim)
                 start_time = time.time()
                 # Measure the execution time of the following code
-                Z, lower_bound, Cs, iterations = run_sim(X=data_crook.simulation_object["shuffled_data"],
-                                        hyperparameters=hyperparameters,
-                                        m0=m0, 
-                                        b0=W0, 
-                                        C=C,
-                                        annealing=annealing_type)
+                Z, lower_bound, Cs, iterations = _run_sim(
+                    X=data_crook.SimulatedValues.shuffled_data,
+                    hyperparameters=hyperparameters,
+                    m0=m0,
+                    b0=W0,
+                    C=C,
+                    annealing=annealing_type
+                    )
                 end_time = time.time()
                 run_time = end_time - start_time
                 print(f"runtime: {run_time}")
-                times.append(run_time)
+                results.add_runtimes(run_time)
 
-                convergence_ELBO.append(lower_bound[-1])
-                convergence_itr.append(iterations)
+                results.add_elbo(lower_bound[-1])
+                results.add_convergence(iterations)
         
                 clust_pred = [np.argmax(r) for r in Z]
-                clust_predictions.append(clust_pred)
+                results.add_prediction(clust_pred)
         
-                ari = adjusted_rand_score(np.array(data_crook.simulation_object['true_labels']), np.array(clust_pred))
-                ARIs.append(ari)
+                ari = adjusted_rand_score(np.array(data_crook.SimulatedValues.true_labels),
+                                          np.array(clust_pred))
+                results.add_ari(ari)
         
                 original_order = np.argsort(perms)
                 var_selection_ordered = np.around(np.array(Cs)[original_order])
-                variable_selected.append(var_selection_ordered)
+                results.add_selected_variables(var_selection_ordered)
                 
                 #Find correct relevant variables
-                unique_counts, counts = np.unique(np.around(var_selection_ordered[:simulation_parameters.n_relevants[n]]), return_counts=True)
+                unique_counts, counts = np.unique(
+                    np.around(var_selection_ordered[:simulation_parameters.n_relevants[n]]),
+                     return_counts=True
+                     )
                 # Find the index of the specific element (e.g., element 0) in the unique_counts array
                 element_to_extract = 1
                 # Extract the counts of the specific element from the counts array
                 counts_of_element = extract_els(element_to_extract, unique_counts, counts)
-                n_rel_correct.append(counts_of_element)        
+                results.add_correct_rel_vars(counts_of_element)        
 
                 #Find correct irrelevant variables
-                unique_counts, counts = np.unique(np.around(var_selection_ordered[simulation_parameters.n_relevants[n]:]), return_counts=True)
+                unique_counts, counts = np.unique(
+                    np.around(var_selection_ordered[simulation_parameters.n_relevants[n]:]),
+                     return_counts=True
+                     )
                 # Find the index of the specific element (e.g., element 0) in the unique_counts array
                 element_to_extract = 0
                 # Extract the counts of the specific element from the counts array
                 counts_of_element = extract_els(element_to_extract, unique_counts, counts)
-                n_irr_correct.append(counts_of_element)
+                results.add_correct_irr_vars(counts_of_element)
 
-    print(f"conv: {convergence_ELBO} \n, inter: {convergence_itr} \n, clusters: {clust_predictions} \n \
-                var sel: {variable_selected} \n time: {times} \n  aris: {ARIs} \n rels: {n_relevant_var} \n  obs: {n_obs} \n")
+    # print(results)
+    print(f"conv: {results.convergence_ELBO}")
+    print(f"iter: {results.convergence_itr}")
+    print(f"clusters: {results.clust_predictions}")
+    print(f"var sel: {results.variable_selected}")
+    print(f"time: {results.runtimes}")
+    print(f"aris: {results.ARIs}")
+    print(f"rels: {results.relevants}")
+    print(f"obs: {results.observations}")
+          
 
 if __name__ == "__main__":
 
-    simulationparameters = SimulationParameters([10,100], 50, [2,4,6], [0.2, 0.4, 0.7], [0,-2,2])
-    print(simulationparameters)
+    # simulationparameters = SimulationParameters([10,100], 50, [2,4,6], [0.2, 0.4, 0.7], [0,-2,2])
+    # print(simulationparameters.means[0])
 
-    # hp = establish_hyperparameters()
-    # sp = establish_sim_params()
+    hp = Hyperparameters()
+    sp = SimulationParameters(
+        n_observations=[100,1000],
+        n_variables=200,
+        n_relevants=[50, 100, 150],
+        mixture_proportions=[0.15, 0.25, 0.6])
+    
+    main(sp, hp, annealing_type="geometric")
+    # # pass
 
-    # main(sp, hp, annealing_type="geometric")
-    # pass
+    # print(np.array(pd.read_csv("test.csv", header=None )[0]))
+
+    # df = UserDataHandler.load_data("BRCA.pam50.csv")
+    # UserDataHandler.normalise_data(df)
+    # print(UserDataHandler.SimulatedValues.data)

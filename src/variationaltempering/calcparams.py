@@ -8,7 +8,7 @@ def calcAlphak(NK, alpha0, T):
             Dirichelet posterior distribution on the mixture proportions
 
     Params:
-        NK: number
+        NK: number of observations assigned to each cluster K
         alpha0: Prior coefficient count
         T: annealing temperature (T = 1 when annealing is not used)
     
@@ -103,9 +103,9 @@ def calcbetakj(K, XDim, C, NK, beta0, T):
         K: maximum number of clusters
         XDim: number of variables (columns)
         C: covariate selection indicators
-        NK:
+        NK: number of observations assigned to each cluster K
         beta0: shrinkage parameter of the Gaussian conditional prior
-        T:
+        T: annealing temperature
     
     Returns:
         beta: updated variational shrinkage parameter for the Gaussian conditional posterior
@@ -120,15 +120,15 @@ def calcM(K, XDim, beta0, m0, NK, xd, betakj, C, T):
     '''Function to calculate the updated variational parameter M.
 
     Params:
-        K:
-        XDim:
+        K: maximum number of clusters
+        XDim: number of variables (columns)
         beta0: shrinkage parameter of the Gaussian conditional prior
         m0: prior cluster means
-        NK:
+        NK: number of observations assigned to each cluster K
         xd:
         betakj: updated variational shrinkage parameter for the Gaussian conditional posterior
         C: covariate selection indicators
-        T:
+        T: annealing temperature
 
     Returns:   
         m: updated variational cluster means
@@ -164,7 +164,7 @@ def calcB(W0, xd, K, m0, XDim, beta0, S, C, NK, T):
     M = np.zeros((K, XDim, XDim))
     Q0 = xd - m0[None, :]
     for k in range(K):
-        M[k, np.diag_indices(XDim)] = 1/(W0 + epsilon) + NK[k]*np.diag(S[k])*c
+        M[k, np.diag_indices(XDim)] = 1/(W0 + epsilon) + NK[k]*np.diag(S[k])*C
         M[k, np.diag_indices(XDim)] += ((beta0*NK[k]*C) / (beta0 + C*NK[k])) * Q0[k]**2
     M = M/(2*T)
     return M
@@ -462,8 +462,7 @@ def calcC(XDim,
     expF0 = calcexpF0(X, N, K, XDim, Z, sigma_0, mu_0)
     N1, lnN1 = calcN1(C, d, expF, T)
     N2, lnN2 = calcN2(C, d, expF0, T)
-
-    epsilon = 1e-40
+    epsilon = 1e-40 
     
     if not trick:
         C0 = np.where(N1 > 0, N1 / (N1 + N2), 0)

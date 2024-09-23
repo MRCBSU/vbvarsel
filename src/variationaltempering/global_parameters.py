@@ -31,7 +31,7 @@ class Hyperparameters:
         Shape parameter of the Beta distribution on the probability. A value of
         1 results in a uniform distribution. (Default 1)
     t_max: int
-        Maximum starting annealing temperature. Value of 1 has in no annealing.
+        Maximum starting annealing temperature. Value of 1 has no annealing.
         (Default 1)
     max_itr: int
         Maximum number of iterations. (Default 25)
@@ -49,12 +49,20 @@ class Hyperparameters:
     max_models: int = 10
 
     def __post_init__(self):
-        self.alpha0 = 1 / self.k1
+        # nifty little hack to temporarily unfreeze the class and set alpha0
+        object.__setattr__(self, 'alpha0', 1/self.k1)
 
 @dataclass(frozen=True, order=True)
 class SimulationParameters:
     '''Class representing the simulation parameters.
     
+    These parameters are the "settings" for the simulation experiment. For more
+    information regarding the simulation, see [INSERT PAPER HERE]. Mixture 
+    proportions must be numbers between 0 and 1. The n_relevants array must
+    be all numbers that are less than the n_variables value, as it is not
+    possible to have a higher number of relevant variables than total variables.
+    
+
     Attributes
     ----------
     n_observations: list[int]
@@ -70,7 +78,8 @@ class SimulationParameters:
     mixture_proportions: list[float]
         A list of float values for ~ proportion of observations in each cluster.
         The length of the array influence the number of simulated clusters. All
-        values should be between 0 and 1. (Default [0.5, 0.3, 0.2])
+        values should be between 0 and 1, and all values must sum to 1. 
+        (Default [0.5, 0.3, 0.2])
     means: list[int]
         List of integers of Gaussian distributions for each cluster. (Default
         [-2, 0, 2])
@@ -80,3 +89,8 @@ class SimulationParameters:
     n_relevants: list[int] = field(default_factory=lambda:[10, 20, 50, 100])
     mixture_proportions: list[float] = field(default_factory=lambda:[0.5, 0.3, 0.2])
     means: list[int] = field(default_factory=lambda:[-2, 0, 2])
+
+
+if __name__ == '__main__':
+    h = Hyperparameters()
+    print(h)
