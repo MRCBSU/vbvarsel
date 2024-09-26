@@ -87,7 +87,7 @@ class SimulationParameters:
     n_observations: list[int] = field(default_factory=lambda:[100,1000])
     n_variables: int = 200
     n_relevants: list[int] = field(default_factory=lambda:[10, 20, 50, 100])
-    mixture_proportions: list[float] = field(default_factory=lambda:[0.5, 0.3, 0.2])
+    mixture_proportions: list[float] = field(default_factory=lambda:[0.2, 0.3, 0.5])
     means: list[int] = field(default_factory=lambda:[-2, 0, 2])
 
 

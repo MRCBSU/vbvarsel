@@ -13,19 +13,19 @@ from sklearn.metrics import adjusted_rand_score
 
 from dataclasses import dataclass, field
 
-class Results:
-
-    def __init__(self):
-        self.convergence_ELBO = []
-        self.convergence_itr = []
-        self.clust_predictions = []
-        self.variable_selected = []
-        self.runtimes = []
-        self.ARIs = []
-        self.relevants = []
-        self.observations = []
-        self.correct_rel_vars = []  # correct relevant
-        self.correct_irr_vars = []  # correct irrelevant
+@dataclass(order=True)
+class _Results:
+    '''Dataclass to store the results of the simulation.'''
+    convergence_ELBO = field(default_factory=list)
+    convergence_itr = field(default_factory=list)
+    clust_predictions = field(default_factory=list)
+    variable_selected = field(default_factory=list)
+    runtimes = field(default_factory=list)
+    ARIs = field(default_factory=list)
+    relevants = field(default_factory=list)
+    observations = field(default_factory=list)
+    correct_rel_vars = field(default_factory=list)  # correct relevant
+    correct_irr_vars = field(default_factory=list)  # correct irrelevant
     
     def add_elbo(self, elbo:float) -> None:
         '''Function to append the ELBO convergence.'''
@@ -109,7 +109,7 @@ def harmonic_schedule(T0, alpha, itr):
     return T0 / (1 + alpha * itr)
 
 
-def extract_els(el:int, unique_counts:np.ndarray, counts:np.ndarray) -> int:
+def _extract_els(el:int, unique_counts:np.ndarray, counts:np.ndarray) -> int:
     '''Function to extract elements from counts of a matrix.
 
     Params:
@@ -167,7 +167,7 @@ def _run_sim(
         A tuple of experimental results.
         Z is an NDarray of Dirchilet data
         lower_bound is the calculated lower_bound of the experiment
-        _C is the calculated value of C
+        C is the calculated value of C
         itr is the number of iterations performed for the annealing function
            
     '''
@@ -233,7 +233,7 @@ def _run_sim(
         Z0 = calcZ(
             exp_ln_pi=pik, exp_ln_gam=invc, exp_ln_mu=mu, f0=f0, N=N, K=K, C=C, T=T
         )
-        _C = calcC(
+        C = calcC(
             XDim=XDim,
             N=N,
             K=K,
@@ -255,7 +255,7 @@ def _run_sim(
             XDim=XDim,
             K=K,
             N=N,
-            C=_C,
+            C=C,
             Z=Z0,
             d=d0,
             delta=delta,
@@ -285,13 +285,14 @@ def _run_sim(
 
         itr += 1
 
-    return Z, lower_bound, _C, itr
+    return Z, lower_bound, C, itr
 
 
 
 
 def main(simulation_parameters: SimulationParameters, 
-         hyperparameters: Hyperparameters, 
+         hyperparameters: Hyperparameters,
+         test_data = None,
          annealing_type:str="fixed"):
     '''Function that runs the simulation.
 
@@ -306,7 +307,7 @@ def main(simulation_parameters: SimulationParameters,
             apply any annealing. (Default "fixed")
     '''
 
-    results = Results() 
+    results = _Results() 
 
     for p, q in enumerate(simulation_parameters.n_observations):
         for n, o in enumerate(simulation_parameters.n_relevants):
@@ -318,32 +319,31 @@ def main(simulation_parameters: SimulationParameters,
                 
                 results.add_relevants(simulation_parameters.n_relevants[n])
                 results.add_observations(simulation_parameters.n_observations[p])
-
-                variance_covariance_matrix = np.identity(simulation_parameters.n_relevants[n])
-                data_crook = SimulateCrookData(
-                    simulation_parameters.n_observations[p],
-                    simulation_parameters.n_variables,
-                    simulation_parameters.n_relevants[n],
-                    simulation_parameters.mixture_proportions,
-                    simulation_parameters.means,
-                    variance_covariance_matrix,
-                )
-                crook_data = data_crook.data_sim()
-                perms = data_crook.permutation()
-                data_crook.shuffle_sim_data(crook_data, perms)
+                if test_data == None:
+                    variance_covariance_matrix = np.identity(simulation_parameters.n_relevants[n])
+                    test_data = SimulateCrookData(
+                        simulation_parameters.n_observations[p],
+                        simulation_parameters.n_variables,
+                        simulation_parameters.n_relevants[n],
+                        simulation_parameters.mixture_proportions,
+                        simulation_parameters.means,
+                        variance_covariance_matrix,
+                    )
+                    crook_data = test_data.data_sim()
+                    perms = test_data.permutation()
+                    test_data.shuffle_sim_data(crook_data, perms)
                 
-                N, XDim = np.shape(crook_data)
+                N, XDim = np.shape(test_data.SimulatedValues.data)
                 C = np.ones(XDim)  
                 W0 = (1e-1)*np.eye(XDim) #prior cov (bigger: smaller covariance)
                 m0 = np.zeros(XDim) #prior mean
                 for j in range(XDim):
-                    m0[j] = np.mean(crook_data[:, j])
+                    m0[j] = np.mean(test_data.SimulatedValues.data[:, j])
                 
-                # delta0 = beta.rvs(1, 1, size=XDim)
                 start_time = time.time()
                 # Measure the execution time of the following code
                 Z, lower_bound, Cs, iterations = _run_sim(
-                    X=data_crook.SimulatedValues.shuffled_data,
+                    X=test_data.SimulatedValues.shuffled_data,
                     hyperparameters=hyperparameters,
                     m0=m0,
                     b0=W0,
@@ -361,7 +361,7 @@ def main(simulation_parameters: SimulationParameters,
                 clust_pred = [np.argmax(r) for r in Z]
                 results.add_prediction(clust_pred)
         
-                ari = adjusted_rand_score(np.array(data_crook.SimulatedValues.true_labels),
+                ari = adjusted_rand_score(np.array(test_data.SimulatedValues.true_labels),
                                           np.array(clust_pred))
                 results.add_ari(ari)
         
@@ -374,22 +374,19 @@ def main(simulation_parameters: SimulationParameters,
                     np.around(var_selection_ordered[:simulation_parameters.n_relevants[n]]),
                      return_counts=True
                      )
-                # Find the index of the specific element (e.g., element 0) in the unique_counts array
-                element_to_extract = 1
                 # Extract the counts of the specific element from the counts array
-                counts_of_element = extract_els(element_to_extract, unique_counts, counts)
-                results.add_correct_rel_vars(counts_of_element)        
+                rel_counts_of_element = _extract_els(1, unique_counts, counts)
+                results.add_correct_rel_vars(rel_counts_of_element)        
 
                 #Find correct irrelevant variables
                 unique_counts, counts = np.unique(
                     np.around(var_selection_ordered[simulation_parameters.n_relevants[n]:]),
                      return_counts=True
                      )
-                # Find the index of the specific element (e.g., element 0) in the unique_counts array
-                element_to_extract = 0
+
                 # Extract the counts of the specific element from the counts array
-                counts_of_element = extract_els(element_to_extract, unique_counts, counts)
-                results.add_correct_irr_vars(counts_of_element)
+                irr_counts_of_element = _extract_els(0, unique_counts, counts)
+                results.add_correct_irr_vars(irr_counts_of_element)
 
     # print(results)
     print(f"conv: {results.convergence_ELBO}")

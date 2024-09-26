@@ -100,11 +100,28 @@ class SimulateCrookData:
 
     
 if __name__ == '__main__':
-    test = np.random.permutation(10)
-    print(test)
+    test = []
+    for n in range(100):
+        test.append(np.random.choice([0, 1, 2], p=[0.2, 0.3, 0.5]))
+    one = 0
+    two = 0
+    zero = 0
+    for t in test:
+        if t == 0:
+            zero += 1
+        if t == 1:
+            one += 1
+        else:
+            two += 1
+    
+    print(f"zeroes: {zero/100}")
+    print(f"ones: {one/100}")
+    print(f"twos: {two/100}")
 
-    scd = SimulateCrookData(10, 100, 10, [0.5, 0.3, 0.2], [0, 2, -2],  np.identity(10))
-    scd.relevant_vars()
-    print(SimulatedValues.true_labels)
+
+
+    # scd = SimulateCrookData(10, 100, 10, [0.5, 0.3, 0.2], [0, 2, -2],  np.identity(10))
+    # scd.relevant_vars()
+    # print(scd.SimulatedValues.true_labels)
 
     
