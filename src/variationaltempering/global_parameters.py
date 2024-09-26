@@ -89,8 +89,3 @@ class SimulationParameters:
     n_relevants: list[int] = field(default_factory=lambda:[10, 20, 50, 100])
     mixture_proportions: list[float] = field(default_factory=lambda:[0.2, 0.3, 0.5])
     means: list[int] = field(default_factory=lambda:[-2, 0, 2])
-
-
-if __name__ == '__main__':
-    h = Hyperparameters()
-    print(h)

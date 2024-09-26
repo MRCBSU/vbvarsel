@@ -16,16 +16,16 @@ from dataclasses import dataclass, field
 @dataclass(order=True)
 class _Results:
     '''Dataclass to store the results of the simulation.'''
-    convergence_ELBO = field(default_factory=list)
-    convergence_itr = field(default_factory=list)
-    clust_predictions = field(default_factory=list)
-    variable_selected = field(default_factory=list)
-    runtimes = field(default_factory=list)
-    ARIs = field(default_factory=list)
-    relevants = field(default_factory=list)
-    observations = field(default_factory=list)
-    correct_rel_vars = field(default_factory=list)  # correct relevant
-    correct_irr_vars = field(default_factory=list)  # correct irrelevant
+    convergence_ELBO: list[float] = field(default_factory=list)
+    convergence_itr: list[int] = field(default_factory=list)
+    clust_predictions: list[int] = field(default_factory=list)
+    variable_selected: list[np.ndarray[float]] = field(default_factory=list)
+    runtimes: list[float] = field(default_factory=list)
+    ARIs: list[float] = field(default_factory=list)
+    relevants: list[int] = field(default_factory=list)
+    observations: list[int] = field(default_factory=list)
+    correct_rel_vars: list[int] = field(default_factory=list)  # correct relevant
+    correct_irr_vars: list[int] = field(default_factory=list)  # correct irrelevant
     
     def add_elbo(self, elbo:float) -> None:
         '''Function to append the ELBO convergence.'''
@@ -136,9 +136,10 @@ def _run_sim(
     b0,
     C,
     hyperparameters: Hyperparameters,
+    Ctrick = False,
     annealing="fixed",
     max_annealed_itr=10,
-    Ctrick=True,
+
     ) -> tuple:
     '''Private function to handle running the simulation. Should not be called
     directly, it is used from the function `main`.
@@ -150,6 +151,8 @@ def _run_sim(
     m0:
     b0:
     C:
+    CTrick: bool
+       whether to use or not a mathematical trick to avoid numerical errors (Default True)
     hyperparameters: Hyperparameters
         An object of specified hyperparameters
     annealing: str
@@ -158,8 +161,7 @@ def _run_sim(
         (Default "fixed")
     max_annealed_itr: int
         How many iterations to apply the annealing function. (Default 10)
-    CTrick: bool
-        Not sure what this does (Default True)
+
 
     Returns
     -------
@@ -292,6 +294,7 @@ def _run_sim(
 
 def main(simulation_parameters: SimulationParameters, 
          hyperparameters: Hyperparameters,
+         Ctrick = False,
          test_data = None,
          annealing_type:str="fixed"):
     '''Function that runs the simulation.
@@ -348,6 +351,7 @@ def main(simulation_parameters: SimulationParameters,
                     m0=m0,
                     b0=W0,
                     C=C,
+                    Ctrick=Ctrick,
                     annealing=annealing_type
                     )
                 end_time = time.time()
@@ -397,7 +401,10 @@ def main(simulation_parameters: SimulationParameters,
     print(f"aris: {results.ARIs}")
     print(f"rels: {results.relevants}")
     print(f"obs: {results.observations}")
-          
+
+def save_data(data, filename, filepath):
+    #do this later
+    pass 
 
 if __name__ == "__main__":
 

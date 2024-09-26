@@ -41,13 +41,22 @@ Some things to note when customising parameters:
 
 #### Hyperparameters
 
-Hyperparameters affect equation itself, such as how many iterations the model will have, the annealing temperature, the threshold for the convergence and so on. More information on the hyperparameters can be found within the docstrings. These as well have default values, but can be altered by the user if desired.
+Hyperparameters affect equation itself, such as how many iterations the model will have, the annealing temperature, the threshold for the convergence and so on. More information on the hyperparameters can be found within the docstrings. These as well have default values, but can be altered by the user if desired. 
 
 ### Entry point
 
 The packages entry point is `main.main()`, and this where all the parameters will be passed. If they are not passed, they will be generated using default values. Users may supply their own data to use in the package. If no data is provided, data will be simulated according to [Crook et al (2019)](https://pubmed.ncbi.nlm.nih.gov/31119032/)'s methodology. 
 
 Data is processed through the simulation to identify clustering of relevant data. An optional `save_output` parameter can be passed to save the data, as well as a path to the targeted directory. If no path is provided, data will be saved in the current working directory.
+
+```
+from vbvarsel import vbvarsel
+
+sim_params = vbvarsel.SimulationParameters()
+hyp_params = vbvarsel.Hyperparameters()
+
+main.main(sim_params, hyp_params)
+```
 
 ### Contributing
 
