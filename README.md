@@ -72,4 +72,4 @@ If you come across an issue when using this package, please create an issue on t
 
 ### License
 
-This project is developed for the MRC-Biostatistical Unit at Cambridge University under the GNU Public license.
+This project is developed by the MRC-Biostatistical Unit at Cambridge University under the GNU Public license.

@@ -1,6 +1,8 @@
 import numpy as np
 import pandas as pd
 import time
+import os
+from datetime import datetime
 
 from dataSimCrook import SimulateCrookData
 from global_parameters import Hyperparameters, SimulationParameters
@@ -18,8 +20,8 @@ class _Results:
     '''Dataclass to store the results of the simulation.'''
     convergence_ELBO: list[float] = field(default_factory=list)
     convergence_itr: list[int] = field(default_factory=list)
-    clust_predictions: list[int] = field(default_factory=list)
-    variable_selected: list[np.ndarray[float]] = field(default_factory=list)
+    # clust_predictions: list[int] = field(default_factory=list)
+    # variable_selected: list[np.ndarray[float]] = field(default_factory=list)
     runtimes: list[float] = field(default_factory=list)
     ARIs: list[float] = field(default_factory=list)
     relevants: list[int] = field(default_factory=list)
@@ -35,13 +37,13 @@ class _Results:
         '''Function to append convergence iteration.'''
         self.convergence_itr.append(iteration)
 
-    def add_prediction(self, predictions:list[int]) -> None:
-        '''Function to append predicted cluster.'''
-        self.clust_predictions.append(predictions)
+    # def add_prediction(self, predictions:list[int]) -> None:
+    #     '''Function to append predicted cluster.'''
+    #     self.clust_predictions.append(predictions)
     
-    def add_selected_variables(self, variables: np.ndarray[float]) -> None:
-        '''Function to append selected variables.'''
-        self.variable_selected.append(variables)
+    # def add_selected_variables(self, variables: np.ndarray[float]) -> None:
+    #     '''Function to append selected variables.'''
+    #     self.variable_selected.append(variables)
 
     def add_runtimes(self, runtime: float) -> None:
         '''Function to append runtime.'''
@@ -66,6 +68,12 @@ class _Results:
     def add_correct_irr_vars(self, incorrect: int) -> None:
         '''Function to append the correct irrelevant variables.'''
         self.correct_irr_vars.append(incorrect)
+    
+    def save_results(self, path):
+        savetime = datetime.now().strftime("%m_%d_%Y_%H_%M_%S")
+        savefile = f"results{savetime}.csv"
+        results_out = pd.DataFrame(self.__dict__)
+        results_out.to_csv(path_or_buf=os.path.join(path, savefile), index=False)
 
 # classical geometric schedule T(k) = T0 * alpha^k where k is the current iteration
 # T0 is the initial temperature
@@ -136,16 +144,16 @@ def _run_sim(
     b0,
     C,
     hyperparameters: Hyperparameters,
-    Ctrick = False,
-    annealing="fixed",
-    max_annealed_itr=10,
+    Ctrick:bool=True,
+    annealing:str="fixed",
+    max_annealed_itr:int=10,
 
     ) -> tuple:
     '''Private function to handle running the simulation. Should not be called
     directly, it is used from the function `main`.
 
-    X: pd.DataFrame
-        The dataframe of shuffled and normalised data. Can be either a dataset
+    X: np.ndarray
+        An array of shuffled and normalised data. Can be derived from a dataset
         the user has supplied or a simulated dataset from the `dataSimCrook`
         module. 
     m0:
@@ -170,7 +178,7 @@ def _run_sim(
         Z is an NDarray of Dirchilet data
         lower_bound is the calculated lower_bound of the experiment
         C is the calculated value of C
-        itr is the number of iterations performed for the annealing function
+        itr is the number of iterations performed before convergence 
            
     '''
     K = hyperparameters.k1
@@ -232,7 +240,7 @@ def _run_sim(
         pik = expPi(alpha0=alpha0, NK=NK)
         f0 = calcF0(X=X, XDim=XDim, sigma_0=sigma_sq_0, mu_0=mu_0, C=C)
 
-        Z0 = calcZ(
+        Z = calcZ(
             exp_ln_pi=pik, exp_ln_gam=invc, exp_ln_mu=mu, f0=f0, N=N, K=K, C=C, T=T
         )
         C = calcC(
@@ -246,7 +254,7 @@ def _run_sim(
             beta=betakj,
             d=d0,
             C=C,
-            Z=Z0,
+            Z=Z,
             sigma_0=sigma_sq_0,
             mu_0=mu_0,
             T=T,
@@ -258,7 +266,7 @@ def _run_sim(
             K=K,
             N=N,
             C=C,
-            Z=Z0,
+            Z=Z,
             d=d0,
             delta=delta,
             beta=betakj,
@@ -294,9 +302,10 @@ def _run_sim(
 
 def main(simulation_parameters: SimulationParameters, 
          hyperparameters: Hyperparameters,
-         Ctrick = False,
-         test_data = None,
-         annealing_type:str="fixed"):
+         Ctrick = True,
+         user_data = None,
+         annealing_type:str="fixed",
+         save_output:bool=False):
     '''Function that runs the simulation.
 
     Params:
@@ -322,8 +331,8 @@ def main(simulation_parameters: SimulationParameters,
                 
                 results.add_relevants(simulation_parameters.n_relevants[n])
                 results.add_observations(simulation_parameters.n_observations[p])
-                if test_data == None:
-                    variance_covariance_matrix = np.identity(simulation_parameters.n_relevants[n])
+                variance_covariance_matrix = np.identity(simulation_parameters.n_relevants[n])
+                if user_data == None:
                     test_data = SimulateCrookData(
                         simulation_parameters.n_observations[p],
                         simulation_parameters.n_variables,
@@ -335,7 +344,9 @@ def main(simulation_parameters: SimulationParameters,
                     crook_data = test_data.data_sim()
                     perms = test_data.permutation()
                     test_data.shuffle_sim_data(crook_data, perms)
-                
+                else:
+                    test_data = user_data
+            
                 N, XDim = np.shape(test_data.SimulatedValues.data)
                 C = np.ones(XDim)  
                 W0 = (1e-1)*np.eye(XDim) #prior cov (bigger: smaller covariance)
@@ -361,9 +372,13 @@ def main(simulation_parameters: SimulationParameters,
 
                 results.add_elbo(lower_bound[-1])
                 results.add_convergence(iterations)
+
+                # print(Z)
         
                 clust_pred = [np.argmax(r) for r in Z]
-                results.add_prediction(clust_pred)
+                clust_pred = [int(x) for x in clust_pred]
+                # print(clust_pred)
+                # results.add_prediction(clust_pred)
         
                 ari = adjusted_rand_score(np.array(test_data.SimulatedValues.true_labels),
                                           np.array(clust_pred))
@@ -371,7 +386,7 @@ def main(simulation_parameters: SimulationParameters,
         
                 original_order = np.argsort(perms)
                 var_selection_ordered = np.around(np.array(Cs)[original_order])
-                results.add_selected_variables(var_selection_ordered)
+                # results.add_selected_variables(var_selection_ordered)
                 
                 #Find correct relevant variables
                 unique_counts, counts = np.unique(
@@ -393,32 +408,41 @@ def main(simulation_parameters: SimulationParameters,
                 results.add_correct_irr_vars(irr_counts_of_element)
 
     # print(results)
-    print(f"conv: {results.convergence_ELBO}")
-    print(f"iter: {results.convergence_itr}")
-    print(f"clusters: {results.clust_predictions}")
-    print(f"var sel: {results.variable_selected}")
-    print(f"time: {results.runtimes}")
-    print(f"aris: {results.ARIs}")
-    print(f"rels: {results.relevants}")
-    print(f"obs: {results.observations}")
+    # print(f"conv: {results.convergence_ELBO}")
+    # print(f"iter: {results.convergence_itr}")
+    # print(f"clusters: {results.clust_predictions}")
+    # print(f"var sel: {results.variable_selected}")
+    # print(f"time: {results.runtimes}")
+    # print(f"aris: {results.ARIs}")
+    # print(f"rels: {results.relevants}")
+    # print(f"obs: {results.observations}")
 
-def save_data(data, filename, filepath):
-    #do this later
-    pass 
+    if save_output:
+        results.save_results(os.getcwd())
+
 
 if __name__ == "__main__":
 
     # simulationparameters = SimulationParameters([10,100], 50, [2,4,6], [0.2, 0.4, 0.7], [0,-2,2])
     # print(simulationparameters.means[0])
+    import cProfile
+    import pstats
 
-    hp = Hyperparameters()
-    sp = SimulationParameters(
-        n_observations=[100,1000],
-        n_variables=200,
-        n_relevants=[50, 100, 150],
-        mixture_proportions=[0.15, 0.25, 0.6])
+    with cProfile.Profile() as profile:
+
+
+        hp = Hyperparameters(max_models=10)
+        sp = SimulationParameters(
+            n_observations=[10, 100,1000],
+            n_variables=200,
+            n_relevants=[10, 20, 50, 100],
+            mixture_proportions=[0.2, 0.3, 0.5])
+        
+        main(sp, hp, save_output=True, Ctrick=True)
     
-    main(sp, hp, annealing_type="geometric")
+    pres = pstats.Stats(profile)
+    pres.sort_stats(pstats.SortKey.TIME)
+    pres.print_stats()
     # # pass
 
     # print(np.array(pd.read_csv("test.csv", header=None )[0]))

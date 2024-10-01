@@ -6,26 +6,27 @@ import numpy as np
 
 # Evidence Lower Bound (ELBO) COMPUTATION
 class ELBO_Computation:
-    '''
+    """
     A class to contain the Evidence Lower Bound (ELBO) computation.
-    
+
     This class has no attributes, aside from Python's built-ins, and contains
     only methods, many of which are private.
-    '''
+    """
+
     def _ln_pi(self, alpha, k):
-        '''Private method to calculate Pi natural log.
-        
+        """Private method to calculate Pi natural log.
+
         Params:
             alpha:
             k:
 
         Returns:
             difference of summed alpha's digamma and digamma of alpha[k]
-        '''
+        """
         return digamma(alpha[k]) - digamma(sum(alpha))
 
     def _ln_precision(self, a, b):
-        '''Private method for calculating precision natural log.
+        """Private method for calculating precision natural log.
 
         Params:
             a:
@@ -33,7 +34,7 @@ class ELBO_Computation:
 
         Returns:
             psi of a minus ld
-        '''
+        """
         if b > 1e-30:
             ld = np.log(b)
         else:
@@ -41,8 +42,8 @@ class ELBO_Computation:
         return psi(a) - ld
 
     def _log_resp_annealed(self, exp_ln_gam, exp_ln_mu, f0, N, K, C, T):
-        '''Private function to calculate log resp annealed.
-        
+        """Private function to calculate log resp annealed.
+
         Params:
             exp_ln_gam:
             exp_ln_mu:
@@ -51,11 +52,11 @@ class ELBO_Computation:
             K:
             C:
             T:
-        
+
         Returns:
             log_resp:
-        
-        '''
+
+        """
         log_resp = np.zeros((N, K))  # ln Z
         for k in range(K):
             log_resp[:, k] = (
@@ -67,22 +68,24 @@ class ELBO_Computation:
         return log_resp
 
     def _ln_delta_annealed(self, C, j, d, T):
-        '''Private function to calculate the annealed value of delta natural log.#
-        
+        """Private function to calculate the annealed value of delta natural log.#
+
         Params:
             C:
             j:
             d:
             T:
-        
+
         Returns:
             ln_delta_ann:
-        '''
-        ln_delta_ann = digamma((C[j] + d + T - 1.0) / T) - digamma((2 * d + 2 * T - 1.0) / T)
+        """
+        ln_delta_ann = digamma((C[j] + d + T - 1.0) / T) - digamma(
+            (2 * d + 2 * T - 1.0) / T
+        )
         return ln_delta_ann
 
     def _ln_delta_minus_annealed(self, C, j, d, T):
-        '''Private function to calculate the minus of annealed delta natural log.
+        """Private function to calculate the minus of annealed delta natural log.
 
         Params:
             C:
@@ -90,14 +93,16 @@ class ELBO_Computation:
             d:
             T:
         Returns:
-            ln_delta_ann_minus:    
-        
-        '''
-        ln_delta_ann_minus = digamma((T - C[j] + d) / T) - digamma((2 * d + 2 * T - 1.0) / T)
+            ln_delta_ann_minus:
+
+        """
+        ln_delta_ann_minus = digamma((T - C[j] + d) / T) - digamma(
+            (2 * d + 2 * T - 1.0) / T
+        )
         return ln_delta_ann_minus
-        
+
     def _entropy_wishart(self, k, j, b, a):
-        '''Private function to calculate wishart entropy.
+        """Private function to calculate wishart entropy.
 
         Params:
             k:
@@ -106,14 +111,14 @@ class ELBO_Computation:
             a:
         Returns:
             e_w:
-        '''
+        """
         if b[k][j, j] > 1e-30:
             ld = np.log(b[k][j, j])
         else:
             ld = 0.0
-        e_w =  gammaln(a[k][j]) - (a[k][j] - 1) * digamma(a[k][j]) - ld + a[k][j]
+        e_w = gammaln(a[k][j]) - (a[k][j] - 1) * digamma(a[k][j]) - ld + a[k][j]
         return e_w
-    
+
     def compute(
         self,
         XDim,
@@ -138,7 +143,7 @@ class ELBO_Computation:
         f0,
         T=1,
     ):
-        '''Function to compute the Evidence Lower Bound (ELBO). The ELBO is
+        """Function to compute the Evidence Lower Bound (ELBO). The ELBO is
         the useful lower-bound on the log-likelihood of observed data.
 
         Params:
@@ -165,8 +170,8 @@ class ELBO_Computation:
 
         Returns:
             calculated ELBO
-        '''
-        
+        """
+
         # nifty way to find out what the attributes are of the class I am using when
         # I am unfamiliar with how the mathematics of these functions works.
 
@@ -175,17 +180,17 @@ class ELBO_Computation:
         # sig, elbo_locals = inspect.signature(self.compute), locals()
         # pprint.pprint([f"{str(_key)} : {type(elbo_locals[param.name])}" for _key, param in sig.parameters.items()])
 
-        # # [<class 'int'>, <class 'int'>, <class 'int'>, <class 'numpy.ndarray'>, 
-        # # <class 'numpy.ndarray'>, <class 'int'>, <class 'numpy.ndarray'>, 
-        # # <class 'numpy.ndarray'>, <class 'float'>, <class 'numpy.ndarray'>, 
-        # # <class 'float'>, <class 'numpy.ndarray'>, <class 'float'>, 
-        # # <class 'numpy.ndarray'>, <class 'numpy.ndarray'>, <class 'numpy.ndarray'>, 
-        # # <class 'numpy.ndarray'>, <class 'numpy.ndarray'>, <class 'list'>, 
+        # # [<class 'int'>, <class 'int'>, <class 'int'>, <class 'numpy.ndarray'>,
+        # # <class 'numpy.ndarray'>, <class 'int'>, <class 'numpy.ndarray'>,
+        # # <class 'numpy.ndarray'>, <class 'float'>, <class 'numpy.ndarray'>,
+        # # <class 'float'>, <class 'numpy.ndarray'>, <class 'float'>,
+        # # <class 'numpy.ndarray'>, <class 'numpy.ndarray'>, <class 'numpy.ndarray'>,
+        # # <class 'numpy.ndarray'>, <class 'numpy.ndarray'>, <class 'list'>,
         # # <class 'numpy.ndarray'>, <class 'numpy.ndarray'>, <class 'float'>]
 
         # E[ln p(X|Z, μ, Λ)]
         def _first_term(N, K, Z, C, exp_ln_gam, exp_ln_mu, f0, T):
-            '''Private internal function to calculate the 1st term of the ELBO 
+            """Private internal function to calculate the 1st term of the ELBO
 
             Params:
                 N:
@@ -196,11 +201,11 @@ class ELBO_Computation:
                 exp_ln_mu:
                 f0:
                 T:
-            
+
             Returns:
                 F2:
-            
-            '''
+
+            """
             ln_resp = self._log_resp_annealed(exp_ln_gam, exp_ln_mu, f0, N, K, C, T)
             F2 = 0
             for n in range(N):
@@ -211,17 +216,17 @@ class ELBO_Computation:
 
         # E[ln p(Z|π)]
         def _second_term(N, K, Z, alpha):
-            '''Private internal function to calculate ELBO 2nd term
-            
+            """Private internal function to calculate ELBO 2nd term
+
             Params:
                 N:
                 K:
                 Z:
                 alpha:
-            
+
             Returns:
                 s:
-            '''
+            """
             s = 0
             for n in range(N):
                 for k in range(K):
@@ -230,7 +235,7 @@ class ELBO_Computation:
 
         # E[ln p(π)]
         def _third_term(alpha0, K, alpha):
-            '''Private internal function to calculate the 3rd term of the ELBO
+            """Private internal function to calculate the 3rd term of the ELBO
 
             Params:
                 alpha0:
@@ -239,16 +244,16 @@ class ELBO_Computation:
 
             Return:
                 a + b
-            
-            '''
+
+            """
             a = gammaln(alpha0 * K) - K * gammaln(alpha0)
             b = (alpha0 - 1) * sum([self._ln_pi(alpha, k) for k in range(K)])
             return a + b
 
         # E[ln p(μ, Λ)]
         def _fourth_term(K, XDim, beta0, beta, a0, a, b0, b, m, m0):
-            '''Private internal function to calculate the 4th term of the ELBO
-            
+            """Private internal function to calculate the 4th term of the ELBO
+
             Params:
                 K:
                 XDim:
@@ -263,7 +268,7 @@ class ELBO_Computation:
 
             Returns:
                 t:
-            '''
+            """
             t = 0
             for k in range(K):
                 for j in range(XDim):
@@ -294,7 +299,7 @@ class ELBO_Computation:
 
         # E[ln p(𝛾,𝛿)]
         def _fifth_term(XDim, d, C, T):
-            '''Private internal function to calculate the 5th term of the ELBO
+            """Private internal function to calculate the 5th term of the ELBO
 
             Params:
                 XDim:
@@ -304,7 +309,7 @@ class ELBO_Computation:
 
             Returns:
                 a:
-            '''
+            """
             a = 0
             for j in range(XDim):
                 F1 = (d + C[j] - 1) * self._ln_delta_annealed(C, j, d, T)
@@ -315,7 +320,7 @@ class ELBO_Computation:
 
         # E[ln q(Z)]
         def _sixth_term(Z, N, K):
-            '''Private internal function to calculate the 6th term of the ELBO
+            """Private internal function to calculate the 6th term of the ELBO
 
             Params:
                 Z:
@@ -324,7 +329,7 @@ class ELBO_Computation:
 
             Returns:
                 a:
-            '''
+            """
             a = 0
             for n in range(N):
                 for k in range(K):
@@ -337,32 +342,32 @@ class ELBO_Computation:
 
         # E[ln q(π)]
         def _seventh_term(alpha):
-            '''Private internal function to calculate the 7th term of the ELBO
+            """Private internal function to calculate the 7th term of the ELBO
 
             Params:
                 alpha:
 
             Returns:
                 a + b
-            '''
+            """
             a = sum([(alpha[k] - 1) * self._ln_pi(alpha, k) for k in range(K)])
             b = gammaln(sum(alpha)) - sum([gammaln(alpha[k]) for k in range(K)])
             return a + b
 
         # E[ln q(μ, Λ)]
         def _eighth_term(K, XDim, beta, a, b):
-            '''Private internal function to calculate the 8th term of the ELBO
-            
+            """Private internal function to calculate the 8th term of the ELBO
+
             Params:
                 K:
                 XDim:
                 beta:
                 a:
                 b:
-            
+
             Returns:
                 t:
-            '''
+            """
             t = 0
             for k in range(K):
                 for j in range(XDim):
@@ -376,19 +381,19 @@ class ELBO_Computation:
 
         # E[ln q(𝛾,𝛿)]
         def _ninth_term(XDim, d, delta, C, T):
-            '''Private internal function to calculate the 9th term of the ELBO
-            
+            """Private internal function to calculate the 9th term of the ELBO
+
             Params:
                 XDim:
                 d:
                 delta:
                 C:
                 T:
-                
+
             Returns:
                 F0 + F1
-                
-            '''
+
+            """
             F0 = (
                 2
                 * XDim
@@ -416,4 +421,4 @@ class ELBO_Computation:
         h_t = _eighth_term(K, XDim, beta, a, b)
         i_t = _ninth_term(XDim, d, delta, C, T)
 
-        return a_t + b_t + c_t + d_t + e_t - (f_t + g_t + h_t + i_t) * T    
+        return a_t + b_t + c_t + d_t + e_t - (f_t + g_t + h_t + i_t) * T

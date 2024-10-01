@@ -298,9 +298,9 @@ def calcZ(exp_ln_pi, exp_ln_gam, exp_ln_mu, f0, N, K, C, T):
         Z[:,k] = (exp_ln_pi[k] + 0.5*exp_ln_gam[k] - 0.5*sum(C)*np.log(2*math.pi) - 0.5*exp_ln_mu[:,k] + f0)/T
     #normalise ln Z:
     Z -= np.reshape(Z.max(axis=1),(N,1))
-    Z1 = np.exp(Z) / np.reshape(np.exp(Z).sum(axis=1), (N,1))
+    Z = np.exp(Z) / np.reshape(np.exp(Z).sum(axis=1), (N,1))
     
-    return Z1
+    return Z
 
 def normal(x, mu, sigma):
     '''Function to get a normal distribution

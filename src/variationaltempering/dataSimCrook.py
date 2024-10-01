@@ -50,7 +50,7 @@ class SimulateCrookData:
         true_labels = []  # Store the true labels
         for _ in range(self.n_observations):
             # Select mixture component based on proportions
-            component = np.random.choice([0, 1, 2], p=self.mixture_proportions)
+            component = np.random.choice(list(range(len(self.mixture_proportions))), p=self.mixture_proportions)
             true_labels.append(component)  # Store the true label
             mean_vector = np.full(self.n_relevant, self.means[component])
             sample = np.random.multivariate_normal(
@@ -99,24 +99,24 @@ class SimulateCrookData:
         self.SimulatedValues.shuffled_data = shuffled_data
 
     
-if __name__ == '__main__':
-    test = []
-    for n in range(100):
-        test.append(np.random.choice([0, 1, 2], p=[0.2, 0.3, 0.5]))
-    one = 0
-    two = 0
-    zero = 0
-    for t in test:
-        if t == 0:
-            zero += 1
-        if t == 1:
-            one += 1
-        else:
-            two += 1
+# if __name__ == '__main__':
+#     test = []
+#     for n in range(100):
+#         test.append(np.random.choice([0, 1, 2], p=[0.2, 0.3, 0.5]))
+#     one = 0
+#     two = 0
+#     zero = 0
+#     for t in test:
+#         if t == 0:
+#             zero += 1
+#         if t == 1:
+#             one += 1
+#         else:
+#             two += 1
     
-    print(f"zeroes: {zero/100}")
-    print(f"ones: {one/100}")
-    print(f"twos: {two/100}")
+#     print(f"zeroes: {zero/100}")
+#     print(f"ones: {one/100}")
+#     print(f"twos: {two/100}")
 
 
 

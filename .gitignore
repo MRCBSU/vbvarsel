@@ -2,5 +2,5 @@ virtualEnv/
 venv.ps1
 __pycache__/
 simulation_old.py
-.pytest_cache/
-simulation_studies_crook_results.csv
+.pytest
+*.csv

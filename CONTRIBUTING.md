@@ -1,92 +1,68 @@
-# Contributing
+# Contributing guidelines
 
-When contributing to this repository, please first discuss the change you wish to make via issue,
-email, or any other method with the owners of this repository before making a change. 
+We welcome any kind of contribution to our software, from simple comment or question to a full fledged [pull request](https://help.github.com/articles/about-pull-requests/). Please read and follow our [Code of Conduct](CODE_OF_CONDUCT.md).
 
-Please note we have a code of conduct, please follow it in all your interactions with the project.
+A contribution can be one of the following cases:
 
-## Pull Request Process
+1. you have a question;
+1. you think you may have found a bug (including unexpected behavior);
+1. you want to make some kind of change to the code base (e.g. to fix a bug, to add a new feature, to update documentation);
+1. you want to make a new release of the code base.
 
-1. Ensure any install or build dependencies are removed before the end of the layer when doing a 
-   build.
-2. Update the README.md with details of changes to the interface, this includes new environment 
-   variables, exposed ports, useful file locations and container parameters.
-3. Increase the version numbers in any examples files and the README.md to the new version that this
-   Pull Request would represent. The versioning scheme we use is [SemVer](http://semver.org/).
-4. You may merge the Pull Request in once you have the sign-off of two other developers, or if you 
-   do not have permission to do that, you may request the second reviewer to merge it for you.
+The sections below outline the steps in each case.
 
-## Code of Conduct
+## You have a question
 
-### Our Pledge
+1. use the search functionality [here](https://github.com/anardo9/vbvarsel/issues) to see if someone already filed the same issue;
+2. if your issue search did not yield any relevant results, make a new issue;
+3. apply the "Question" label; apply other labels when relevant.
 
-In the interest of fostering an open and welcoming environment, we as
-contributors and maintainers pledge to making participation in our project and
-our community a harassment-free experience for everyone, regardless of age, body
-size, disability, ethnicity, gender identity and expression, level of experience,
-nationality, personal appearance, race, religion, or sexual identity and
-orientation.
+## You think you may have found a bug
 
-### Our Standards
+1. use the search functionality [here](https://github.com/anardo9/vbvarsel/issues) to see if someone already filed the same issue;
+1. if your issue search did not yield any relevant results, make a new issue, making sure to provide enough information to the rest of the community to understand the cause and context of the problem. Depending on the issue, you may want to include:
+    - the [SHA hashcode](https://help.github.com/articles/autolinked-references-and-urls/#commit-shas) of the commit that is causing your problem;
+    - some identifying information (name and version number) for dependencies you're using;
+    - information about the operating system;
+1. apply relevant labels to the newly created issue.
 
-Examples of behavior that contributes to creating a positive environment
-include:
+## You want to make some kind of change to the code base
 
-* Using welcoming and inclusive language
-* Being respectful of differing viewpoints and experiences
-* Gracefully accepting constructive criticism
-* Focusing on what is best for the community
-* Showing empathy towards other community members
+1. (**important**) announce your plan to the rest of the community *before you start working*. This announcement should be in the form of a (new) issue;
+1. (**important**) wait until some kind of consensus is reached about your idea being a good idea;
+1. if needed, fork the repository to your own Github profile and create your own feature branch off of the latest main commit. While working on your feature branch, make sure to stay up to date with the main branch by pulling in changes, possibly from the 'upstream' repository (follow the instructions [here](https://help.github.com/articles/configuring-a-remote-for-a-fork/) and [here](https://help.github.com/articles/syncing-a-fork/));
+1. install dependencies (see the [development documentation](README.dev.md#development_install));
+1. make sure the existing tests still work by running ``pytest``;
+1. add your own tests (if necessary);
+1. update or expand the documentation;
+1. update the `CHANGELOG.md` file with your change;
+1. [push](http://rogerdudler.github.io/git-guide/) your feature branch to (your fork of) the vbvarsel repository on GitHub;
+1. create the pull request, e.g. following the instructions [here](https://help.github.com/articles/creating-a-pull-request/).
 
-Examples of unacceptable behavior by participants include:
+In case you feel like you've made a valuable contribution, but you don't know how to write or run tests for it, or how to generate the documentation: don't let this discourage you from making the pull request; we can help you! Just go ahead and submit the pull request, but keep in mind that you might be asked to append additional commits to your pull request.
 
-* The use of sexualized language or imagery and unwelcome sexual attention or
-advances
-* Trolling, insulting/derogatory comments, and personal or political attacks
-* Public or private harassment
-* Publishing others' private information, such as a physical or electronic
-  address, without explicit permission
-* Other conduct which could reasonably be considered inappropriate in a
-  professional setting
+## You want to make a new release of the code base
 
-### Our Responsibilities
+To create a release you need write permission on the repository.
 
-Project maintainers are responsible for clarifying the standards of acceptable
-behavior and are expected to take appropriate and fair corrective action in
-response to any instances of unacceptable behavior.
+1. Check the author list in [`CITATION.cff`](CITATION.cff)
+1. Bump the version using `bump-my-version bump <major|minor|patch>`. For example, `bump-my-version bump major` will increase major version numbers everywhere it's needed (code, meta, etc.) in the repo. Alternatively the version can be manually changed in vbvarsel/__init__.py, pyproject.toml, CITATION.cffand docs/conf.py (and other places it was possibly added).
+1. Update the `CHANGELOG.md` to include changes made
+1. Go to the [GitHub release page](https://github.com/anardo9/vbvarsel/releases)
+1. Press draft a new release button
+1. Fill version, title and description field
+1. Press the Publish Release button
+<!--
+For projects that automatically publish to PyPI using a release or publish workflow, something like the following could be useful to add (make sure to replace the names and links):
 
-Project maintainers have the right and responsibility to remove, edit, or
-reject comments, commits, code, wiki edits, issues, and other contributions
-that are not aligned to this Code of Conduct, or to ban temporarily or
-permanently any contributor for other behaviors that they deem inappropriate,
-threatening, offensive, or harmful.
+1. Wait until [PyPi publish workflow](https://github.com/anardo9/vbvarsel/actions/workflows/publish.yml) has completed
+1. Verify new release is on [PyPi](https://pypi.org/project/matchms/#history)
+-->
+<!--
+For projects that also build conda packages, e.g. on conda-forge or Bioconda, something like the following could be useful to add (example taken from matchms, make sure to replace the names and links):
 
-### Scope
+1. Wait until new release is also on Bioconda (https://anaconda.org/bioconda/vbvarsel) via a automaticly created PR on [bioconda recipes repo](https://github.com/bioconda/bioconda-recipes/pulls?q=is%3Apr+is%3Aopen+vbvarsel)
+1. Test vbvarsel from bioconda by manually running [Conda verify](https://github.com/anardo9/vbvarsel/actions/workflows/conda_verify.yml) workflow
+-->
 
-This Code of Conduct applies both within project spaces and in public spaces
-when an individual is representing the project or its community. Examples of
-representing a project or community include using an official project e-mail
-address, posting via an official social media account, or acting as an appointed
-representative at an online or offline event. Representation of a project may be
-further defined and clarified by project maintainers.
-
-### Enforcement
-
-Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported by contacting the project team at [INSERT EMAIL ADDRESS]. All
-complaints will be reviewed and investigated and will result in a response that
-is deemed necessary and appropriate to the circumstances. The project team is
-obligated to maintain confidentiality with regard to the reporter of an incident.
-Further details of specific enforcement policies may be posted separately.
-
-Project maintainers who do not follow or enforce the Code of Conduct in good
-faith may face temporary or permanent repercussions as determined by other
-members of the project's leadership.
-
-### Attribution
-
-This Code of Conduct is adapted from the [Contributor Covenant][homepage], version 1.4,
-available at [http://contributor-covenant.org/version/1/4][version]
-
-[homepage]: http://contributor-covenant.org
-[version]: http://contributor-covenant.org/version/1/4/
+Also a Zenodo entry will be made for the release with its own DOI.
