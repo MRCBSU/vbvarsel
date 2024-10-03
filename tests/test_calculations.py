@@ -1,4 +1,4 @@
-from variationaltempering.calcparams import *
+from vbvarsel.calcparams import *
 import numpy as np
 # X 'calcAkj_annealed', 
 # X 'calcAlphak_annealed', 

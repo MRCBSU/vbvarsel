@@ -70,12 +70,12 @@ def calcS(Z, X, xd):
     '''Function to calculate S
 
     Params:
-        Z:
-        X:
-        xd:
+        Z: ndarray
+        X: ndarray
+        xd: ndarray
     
     Returns:
-        S
+        S: ndarray
     
     '''
     K = Z.shape[1]

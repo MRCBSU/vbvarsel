@@ -4,3 +4,6 @@ __pycache__/
 simulation_old.py
 .pytest
 *.csv
+*.egg-info
+*.pytest_cache
+main.py

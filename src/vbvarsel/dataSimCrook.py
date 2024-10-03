@@ -1,5 +1,5 @@
 import numpy as np
-from experiment_data import SimulatedValues
+from .experiment_data import SimulatedValues
 
 class SimulateCrookData:
     """

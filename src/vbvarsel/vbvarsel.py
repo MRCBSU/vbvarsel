@@ -4,13 +4,12 @@ import time
 import os
 from datetime import datetime
 
-from dataSimCrook import SimulateCrookData
-from global_parameters import Hyperparameters, SimulationParameters
-from calcparams import *
-from elbo import ELBO_Computation
-from custodian import UserDataHandler
+from .dataSimCrook import SimulateCrookData
+from .global_parameters import Hyperparameters, SimulationParameters
+from .calcparams import * #pretty much anything that starts with calc is from here
+from .elbo import ELBO_Computation
+from .custodian import UserDataHandler
 
-from scipy.stats import beta
 from sklearn.metrics import adjusted_rand_score
 
 from dataclasses import dataclass, field
@@ -71,7 +70,7 @@ class _Results:
     
     def save_results(self, path):
         savetime = datetime.now().strftime("%m_%d_%Y_%H_%M_%S")
-        savefile = f"results{savetime}.csv"
+        savefile = f"results-{savetime}.csv"
         results_out = pd.DataFrame(self.__dict__)
         results_out.to_csv(path_or_buf=os.path.join(path, savefile), index=False)
 
@@ -302,8 +301,8 @@ def _run_sim(
 
 def main(simulation_parameters: SimulationParameters, 
          hyperparameters: Hyperparameters,
-         Ctrick = True,
-         user_data = None,
+         Ctrick:bool = True,
+         user_data:np.ndarray = None,
          annealing_type:str="fixed",
          save_output:bool=False):
     '''Function that runs the simulation.
@@ -313,10 +312,22 @@ def main(simulation_parameters: SimulationParameters,
             An object of simulation paramaters to apply to the simulation. 
         hyperparameters: Hyperparameters
             An object of hyperparamters to apply to the simulation.
+        Ctrick: bool
+            Flag to determine whether or not to apply replica trick to the 
+            simulation (Default True)
+        user_data: np.ndarray
+            Optional parameter to allow users to supply their own data rather
+            than working on a simulated dataset. User data MUST be in a 2-D 
+            array, using the functions in the `custodian.py` module will reformat 
+            and shuffle data to match the required format. (Default None)
         annealing_type: str
-            The type of annealing to apply to the simulation, can be one of
+            Optional type of annealing to apply to the simulation, can be one of
             "geometric", "harmonic" or "fixed", the latter of which does not
             apply any annealing. (Default "fixed")
+        save_output: bool
+            Optional flag for users to save their output to a csv file. Data is
+            saved in the current working directory with the file naming format
+            "results-timestamp.csv". (Default False)
     '''
 
     results = _Results() 

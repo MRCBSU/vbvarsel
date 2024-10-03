@@ -1,6 +1,6 @@
 # import sys
 # sys.path.append(r"C:\Users\Alan\Desktop\dev\variationalTempering_beta\src")
-from variationaltempering.global_parameters import Hyperparameters, SimulationParameters
+from vbvarsel.global_parameters import Hyperparameters, SimulationParameters
 
 def test_default_hyperparameters():
     default_hypers = Hyperparameters()

@@ -3,12 +3,17 @@
 cff-version: "1.2.0"
 title: "vbvarsel"
 authors:
+  - family-names: Kirk
+    given-names: Paul
+    orcid: "https://orcid.org/0000-0000-0000-0000"
+  - family-names: Prevot
+    given-names: Emma
+    oricid: "https://orcid.org/0000-0000-0000-0000"
   - family-names: Nardo
     given-names: Alan
-    orcid: "https://orcid.org/0000-0000-0000-0000"
 date-released: 2024-10-01
 version: "0.0.1"
-repository-code: "https://github.com/anardo9/vbvarsel"
+repository-code: "https://github.com/anardo9/vbvarsel" #change this later when its moved onto the unit gh
 keywords:
   - ""
 message: "If you use this software, please cite it using these metadata."

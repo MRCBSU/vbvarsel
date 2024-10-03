@@ -319,16 +319,16 @@ class ELBO_Computation:
             return a
 
         # E[ln q(Z)]
-        def _sixth_term(Z, N, K):
+        def _sixth_term(Z:np.ndarray, N:int, K:int):
             """Private internal function to calculate the 6th term of the ELBO
 
             Params:
-                Z:
-                N:
-                K:
+                Z: ndarray
+                N: int
+                K: int
 
             Returns:
-                a:
+                a: ndarray
             """
             a = 0
             for n in range(N):
@@ -341,11 +341,12 @@ class ELBO_Computation:
             return a
 
         # E[ln q(π)]
-        def _seventh_term(alpha):
+        def _seventh_term(alpha:np.ndarray):
             """Private internal function to calculate the 7th term of the ELBO
 
             Params:
-                alpha:
+                alpha: float
+                    Calculated alpha value from `calcparams.calcAlphak()`
 
             Returns:
                 a + b
@@ -359,14 +360,14 @@ class ELBO_Computation:
             """Private internal function to calculate the 8th term of the ELBO
 
             Params:
-                K:
-                XDim:
-                beta:
-                a:
-                b:
+                K: int
+                XDim: int
+                beta: ndarray[float]
+                a: ndarray[float]
+                b: ndarray[float]
 
-            Returns:
-                t:
+            Returns: 
+                t: float
             """
             t = 0
             for k in range(K):

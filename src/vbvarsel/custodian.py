@@ -2,8 +2,7 @@ import numpy as np
 import pandas as pd
 import typing
 import os
-import pathlib
-from experiment_data import SimulatedValues
+from .experiment_data import SimulatedValues
 
 class UserDataHandler:
 
@@ -81,10 +80,10 @@ class UserDataHandler:
         else:
             self.SimulatedValues.data = raw_data
 
-    def save_data(data: pd.DataFrame, filename: str, save_path: pathlib.Path, with_index:bool=False):
+    # def save_data(data: pd.DataFrame, filename: str, save_path: pathlib.Path, with_index:bool=False):
 
-        data.to_csv(path_or_buf=os.path.join(save_path, filename), index=with_index)
-        print(f"{filename} saved to {save_path}.")
+    #     data.to_csv(path_or_buf=os.path.join(save_path, filename), index=with_index)
+    #     print(f"{filename} saved to {save_path}.")
 
 
 # if __name__ == '__main__':
