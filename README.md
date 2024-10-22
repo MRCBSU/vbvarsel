@@ -43,6 +43,35 @@ Some things to note when customising parameters:
 
 Hyperparameters affect equation itself, such as how many iterations the model will have, the annealing temperature, the threshold for the convergence and so on. More information on the hyperparameters can be found within the docstrings. These as well have default values, but can be altered by the user if desired. 
 
+```
+default Hyperparameter values are:
+#Threshold for the ELBO convergence
+threshold = 1e-1
+
+#Number of components to inference
+k1 = 5 
+
+#Prior coefficient count for Dirichlet prior
+alpha0 = 1/(K1) #cabassi
+
+#Shrinkage parameter of the Gaussian conditional prior
+beta0 = (1e-3)*1.
+
+#Degrees of freedom for the Gamma prior
+a0 = 3.
+    
+#Shape parameter of the Beta distribution
+d = 1
+
+#Maximum starting annealing temperature (by default no annealing is applied)
+t_max = 1.
+
+#Maximum number of iterations for the simulation
+max_itr = 25
+
+#Maximum number of models
+max_models = 10
+```
 ### Entry point
 
 The packages entry point is `vbvarsel.main()`, and this where all the parameters will be passed. If they are not passed, they will be generated using default values. Users may supply their own data to use in the package. If no data is provided, data will be simulated according to [Crook et al (2019)](https://pubmed.ncbi.nlm.nih.gov/31119032/)'s methodology. 
@@ -50,12 +79,12 @@ The packages entry point is `vbvarsel.main()`, and this where all the parameters
 Data is processed through the simulation to identify clustering of relevant data. An optional `save_output` parameter can be passed to save the data, as well as a path to the targeted directory. If no path is provided, data will be saved in the current working directory.
 
 ```
-from vbvarsel import vbvarsel
+from vbvarsel import vbvarsel as vbvs
 
-sim_params = vbvarsel.SimulationParameters()
-hyp_params = vbvarsel.Hyperparameters()
+sim_params = vbvs.SimulationParameters()
+hyp_params = vbvs.Hyperparameters()
 
-vbarsel.main(sim_params, hyp_params)
+vbs.main(sim_params, hyp_params)
 ```
 
 ### Contributing
