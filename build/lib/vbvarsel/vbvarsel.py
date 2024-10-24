@@ -337,6 +337,10 @@ def main(simulation_parameters: SimulationParameters,
 
     results = _Results() 
 
+    test_data = UserDataHandler()
+    test_data.load_data(user_data, normalise=True)
+    perms = test_data.SimulatedValues.permutations
+    
     for p, q in enumerate(simulation_parameters.n_observations):
         for n, o in enumerate(simulation_parameters.n_relevants):
             for i in range(hyperparameters.max_models):
@@ -360,10 +364,7 @@ def main(simulation_parameters: SimulationParameters,
                     crook_data = test_data.data_sim()
                     perms = test_data.permutation()
                     test_data.shuffle_sim_data(crook_data, perms)
-                else:
-                    test_data = UserDataHandler()
-                    test_data.load_data(user_data, normalise=True)
-                    perms = test_data.SimulatedValues.permutations
+                
                 N, XDim = np.shape(test_data.SimulatedValues.data)
                 C = np.ones(XDim)  
                 W0 = (1e-1)*np.eye(XDim) #prior cov (bigger: smaller covariance)

@@ -306,7 +306,9 @@ def _run_sim(
 def main(simulation_parameters: SimulationParameters, 
          hyperparameters: Hyperparameters,
          Ctrick:bool = True,
-         user_data:np.ndarray = None,
+         user_data: pd.DataFrame = None,
+         user_labels: list = None,
+         cols_to_skip: str | list = None,
          annealing_type:str="fixed",
          save_output:bool=False):
     '''Function that runs the simulation.
@@ -320,10 +322,7 @@ def main(simulation_parameters: SimulationParameters,
             Flag to determine whether or not to apply replica trick to the 
             simulation (Default True)
         user_data: np.ndarray
-            Optional parameter to allow users to supply their own data rather
-            than working on a simulated dataset. User data MUST be in a 2-D 
-            array, using the functions in the `custodian.py` module will reformat 
-            and shuffle data to match the required format. (Default None)
+            
         annealing_type: str
             Optional type of annealing to apply to the simulation, can be one of
             "geometric", "harmonic" or "fixed", the latter of which does not
@@ -336,6 +335,9 @@ def main(simulation_parameters: SimulationParameters,
 
 
     results = _Results() 
+
+    user_data = UserDataHandler().load_data(data_source=user_data, cols_to_ignore=cols_to_skip, labels=user_labels)
+    #instantiate user data outside of the loop, because most of the loop is for creating the simulated data.
 
     for p, q in enumerate(simulation_parameters.n_observations):
         for n, o in enumerate(simulation_parameters.n_relevants):
@@ -361,9 +363,10 @@ def main(simulation_parameters: SimulationParameters,
                     perms = test_data.permutation()
                     test_data.shuffle_sim_data(crook_data, perms)
                 else:
-                    test_data = UserDataHandler()
-                    test_data.load_data(user_data, normalise=True)
-                    perms = test_data.SimulatedValues.permutations
+                    test_data = user_data
+                    # test_data.load_data(user_data, labels=user_labels, cols_to_skip=cols_to_skip)
+                    # perms = test_data.SimulatedValues.permutations
+                            
                 N, XDim = np.shape(test_data.SimulatedValues.data)
                 C = np.ones(XDim)  
                 W0 = (1e-1)*np.eye(XDim) #prior cov (bigger: smaller covariance)

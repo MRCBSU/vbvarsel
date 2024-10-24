@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import typing
 import os
+from sklearn.preprocessing import LabelEncoder
 from .experiment_data import SimulatedValues
 
 class UserDataHandler:
@@ -11,11 +12,7 @@ class UserDataHandler:
 
     def normalise_data(self, data: pd.DataFrame) -> list:
         '''Function that returns a normalised dataframe from a non-normalised input.'''
-        #in the sample datasets, the 0th column was the DNA sequences, so we save that
-        # to a list as the True Labels
 
-        self.SimulatedValues.true_labels = data[data.columns[0]].to_list()
-        data.drop(data.columns[0], axis=1, inplace=True)
         # Compute the mean and standard deviation of each column
         mean = np.mean(data, axis=0)
         std = np.std(data, axis=0)
@@ -27,7 +24,7 @@ class UserDataHandler:
         return array_normalized
 
     def shuffle_normalised_data(self,
-        normalised_data: np.ndarray, 
+        normalised_data: np.ndarray,
         out: int = 0
     ) -> typing.Union[pd.Series, np.ndarray]:
         '''Shuffles a DataFrame of normalised data.
@@ -56,10 +53,15 @@ class UserDataHandler:
         self.SimulatedValues.shuffled_data = shuffled_data
         self.SimulatedValues.permutations = shuffled_indices
         return shuffled_data, shuffled_indices
-
-
-    def load_data(self, data_loc: str | os.PathLike, 
-                normalise: bool = False) -> list:
+    
+    def load_data(
+                self, 
+                data_source: pd.DataFrame,
+                cols_to_ignore: list,
+                labels: str | list = None,
+                header: int = 0,
+                index_col: bool = False,
+                ) -> None:
         """Loads data to be be used in simulations with option to clean data.
 
         Parameters:
@@ -70,25 +72,23 @@ class UserDataHandler:
             A flag to enable pre-determined cleaning.
 
         Returns:
-
-        raw_data|shuffled_data: list
-            An array of data.
+            None
         """
 
-        raw_data = pd.read_csv(data_loc, header=0)
-        if normalise:
+        raw_data = pd.read_csv(data_source, index_col=index_col)
+        raw_data = raw_data.drop([cols_to_ignore], axis=1)
+        normalised_data = self.normalise_data(raw_data)
+        self.shuffle_normalised_data(normalised_data)
 
-            normalised_data = self.normalise_data(raw_data)
-            shuffled_data = self.shuffle_normalised_data(normalised_data)
+        if isinstance(labels, str):
+            self.SimulatedValues.true_labels = raw_data[labels].to_numpy()
         else:
-            self.SimulatedValues.data = raw_data
-
+            self.SimulatedValues.true_labels = np.array(labels)
     # def save_data(data: pd.DataFrame, filename: str, save_path: pathlib.Path, with_index:bool=False):
 
     #     data.to_csv(path_or_buf=os.path.join(save_path, filename), index=with_index)
     #     print(f"{filename} saved to {save_path}.")
 
 
-if __name__ == '__main__':
-    UserDataHandler().load_data(r"C:\Users\Alan\Desktop\dev\\test importing\9_BRCA.pam50.50.csv",
-                                normalise=True)
+# if __name__ == '__main__':
+    # UserDataHandler().load_data(r"C:\Users\Alan\Desktop\dev\\test importing\9_BRCA.pam50.50.csv")

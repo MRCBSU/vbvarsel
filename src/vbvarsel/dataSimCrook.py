@@ -52,6 +52,7 @@ class SimulateCrookData:
             # Select mixture component based on proportions
             component = np.random.choice(list(range(len(self.mixture_proportions))), p=self.mixture_proportions)
             true_labels.append(component)  # Store the true label
+            
             mean_vector = np.full(self.n_relevant, self.means[component])
             sample = np.random.multivariate_normal(
                 mean_vector, self.variance_covariance_matrix

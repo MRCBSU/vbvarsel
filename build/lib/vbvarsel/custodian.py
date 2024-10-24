@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import typing
 import os
+from sklearn.preprocessing import LabelEncoder
 from .experiment_data import SimulatedValues
 
 class UserDataHandler:
@@ -14,7 +15,9 @@ class UserDataHandler:
         #in the sample datasets, the 0th column was the DNA sequences, so we save that
         # to a list as the True Labels
 
-        self.SimulatedValues.true_labels = data[data.columns[0]].to_list()
+        true_labels = data[data.columns[0]].to_list()
+        encoded_labels = LabelEncoder.transform(true_labels)
+        self.SimulatedValues.true_labels = encoded_labels
         data.drop(data.columns[0], axis=1, inplace=True)
         # Compute the mean and standard deviation of each column
         mean = np.mean(data, axis=0)
