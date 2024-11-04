@@ -3,12 +3,12 @@ import pandas as pd
 import typing
 import os
 from sklearn.preprocessing import LabelEncoder
-from .experiment_data import SimulatedValues
+from .experiment_data import ExperimentValues
 
 class UserDataHandler:
 
     def __init__(self):
-        self.SimulatedValues = SimulatedValues()
+        self.ExperimentValues = ExperimentValues()
 
     def normalise_data(self, data: pd.DataFrame) -> list:
         '''Function that returns a normalised dataframe from a non-normalised input.'''
@@ -20,7 +20,7 @@ class UserDataHandler:
         # Subtract the mean and divide by the standard deviation
         array_normalized = (data - mean) / std
         array_normalized = array_normalized.to_numpy()
-        self.SimulatedValues.data = array_normalized
+        self.ExperimentValues.data = array_normalized
         return array_normalized
 
     def shuffle_normalised_data(self,
@@ -50,8 +50,8 @@ class UserDataHandler:
         # Shuffle the columns of the matrix
         shuffled_data = normalised_data[:, shuffled_indices]
         
-        self.SimulatedValues.shuffled_data = shuffled_data
-        self.SimulatedValues.permutations = shuffled_indices
+        self.ExperimentValues.shuffled_data = shuffled_data
+        self.ExperimentValues.permutations = shuffled_indices
         return shuffled_data, shuffled_indices
     
     def load_data(
@@ -68,6 +68,8 @@ class UserDataHandler:
 
         data_loc: str|os.Pathlike
             The file location of the spreadsheet, must be in CSV format.
+            IMPORTANT Format note: Columns should be variables, and Rows should be observation.
+            Header rows and index column will not be loaded. CSV must only have numerical values.
         normalise: bool, optional
             A flag to enable pre-determined cleaning.
 
@@ -81,9 +83,9 @@ class UserDataHandler:
         self.shuffle_normalised_data(normalised_data)
 
         if isinstance(labels, str):
-            self.SimulatedValues.true_labels = raw_data[labels].to_numpy()
+            self.ExperimentValues.true_labels = raw_data[labels].to_numpy()
         else:
-            self.SimulatedValues.true_labels = np.array(labels)
+            self.ExperimentValues.true_labels = np.array(labels)
     # def save_data(data: pd.DataFrame, filename: str, save_path: pathlib.Path, with_index:bool=False):
 
     #     data.to_csv(path_or_buf=os.path.join(save_path, filename), index=with_index)

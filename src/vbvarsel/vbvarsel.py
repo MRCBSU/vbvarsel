@@ -19,8 +19,8 @@ class _Results:
     '''Dataclass to store the results of the simulation.'''
     convergence_ELBO: list[float] = field(default_factory=list)
     convergence_itr: list[int] = field(default_factory=list)
-    # clust_predictions: list[int] = field(default_factory=list)
-    # variable_selected: list[np.ndarray[float]] = field(default_factory=list)
+    clust_predictions: list[int] = field(default_factory=list)
+    variable_selected: list[np.ndarray[float]] = field(default_factory=list)
     runtimes: list[float] = field(default_factory=list)
     ARIs: list[float] = field(default_factory=list)
     relevants: list[int] = field(default_factory=list)
@@ -36,13 +36,13 @@ class _Results:
         '''Function to append convergence iteration.'''
         self.convergence_itr.append(iteration)
 
-    # def add_prediction(self, predictions:list[int]) -> None:
-    #     '''Function to append predicted cluster.'''
-    #     self.clust_predictions.append(predictions)
+    def add_prediction(self, predictions:list[int]) -> None:
+        '''Function to append predicted cluster.'''
+        self.clust_predictions.append(predictions)
     
-    # def add_selected_variables(self, variables: np.ndarray[float]) -> None:
-    #     '''Function to append selected variables.'''
-    #     self.variable_selected.append(variables)
+    def add_selected_variables(self, variables: np.ndarray[float]) -> None:
+        '''Function to append selected variables.'''
+        self.variable_selected.append(variables)
 
     def add_runtimes(self, runtime: float) -> None:
         '''Function to append runtime.'''
@@ -307,8 +307,8 @@ def main(simulation_parameters: SimulationParameters,
          hyperparameters: Hyperparameters,
          Ctrick:bool = True,
          user_data: pd.DataFrame = None,
-         user_labels: list = None,
-         cols_to_skip: str | list = None,
+         user_labels: list[str] = None,
+         cols_to_skip: str | list[str] = None,
          annealing_type:str="fixed",
          save_output:bool=False):
     '''Function that runs the simulation.
@@ -336,21 +336,30 @@ def main(simulation_parameters: SimulationParameters,
 
     results = _Results() 
 
-    user_data = UserDataHandler().load_data(data_source=user_data, cols_to_ignore=cols_to_skip, labels=user_labels)
+    if user_data:
+        test_data = UserDataHandler()
+        test_data.load_data(data_source=user_data, cols_to_ignore=cols_to_skip, labels=user_labels)
+        simulation_parameters.n_observations = [test_data.ExperimentValues.data.shape[0]]
+        simulation_parameters.n_relevants = [test_data.ExperimentValues.data.shape[0]]
+        perms = test_data.ExperimentValues.permutations
     #instantiate user data outside of the loop, because most of the loop is for creating the simulated data.
 
-    for p, q in enumerate(simulation_parameters.n_observations):
-        for n, o in enumerate(simulation_parameters.n_relevants):
+    ####BEGIN SIMULATION ONLY
+    #IF USER DATA IGNORE THE FIRST TWO LOOPS
+    #FOR USER DATA RUN ONLY MAX MODELS AMOUNT OF TIMES
+    for p, q in enumerate(simulation_parameters.n_observations): #nrows of user data [100]
+        for n, o in enumerate(simulation_parameters.n_relevants): #nrows or anything [100]
             for i in range(hyperparameters.max_models):
-
+                
+                #COMMENT/DELETE after
                 print("Model " + str(i))
                 print("obs " + str(q))
                 print("rel " + str(o))
                 
-                results.add_relevants(simulation_parameters.n_relevants[n])
-                results.add_observations(simulation_parameters.n_observations[p])
-                variance_covariance_matrix = np.identity(simulation_parameters.n_relevants[n])
                 if user_data == None:
+                    results.add_relevants(simulation_parameters.n_relevants[n])
+                    results.add_observations(simulation_parameters.n_observations[p])
+                    variance_covariance_matrix = np.identity(simulation_parameters.n_relevants[n])
                     test_data = SimulateCrookData(
                         simulation_parameters.n_observations[p],
                         simulation_parameters.n_variables,
@@ -362,22 +371,20 @@ def main(simulation_parameters: SimulationParameters,
                     crook_data = test_data.data_sim()
                     perms = test_data.permutation()
                     test_data.shuffle_sim_data(crook_data, perms)
-                else:
-                    test_data = user_data
-                    # test_data.load_data(user_data, labels=user_labels, cols_to_skip=cols_to_skip)
-                    # perms = test_data.SimulatedValues.permutations
-                            
-                N, XDim = np.shape(test_data.SimulatedValues.data)
+
+                
+                ##THIS APPLIES TO EVERYTHING (SIMULATED AND NON-SIMULATED)
+                N, XDim = np.shape(test_data.ExperimentValues.data)
                 C = np.ones(XDim)  
                 W0 = (1e-1)*np.eye(XDim) #prior cov (bigger: smaller covariance)
                 m0 = np.zeros(XDim) #prior mean
                 for j in range(XDim):
-                    m0[j] = np.mean(test_data.SimulatedValues.data[:, j])
+                    m0[j] = np.mean(test_data.ExperimentValues.data[:, j])
                 
                 start_time = time.time()
                 # Measure the execution time of the following code
                 Z, lower_bound, Cs, iterations = _run_sim(
-                    X=test_data.SimulatedValues.shuffled_data,
+                    X=test_data.ExperimentValues.shuffled_data,
                     hyperparameters=hyperparameters,
                     m0=m0,
                     b0=W0,
@@ -395,33 +402,66 @@ def main(simulation_parameters: SimulationParameters,
         
                 clust_pred = [np.argmax(r) for r in Z]
                 clust_pred = [int(x) for x in clust_pred]
-        
-                ari = adjusted_rand_score(np.array(test_data.SimulatedValues.true_labels),
-                                          np.array(clust_pred))
-                results.add_ari(ari)
+                results.add_prediction(clust_pred)
+            
+                #only with true labels
+                #expected value for pam50 ~0.5 or so
+                if ((user_labels is not None) and (len(user_labels) > 0)) or (not user_data):
+                    ari = adjusted_rand_score(np.array(test_data.ExperimentValues.true_labels),
+                                            np.array(clust_pred))
+                    results.add_ari(ari)
+                else:
+                    results.add_ari(np.nan)
         
                 original_order = np.argsort(perms)
+                #ADD THIS TO THE RESULTS OBJECT
                 var_selection_ordered = np.around(np.array(Cs)[original_order])
-                
+                results.add_selected_variables(var_selection_ordered)
+                ###TO END ONLY FOR SIMULATION
                 #Find correct relevant variables
-                unique_counts, counts = np.unique(
-                    np.around(var_selection_ordered[:simulation_parameters.n_relevants[n]]),
-                     return_counts=True
-                     )
-                # Extract the counts of the specific element from the counts array
-                rel_counts_of_element = _extract_els(1, unique_counts, counts)
-                results.add_correct_rel_vars(rel_counts_of_element)        
+                if user_data == None:
+                    unique_counts, counts = np.unique(
+                        np.around(var_selection_ordered[:simulation_parameters.n_relevants[n]]),
+                        return_counts=True
+                        )
+                    # Extract the counts of the specific element from the counts array
+                    rel_counts_of_element = _extract_els(1, unique_counts, counts)
+                    results.add_correct_rel_vars(rel_counts_of_element)        
 
-                #Find correct irrelevant variables
-                unique_counts, counts = np.unique(
-                    np.around(var_selection_ordered[simulation_parameters.n_relevants[n]:]),
-                     return_counts=True
-                     )
+                    #Find correct irrelevant variables
+                    unique_counts, counts = np.unique(
+                        np.around(var_selection_ordered[simulation_parameters.n_relevants[n]:]),
+                        return_counts=True
+                        )
 
-                # Extract the counts of the specific element from the counts array
-                irr_counts_of_element = _extract_els(0, unique_counts, counts)
-                results.add_correct_irr_vars(irr_counts_of_element)
+                    # Extract the counts of the specific element from the counts array
+                    irr_counts_of_element = _extract_els(0, unique_counts, counts)
+                    results.add_correct_irr_vars(irr_counts_of_element)    
+                else:
+                    #because theres no values, the arrays arent the same length and it cant be saved
+                    #so this is kind of hacky but it works
+                    results.add_correct_irr_vars(np.nan)
+                    results.add_correct_rel_vars(np.nan)
+                    results.add_relevants(np.nan)
+                    results.add_observations(np.nan)
 
+
+                #USERS SHOULD GET CSV WITH RUNTIME, CONVERGENCE, ELBO, ARI (if labels), VAR_SELECTION_ORDERED AND CLUST PREDICTIONS
+                # print(results)
+                print(f"conv: {results.convergence_ELBO}")
+                print(f"iter: {results.convergence_itr}")
+                print(f"clusters: {results.clust_predictions}")
+                print(f"var sel: {results.variable_selected}")
+                print(f"time: {results.runtimes}")
+                print(f"aris: {results.ARIs}")
+                print(f"rels: {results.relevants}")
+                print(f"obs: {results.observations}")
+    if save_output:
+        print(results)
+        results.save_results(os.getcwd())
+    return results
+
+#USERS SHOULD GET CSV WITH RUNTIME, CONVERGENCE, ELBO, ARI (if labels), VAR_SELECTION_ORDERED AND CLUST PREDICTIONS
     # print(results)
     # print(f"conv: {results.convergence_ELBO}")
     # print(f"iter: {results.convergence_itr}")
@@ -432,11 +472,10 @@ def main(simulation_parameters: SimulationParameters,
     # print(f"rels: {results.relevants}")
     # print(f"obs: {results.observations}")
 
-    if save_output:
-        results.save_results(os.getcwd())
 
 
-# if __name__ == "__main__":
+
+if __name__ == "__main__":
 
 #     # simulationparameters = SimulationParameters([10,100], 50, [2,4,6], [0.2, 0.4, 0.7], [0,-2,2])
 #     # print(simulationparameters.means[0])
@@ -446,14 +485,14 @@ def main(simulation_parameters: SimulationParameters,
 #     with cProfile.Profile() as profile:
 
 
-    # hp = Hyperparameters(max_models=10)
-    # sp = SimulationParameters(
-    #     n_observations=[10, 100,1000],
-    #     n_variables=200,
-    #     n_relevants=[10, 20, 50, 100],
-    #     mixture_proportions=[0.2, 0.3, 0.5])
+    hp = Hyperparameters(max_models=10)
+    sp = SimulationParameters(
+        n_observations=[10, 100,1000],
+        n_variables=200,
+        n_relevants=[10, 20, 50, 100],
+        mixture_proportions=[0.2, 0.3, 0.5])
     
-    # main(sp, hp, save_output=True, Ctrick=True, user_data="test_input.csv")
+    main(sp, hp) #, save_output=True, Ctrick=True, user_data="test_input.csv")
 
 #     pres = pstats.Stats(profile)
 #     pres.sort_stats(pstats.SortKey.TIME)
@@ -464,4 +503,4 @@ def main(simulation_parameters: SimulationParameters,
 
 #     # df = UserDataHandler.load_data("BRCA.pam50.csv")
 #     # UserDataHandler.normalise_data(df)
-#     # print(UserDataHandler.SimulatedValues.data)
+#     # print(UserDataHandler.ExperimentValues.data)

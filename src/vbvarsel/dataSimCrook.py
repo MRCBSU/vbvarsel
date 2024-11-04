@@ -1,5 +1,5 @@
 import numpy as np
-from .experiment_data import SimulatedValues
+from .experiment_data import ExperimentValues
 
 class SimulateCrookData:
     """
@@ -41,7 +41,7 @@ class SimulateCrookData:
         self.mixture_proportions = mixture_proportions
         self.means = means
         self.variance_covariance_matrix = variance_covariance_matrix
-        self.SimulatedValues = SimulatedValues()
+        self.ExperimentValues = ExperimentValues()
 
 
     def relevant_vars(self) -> np.ndarray:
@@ -60,7 +60,7 @@ class SimulateCrookData:
             samples.append(sample)
 
         # Convert list of samples to numpy array
-        self.SimulatedValues.true_labels = true_labels
+        self.ExperimentValues.true_labels = true_labels
         return np.array(samples)
 
 
@@ -76,14 +76,14 @@ class SimulateCrookData:
         relevant_variables = self.relevant_vars()
         irrelevant_variables = self.irrelevant_vars()
         data = np.hstack((relevant_variables, irrelevant_variables))
-        self.SimulatedValues.data = data
+        self.ExperimentValues.data = data
         return data
 
 
     def permutation(self) -> np.ndarray:
         """Returns permutations for simulation."""
         permutations = np.random.permutation(self.n_variables)
-        self.SimulatedValues.permutations = permutations
+        self.ExperimentValues.permutations = permutations
         return permutations
 
 
@@ -97,7 +97,7 @@ class SimulateCrookData:
                 Array of permutations generated from `self.permutations()`
         """
         shuffled_data = data[:, permutation]
-        self.SimulatedValues.shuffled_data = shuffled_data
+        self.ExperimentValues.shuffled_data = shuffled_data
 
     
 # if __name__ == '__main__':
@@ -123,6 +123,6 @@ class SimulateCrookData:
 
     # scd = SimulateCrookData(10, 100, 10, [0.5, 0.3, 0.2], [0, 2, -2],  np.identity(10))
     # scd.relevant_vars()
-    # print(scd.SimulatedValues.true_labels)
+    # print(scd.ExperimentValues.true_labels)
 
     

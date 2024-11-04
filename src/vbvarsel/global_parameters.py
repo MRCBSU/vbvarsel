@@ -52,7 +52,7 @@ class Hyperparameters:
         # nifty little hack to temporarily unfreeze the class and set alpha0
         object.__setattr__(self, 'alpha0', 1/self.k1)
 
-@dataclass(frozen=True, order=True)
+@dataclass(order=True)
 class SimulationParameters:
     '''Class representing the simulation parameters.
     
