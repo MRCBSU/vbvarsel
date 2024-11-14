@@ -1,0 +1,118 @@
+vbvarsel.global_parameters
+==========================
+
+.. py:module:: vbvarsel.global_parameters
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   vbvarsel.global_parameters.Hyperparameters
+   vbvarsel.global_parameters.SimulationParameters
+
+
+Module Contents
+---------------
+
+.. py:class:: Hyperparameters
+
+   Class representing the hyperparameters for the simulation.
+
+
+   .. py:attribute:: threshold
+      :type:  float
+      :value: 0.1
+
+
+
+   .. py:attribute:: k1
+      :type:  int
+      :value: 5
+
+
+
+   .. py:attribute:: alpha0
+      :type:  float
+
+
+   .. py:attribute:: a0
+      :type:  int
+      :value: 3
+
+
+
+   .. py:attribute:: beta0
+      :type:  float
+      :value: 0.001
+
+
+
+   .. py:attribute:: d0
+      :type:  int
+      :value: 1
+
+
+
+   .. py:attribute:: t_max
+      :type:  int
+      :value: 1
+
+
+
+   .. py:attribute:: max_itr
+      :type:  int
+      :value: 25
+
+
+
+   .. py:attribute:: max_annealed_itr
+      :type:  int
+      :value: 10
+
+
+
+   .. py:attribute:: max_models
+      :type:  int
+      :value: 10
+
+
+
+   .. py:method:: __post_init__()
+
+
+.. py:class:: SimulationParameters
+
+   Class representing the simulation parameters.
+
+   These parameters are the "settings" for the simulation experiment. For more
+   information regarding the simulation, see [INSERT PAPER HERE]. Mixture
+   proportions must be numbers between 0 and 1. The n_relevants array must
+   be all numbers that are less than the n_variables value, as it is not
+   possible to have a higher number of relevant variables than total variables.
+
+
+
+   .. py:attribute:: n_observations
+      :type:  list[int]
+
+
+   .. py:attribute:: n_variables
+      :type:  int
+      :value: 200
+
+
+
+   .. py:attribute:: n_relevants
+      :type:  list[int]
+
+
+   .. py:attribute:: mixture_proportions
+      :type:  list[float]
+
+
+   .. py:attribute:: means
+      :type:  list[int]
+
+

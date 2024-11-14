@@ -35,11 +35,13 @@ class UserDataHandler:
     ) -> typing.Union[pd.Series, np.ndarray]:
         '''Shuffles a DataFrame of normalised data.
 
-        Params:
+        Params
+    ------
             normalised_data: pd.DataFrame -> A normalisd dataframe.
             out: int -> how many columns to exclude
 
-        Returns:
+        Returns
+    -------
             shuffled_data, shuffled_indices: pd.Series, np.ndarray -> a tuple of
                 shuffled data and their corresponding indices.
         '''
@@ -72,7 +74,8 @@ class UserDataHandler:
         normalise: bool, optional
             A flag to enable pre-determined cleaning.
 
-        Returns:
+        Returns
+    -------
 
         raw_data|shuffled_data: list
             An array of data.

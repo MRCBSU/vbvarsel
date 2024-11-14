@@ -1,0 +1,252 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>vbvarsel.global_parameters &mdash; vbvarsel 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            vbvarsel
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">vbvarsel</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../vbvarsel.html">vbvarsel</a></li>
+      <li class="breadcrumb-item active">vbvarsel.global_parameters</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for vbvarsel.global_parameters</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+
+<span class="c1">#Changed this over to a dataclass versus the previous function-based implementaton.</span>
+<span class="c1">#Seemed to make more sense this way since I&#39;m not really doing anything</span>
+<span class="c1">#To the params once they are set, plus I don&#39;t like named tuples plus this</span>
+<span class="c1">#Seems more easier to pass around, comes with as many dunder attribs as wanted</span>
+<span class="c1">#And just seems like an overall better idea.</span>
+
+<span class="c1">#Sphinx and Python is too smart and Dataclasses are already kind of self-documenting</span>
+<span class="c1"># so we don&#39;t actually need all these doc strings and having it in there makes the rtd</span>
+<span class="c1"># page absolutely fugly so they won&#39;t be included.</span>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="viewcode-block" id="Hyperparameters">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/index.html#vbvarsel.global_parameters.Hyperparameters">[docs]</a>
+<span class="k">class</span> <span class="nc">Hyperparameters</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Class representing the hyperparameters for the simulation.&#39;&#39;&#39;</span>
+    
+    <span class="c1"># Attributes:</span>
+    <span class="c1">#     threshold: float</span>
+    <span class="c1">#         The threshold for simulation convergence. (Default: 1e-1)</span>
+    <span class="c1">#     k1: int</span>
+    <span class="c1">#         Maximum number of clusters to simulate for. (Default: 5)</span>
+    <span class="c1">#     alpha0: float</span>
+    <span class="c1">#         Prior coefficient count, also known as the concentration parameter for</span>
+    <span class="c1">#         Dirichelet prior on the mixture proportions. This field is calculated</span>
+    <span class="c1">#         from 1/k1. (Default: 0.2)</span>
+    <span class="c1">#     a0: int</span>
+    <span class="c1">#         Degrees of freedom for the Gamma prior on the cluster precision, which</span>
+    <span class="c1">#         controls the shape of the Gamma distribution. A higher number results</span>
+    <span class="c1">#         in a more peaked distribution. (Default: 3)</span>
+    <span class="c1">#     beta0: float</span>
+    <span class="c1">#         Shrinkage parameter of the Gaussian conditional prior on the cluster</span>
+    <span class="c1">#         mean. This influences the tightness and spread of the cluster, smaller</span>
+    <span class="c1">#         shrinkage leads to tighter clusters. (Default: 1e-3)</span>
+    <span class="c1">#     d0: int</span>
+    <span class="c1">#         Shape parameter of the Beta distribution on the probability. A value of</span>
+    <span class="c1">#         1 results in a uniform distribution. (Default: 1)</span>
+    <span class="c1">#     t_max: int</span>
+    <span class="c1">#         Maximum starting annealing temperature. Value of 1 has no annealing.</span>
+    <span class="c1">#         (Default: 1)</span>
+    <span class="c1">#     max_itr: int</span>
+    <span class="c1">#         Maximum number of iterations. (Default: 25)</span>
+    <span class="c1">#     max_annealed_itr: int</span>
+    <span class="c1">#         Maximum number of iterations for annealing, if applicable. (Default: 10)</span>
+    <span class="c1">#     max_models: int</span>
+    <span class="c1">#         Maximum number of models to run for averaging (Default: 10)</span>
+
+<div class="viewcode-block" id="Hyperparameters.threshold">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.threshold">[docs]</a>
+    <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-1</span></div>
+
+<div class="viewcode-block" id="Hyperparameters.k1">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.k1">[docs]</a>
+    <span class="n">k1</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span></div>
+
+<div class="viewcode-block" id="Hyperparameters.alpha0">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.alpha0">[docs]</a>
+    <span class="n">alpha0</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Hyperparameters.a0">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.a0">[docs]</a>
+    <span class="n">a0</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span></div>
+
+<div class="viewcode-block" id="Hyperparameters.beta0">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.beta0">[docs]</a>
+    <span class="n">beta0</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-3</span></div>
+
+<div class="viewcode-block" id="Hyperparameters.d0">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.d0">[docs]</a>
+    <span class="n">d0</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span></div>
+
+<div class="viewcode-block" id="Hyperparameters.t_max">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.t_max">[docs]</a>
+    <span class="n">t_max</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span></div>
+
+<div class="viewcode-block" id="Hyperparameters.max_itr">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.max_itr">[docs]</a>
+    <span class="n">max_itr</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">25</span></div>
+
+<div class="viewcode-block" id="Hyperparameters.max_annealed_itr">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.max_annealed_itr">[docs]</a>
+    <span class="n">max_annealed_itr</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span></div>
+
+<div class="viewcode-block" id="Hyperparameters.max_models">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.max_models">[docs]</a>
+    <span class="n">max_models</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span></div>
+
+
+<div class="viewcode-block" id="Hyperparameters.__post_init__">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/index.html#vbvarsel.global_parameters.Hyperparameters.__post_init__">[docs]</a>
+    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># nifty little hack to temporarily unfreeze the class and set alpha0</span>
+        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;alpha0&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">k1</span><span class="p">)</span></div>
+</div>
+
+
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="viewcode-block" id="SimulationParameters">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/index.html#vbvarsel.global_parameters.SimulationParameters">[docs]</a>
+<span class="k">class</span> <span class="nc">SimulationParameters</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Class representing the simulation parameters.</span>
+<span class="sd">    </span>
+<span class="sd">    These parameters are the &quot;settings&quot; for the simulation experiment. For more</span>
+<span class="sd">    information regarding the simulation, see [INSERT PAPER HERE]. Mixture </span>
+<span class="sd">    proportions must be numbers between 0 and 1. The n_relevants array must</span>
+<span class="sd">    be all numbers that are less than the n_variables value, as it is not</span>
+<span class="sd">    possible to have a higher number of relevant variables than total variables.</span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># Attributes</span>
+    <span class="c1">#     n_observations: list[int] (Optional) (Default: [100,1000])</span>
+    <span class="c1">#         The number of observations to observe in the simulation.</span>
+    <span class="c1">#     n_variables: int (Optional) (Default: 200)</span>
+    <span class="c1">#         The number of variables to consider. The value must exceed the largest</span>
+    <span class="c1">#         number in `n_relevants`. </span>
+    <span class="c1">#     n_relevants: list[int] (Optional) (Default: [10, 20, 50, 100])</span>
+    <span class="c1">#         A list of integer values of different quantities of relevant variables</span>
+    <span class="c1">#         to test for. These numbers should not exceed `n_variables`.</span>
+    <span class="c1">#     mixture_proportions: list[float] (Optional) (Default: [0.5, 0.3, 0.2])</span>
+    <span class="c1">#         A list of float values for ~ proportion of observations in each cluster.</span>
+    <span class="c1">#         The length of the array influence the number of simulated clusters. All</span>
+    <span class="c1">#         values should be between 0 and 1, and all values must sum to 1.</span>
+    <span class="c1">#     means: list[int] (Optional) (Default: [-2, 0, 2])</span>
+    <span class="c1">#         List of integers of Gaussian distributions for each cluster. </span>
+
+    
+<div class="viewcode-block" id="SimulationParameters.n_observations">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/global_parameters/index.html#vbvarsel.global_parameters.SimulationParameters.n_observations">[docs]</a>
+    <span class="n">n_observations</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:[</span><span class="mi">100</span><span class="p">,</span><span class="mi">1000</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="SimulationParameters.n_variables">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/global_parameters/index.html#vbvarsel.global_parameters.SimulationParameters.n_variables">[docs]</a>
+    <span class="n">n_variables</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">200</span></div>
+
+<div class="viewcode-block" id="SimulationParameters.n_relevants">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/global_parameters/index.html#vbvarsel.global_parameters.SimulationParameters.n_relevants">[docs]</a>
+    <span class="n">n_relevants</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="SimulationParameters.mixture_proportions">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/global_parameters/index.html#vbvarsel.global_parameters.SimulationParameters.mixture_proportions">[docs]</a>
+    <span class="n">mixture_proportions</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="SimulationParameters.means">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/global_parameters/index.html#vbvarsel.global_parameters.SimulationParameters.means">[docs]</a>
+    <span class="n">means</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-10-01 11:10:13, Cambridge University.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

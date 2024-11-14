@@ -1,0 +1,240 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>vbvarsel.custodian &mdash; vbvarsel 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            vbvarsel
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">vbvarsel</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../vbvarsel.html">vbvarsel</a></li>
+      <li class="breadcrumb-item active">vbvarsel.custodian</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for vbvarsel.custodian</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">typing</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">LabelEncoder</span>
+<span class="kn">from</span> <span class="nn">.experiment_data</span> <span class="kn">import</span> <span class="n">ExperimentValues</span>
+
+<div class="viewcode-block" id="UserDataHandler">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/custodian/index.html#vbvarsel.custodian.UserDataHandler">[docs]</a>
+<span class="k">class</span> <span class="nc">UserDataHandler</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Initalizer to create the ExperimentValues object.&#39;&#39;&#39;</span>
+<div class="viewcode-block" id="UserDataHandler.ExperimentValues">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/custodian/index.html#vbvarsel.custodian.UserDataHandler.ExperimentValues">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ExperimentValues</span> <span class="o">=</span> <span class="n">ExperimentValues</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="UserDataHandler.normalise_data">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/custodian/index.html#vbvarsel.custodian.UserDataHandler.normalise_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">normalise_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Function that returns a normalised dataframe from a non-normalised input.</span>
+<span class="sd">        </span>
+<span class="sd">        Params</span>
+<span class="sd">           data: pd.DataFrame</span>
+<span class="sd">            DataFrame of unsorted, unshuffled and non-normalised data to be used.</span>
+<span class="sd">        Returns</span>
+<span class="sd">            array_normalised: np.ndarray</span>
+<span class="sd">                2-D array of normalised data</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="c1"># Compute the mean and standard deviation of each column</span>
+        <span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># Subtract the mean and divide by the standard deviation</span>
+        <span class="n">array_normalized</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">/</span> <span class="n">std</span>
+        <span class="n">array_normalized</span> <span class="o">=</span> <span class="n">array_normalized</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ExperimentValues</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">array_normalized</span>
+        <span class="k">return</span> <span class="n">array_normalized</span></div>
+
+
+<div class="viewcode-block" id="UserDataHandler.shuffle_normalised_data">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/custodian/index.html#vbvarsel.custodian.UserDataHandler.shuffle_normalised_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">shuffle_normalised_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+        <span class="n">normalised_data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Shuffles a DataFrame of normalised data.</span>
+
+<span class="sd">        Params</span>
+<span class="sd">            normalised_data: pd.DataFrame</span>
+<span class="sd">                A normalisd dataframe of numerical data.</span>
+<span class="sd">        Returns</span>
+<span class="sd">            Tuple:</span>
+<span class="sd">                shuffled_data: pd.Series, shuffled_indices: np.ndarray</span>
+<span class="sd">                    A tuple of shuffled data and their corresponding indices.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="c1"># Number of columns</span>
+        <span class="n">num_columns</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">normalised_data</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="c1"># Generate a permutation of column indices</span>
+        <span class="n">shuffled_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">num_columns</span><span class="p">)</span>
+        <span class="c1"># Concatenate with the indices of the last 10 columns</span>
+        <span class="n">shuffled_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">shuffled_indices</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">num_columns</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">normalised_data</span><span class="p">)[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="p">)</span>
+        <span class="c1"># Shuffle the columns of the matrix</span>
+        <span class="n">shuffled_data</span> <span class="o">=</span> <span class="n">normalised_data</span><span class="p">[:,</span> <span class="n">shuffled_indices</span><span class="p">]</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">ExperimentValues</span><span class="o">.</span><span class="n">shuffled_data</span> <span class="o">=</span> <span class="n">shuffled_data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ExperimentValues</span><span class="o">.</span><span class="n">permutations</span> <span class="o">=</span> <span class="n">shuffled_indices</span>
+        <span class="k">return</span> <span class="n">shuffled_data</span><span class="p">,</span> <span class="n">shuffled_indices</span></div>
+
+    
+<div class="viewcode-block" id="UserDataHandler.load_data">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/custodian/index.html#vbvarsel.custodian.UserDataHandler.load_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">load_data</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span> 
+                <span class="n">data_source</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">,</span>
+                <span class="n">cols_to_ignore</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">labels</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">header</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="n">index_col</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads data to be be used in simulations with option to clean data.</span>
+
+<span class="sd">        Params</span>
+<span class="sd">            data_loc: str | os.Pathlike</span>
+<span class="sd">                The file location of the spreadsheet, must be in CSV format.</span>
+<span class="sd">                IMPORTANT Format note: Columns should be variables, and rows should be observation.</span>
+<span class="sd">                Header rows and index column will not be loaded. CSV must only have numerical values.</span>
+<span class="sd">                Non-numerical values can be passed, via the `cols_to_ignore` parameter. </span>
+<span class="sd">            cols_to_ignore: list[str] (Optional) (Default: None)</span>
+<span class="sd">                Any columns which are irrelevant or non-numerical to be dropped. </span>
+<span class="sd">            labels: str | list[str] (Optional) (Default: None)</span>
+<span class="sd">                Labels to be used to calculate the ARI to check clustering accuracy.</span>
+<span class="sd">                This parameter is optional but strongly encouraged. If a string value</span>
+<span class="sd">                is passed, logic assumes that is the name of a column to be used as</span>
+<span class="sd">                labels. Alternatively, a list of strings may be passed separately.</span>
+<span class="sd">                Label column can be included in the `cols_to_drop` parameter, labels</span>
+<span class="sd">                are extracted before the ignored columns are dropped. </span>
+<span class="sd">            header: int (Optional) (Default: 0)</span>
+<span class="sd">                Parameter to determine the header of the incoming dataframe. </span>
+<span class="sd">            index_col: bool (Optional) (Default: False)</span>
+<span class="sd">                Parameter to determine whether to include an index col. </span>
+<span class="sd">        Returns</span>
+<span class="sd">            None</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">raw_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">data_source</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">header</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="n">index_col</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ExperimentValues</span><span class="o">.</span><span class="n">true_labels</span> <span class="o">=</span> <span class="n">raw_data</span><span class="p">[</span><span class="n">labels</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ExperimentValues</span><span class="o">.</span><span class="n">true_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+        
+        <span class="n">raw_data</span> <span class="o">=</span> <span class="n">raw_data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">cols_to_ignore</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">normalised_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalise_data</span><span class="p">(</span><span class="n">raw_data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shuffle_normalised_data</span><span class="p">(</span><span class="n">normalised_data</span><span class="p">)</span></div>
+</div>
+
+
+        
+    <span class="c1"># def save_data(data: pd.DataFrame, filename: str, save_path: pathlib.Path, with_index:bool=False):</span>
+
+    <span class="c1">#     data.to_csv(path_or_buf=os.path.join(save_path, filename), index=with_index)</span>
+    <span class="c1">#     print(f&quot;{filename} saved to {save_path}.&quot;)</span>
+
+
+<span class="c1"># if __name__ == &#39;__main__&#39;:</span>
+    <span class="c1"># UserDataHandler().load_data(r&quot;C:\Users\Alan\Desktop\dev\\test importing\9_BRCA.pam50.50.csv&quot;)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-10-01 11:10:13, Cambridge University.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

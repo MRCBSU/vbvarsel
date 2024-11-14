@@ -79,7 +79,8 @@ class _Results:
 def geometric_schedule(T0, alpha, itr, max_annealed_itr):
     '''Function to calculate geometric annealing.
 
-    Params:
+    Params
+    ------
         T0: int
             initial temperature for annealing.
         alpha: float
@@ -89,7 +90,8 @@ def geometric_schedule(T0, alpha, itr, max_annealed_itr):
         max_annealed_itr: int
             maximum number of iteration to use annealing 
 
-    Returns: 1, if itr >= max_annealed_itr, else T * alpha^itr
+    Returns
+    ------- 1, if itr >= max_annealed_itr, else T * alpha^itr
     '''
     if itr < max_annealed_itr:
         return T0 * (alpha**itr)
@@ -102,7 +104,8 @@ def geometric_schedule(T0, alpha, itr, max_annealed_itr):
 def harmonic_schedule(T0, alpha, itr):
     '''Function to calculate harmonic annealing.
 
-    Params:
+    Params
+    ------
         T0: int
             the initial temperature
         alpha: float
@@ -110,7 +113,8 @@ def harmonic_schedule(T0, alpha, itr):
         itr: int
             current iteration
     
-    Returns:
+    Returns
+    -------
         Quotient of T0 by (1 + alpha * itr)
     '''
     return T0 / (1 + alpha * itr)
@@ -119,14 +123,16 @@ def harmonic_schedule(T0, alpha, itr):
 def _extract_els(el:int, unique_counts:np.ndarray, counts:np.ndarray) -> int:
     '''Function to extract elements from counts of a matrix.
 
-    Params:
+    Params
+    ------
         el: int 
             element of interest (can it only be 1 or 0?)
         unique_counts: NDarray
             array of unique counts from a matrix
         counts: NDarray
             array of total counts from a matrix
-    Returns:
+    Returns
+    -------
         counts_of_element[0]:int -> integer of counts of targeted element.
     '''
     index_of_element = np.where(unique_counts == el)[0]
@@ -163,15 +169,15 @@ def _run_sim(
     C: np.ndarray[int]
         covariate selection indicator
     CTrick: bool
-       whether to use or not a mathematical trick to avoid numerical errors (Default True)
+       whether to use or not a mathematical trick to avoid numerical errors (Default: True)
     hyperparameters: Hyperparameters
         An object of specified hyperparameters
     annealing: str
         The type of annealing to apply to the simulation. Can be one of 
         "fixed", "geometric" or "harmonic", "fixed" does not apply annealing.
-        (Default "fixed")
+        (Default: "fixed")
     max_annealed_itr: int
-        How many iterations to apply the annealing function. (Default 10)
+        How many iterations to apply the annealing function. (Default: 10)
 
 
     Returns
@@ -195,7 +201,8 @@ def _run_sim(
 
     (N, XDim) = np.shape(X)
 
-    # params:
+    # Params
+    ------
     Z = np.array([np.random.dirichlet(np.ones(K)) for _ in range(N)])
 
     # parameter estimates for \Phi_{0j} precomputed as MLE
@@ -311,27 +318,28 @@ def main(simulation_parameters: SimulationParameters,
          save_output:bool=False):
     '''Function that runs the simulation.
 
-    Params:
+    Params
+    ------
         simulation_parameters: SimulationParameters
             An object of simulation paramaters to apply to the simulation. 
         hyperparameters: Hyperparameters
             An object of hyperparamters to apply to the simulation.
         Ctrick: bool
             Flag to determine whether or not to apply replica trick to the 
-            simulation (Default True)
+            simulation (Default: True)
         user_data: np.ndarray
             Optional parameter to allow users to supply their own data rather
             than working on a simulated dataset. User data MUST be in a 2-D 
             array, using the functions in the `custodian.py` module will reformat 
-            and shuffle data to match the required format. (Default None)
+            and shuffle data to match the required format. (Default: None)
         annealing_type: str
             Optional type of annealing to apply to the simulation, can be one of
             "geometric", "harmonic" or "fixed", the latter of which does not
-            apply any annealing. (Default "fixed")
+            apply any annealing. (Default: "fixed")
         save_output: bool
             Optional flag for users to save their output to a csv file. Data is
             saved in the current working directory with the file naming format
-            "results-timestamp.csv". (Default False)
+            "results-timestamp.csv". (Default: False)
     '''
 
 

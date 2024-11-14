@@ -1,0 +1,278 @@
+vbvarsel.vbvarsel
+=================
+
+.. py:module:: vbvarsel.vbvarsel
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   vbvarsel.vbvarsel._Results
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   vbvarsel.vbvarsel.geometric_schedule
+   vbvarsel.vbvarsel.harmonic_schedule
+   vbvarsel.vbvarsel._extract_els
+   vbvarsel.vbvarsel._run_sim
+   vbvarsel.vbvarsel.main
+
+
+Module Contents
+---------------
+
+.. py:class:: _Results
+
+   Dataclass object to store clustering results.
+
+
+   .. py:attribute:: convergence_ELBO
+      :type:  list[float]
+
+
+   .. py:attribute:: convergence_itr
+      :type:  list[int]
+
+
+   .. py:attribute:: clust_predictions
+      :type:  list[int]
+
+
+   .. py:attribute:: variable_selected
+      :type:  list[vbvarsel.calcparams.np.ndarray[float]]
+
+
+   .. py:attribute:: runtimes
+      :type:  list[float]
+
+
+   .. py:attribute:: ARIs
+      :type:  list[float]
+
+
+   .. py:attribute:: relevants
+      :type:  list[int]
+
+
+   .. py:attribute:: observations
+      :type:  list[int]
+
+
+   .. py:attribute:: correct_rel_vars
+      :type:  list[int]
+
+
+   .. py:attribute:: correct_irr_vars
+      :type:  list[int]
+
+
+   .. py:method:: add_elbo(elbo: float) -> None
+
+      Method to append the ELBO convergence.
+
+
+
+   .. py:method:: add_convergence(iteration: int) -> None
+
+      Method to append convergence iteration.
+
+
+
+   .. py:method:: add_prediction(predictions: list[int]) -> None
+
+      Method to append predicted cluster.
+
+
+
+   .. py:method:: add_selected_variables(variables: vbvarsel.calcparams.np.ndarray[float]) -> None
+
+      Method to append selected variables.
+
+
+
+   .. py:method:: add_runtimes(runtime: float) -> None
+
+      Method to append runtime.
+
+
+
+   .. py:method:: add_ari(ari: float) -> None
+
+      Method to append the Adjusted Rand Index.
+
+
+
+   .. py:method:: add_relevants(relevant: int) -> None
+
+      Method to append the relevant selected variables.
+
+
+
+   .. py:method:: add_observations(observation: int) -> None
+
+      Method to append the number of observations.
+
+
+
+   .. py:method:: add_correct_rel_vars(correct: int) -> None
+
+      Method to append the relevant correct variables.
+
+
+
+   .. py:method:: add_correct_irr_vars(incorrect: int) -> None
+
+      Method to append the correct irrelevant variables.
+
+
+
+   .. py:method:: save_results()
+
+      Method to save results to a csv, using datetime format for naming.
+
+
+
+.. py:function:: geometric_schedule(T: int, alpha: float, itr: int, max_annealed_itr: int) -> float
+
+   Function to calculate geometric annealing.
+
+   Params
+       T: int
+           initial temperature for annealing.
+       alpha: float
+           cooling rate
+       itr: int
+           current iteration
+       max_annealed_itr: int
+           maximum number of iteration to use annealing
+   Returns
+       float:
+           1, if itr >= max_annealed_itr, else T0 * alpha^itr
+
+
+
+.. py:function:: harmonic_schedule(T: int, alpha: float, itr: int) -> float
+
+   Function to calculate harmonic annealing.
+
+   Params
+       T: int
+           the initial temperature
+       alpha: float
+           cooling rate
+       itr: int
+           current iteration
+   Returns
+       float:
+           Quotient of T by (1 + alpha * itr)
+
+
+
+.. py:function:: _extract_els(el: int, unique_counts: vbvarsel.calcparams.np.ndarray, counts: vbvarsel.calcparams.np.ndarray) -> int
+
+   Function to extract elements from counts of a matrix.
+
+   Params
+       el: int
+           element of interest (can it only be 1 or 0?)
+       unique_counts: NDarray
+           array of unique counts from a matrix
+       counts: NDarray
+           array of total counts from a matrix
+   Returns
+       int: integer of counts of targeted element.
+
+
+
+.. py:function:: _run_sim(X: vbvarsel.calcparams.np.ndarray[float], m0: vbvarsel.calcparams.np.ndarray[float], b0: vbvarsel.calcparams.np.ndarray[float], C: vbvarsel.calcparams.np.ndarray[float], hyperparameters: vbvarsel.global_parameters.Hyperparameters, Ctrick: bool = True, annealing: str = 'fixed') -> tuple
+
+   Private function to handle running the actual maths of the simulation.
+   Should not be called directly, it is used from the function `main()`.
+
+   Params
+       X: np.ndarray[float]
+           An array of shuffled and normalised data. Can be derived from a dataset
+           the user has supplied or a simulated dataset from the `dataSimCrook`
+           module.
+       m0: np.ndarray[float]
+           2-D zeroed array
+       b0: np.ndarray[float]
+           2-D array with 1s in diagonal, zeroes in rest
+       C: np.ndarray[int]
+           covariate selection indicators
+       hyperparameters: Hyperparameters
+           An object of specified hyperparameters
+       CTrick: bool (Optional) (Default: True)
+           whether to use or not a mathematical trick to avoid numerical errors
+       annealing: str (Optional) (Default: "fixed")
+           The type of annealing to apply to the simulation. Can be one of
+           "fixed", "geometric" or "harmonic", "fixed" does not apply annealing.
+
+
+   Returns
+       Tuple:
+           Z: np.ndarray[float]
+               an NDarray of Dirchilet data
+           lower_bound: list[float]
+               List of the calculated estimated lower bounds of the experiment
+           C: np.ndarray[float]
+               Calculated covariate selection indicators.
+           itr: int
+               is the number of iterations performed before convergence
+
+
+
+.. py:function:: main(hyperparameters: vbvarsel.global_parameters.Hyperparameters, simulation_parameters: vbvarsel.global_parameters.SimulationParameters, Ctrick: bool = True, user_data: str | os.PathLike = None, user_labels: str | list[str] = None, cols_to_skip: list[str] = None, annealing_type: str = 'fixed', save_output: bool = False) -> _Results
+
+   The main entry point to the package.
+
+   Params
+
+       hyperparameters: Hyperparameters (Required)
+           An object of hyperparamters to apply to the simulation.
+       simulation_parameters: SimulationParameters (Optional) (Default: `SimulationParameters()`)
+           An object of simulation paramaters to apply to the simulation.
+           Note: This is a required parameter if a user does not supply
+           their own data.
+       Ctrick: bool (Optional) (Default: True)
+           Flag to determine whether or not to apply replica trick to the
+           simulation
+       user_data: str or os.PathLike (Optional) (Default: None)
+           A location of a csv document for data a user whishes to test.
+       user_labels: str | list[str] (Optional) (Default: None)
+           A string or list of strings to identify labels. A string value will
+           try to extract a column of the same name from the supplied data.
+       cols_to_skip: list[str] (Optional) (Default: None)
+           An optional list of columns to drop from the dataframe. This should
+           be used to remove any non-numeric data from the dataframe. If a
+           column shares the same name as a label column, the labels will be
+           extracted before the column is dropped.
+
+           **Hint**: an unnamed column can be passed by using "Unnamed: [index]",
+           eg "Unnamed: 0" to drop a blank name first column.
+       annealing_type: str (Optional) (Default: "fixed")
+           Optional type of annealing to apply to the simulation, can be one of
+           "geometric", "harmonic" or "fixed", the latter of which does not
+           apply any annealing.
+       save_output: bool (Optional) (Default: False)
+           Optional flag for users to save their output to a csv file. Data is
+           saved in the current working directory with the file naming format
+           "results-timestamp.csv".
+   Returns
+
+       results: dataclass
+           An object of results stored in a series of arrays from the clustering
+           algorithm. Some arrays may be populated by `nan` values. This is the
+           case if a user supplies their own data but does not have corresponding
+           labels. Additionally, some fields are only captured during entirely
+           simulated runs, as such will be `nan`-ed if a user provides their own
+           dataset.
+
+
+

@@ -8,7 +8,8 @@ def calcAlphak(NK: float, alpha0: float, T: float) -> float:
     """Function to find the updated variational parameter alphaK, i.e., the concentration parameter for
             Dirichelet posterior distribution on the mixture proportions
 
-    Params:
+    Params
+    ------
         NK: float
             number of observations assigned to each cluster K
         alpha0: float
@@ -16,7 +17,8 @@ def calcAlphak(NK: float, alpha0: float, T: float) -> float:
         T: float
             annealing temperature
 
-    Returns:
+    Returns
+    -------
         alpha: np.ndarray[float]
             calculated alpha value
     """
@@ -29,7 +31,8 @@ def calcAkj(
 ) -> np.ndarray[float]:
     """Function to calculate the updated variational parameter akj
 
-    Params:
+    Params
+    ------
         K: int
             Maximum number of clusters
         J: int
@@ -43,7 +46,8 @@ def calcAkj(
         T: float
             annealing temperature
 
-    Returns:
+    Returns
+    -------
         akj: float
             updated variational parameter for the degrees of freedom of the
             posterior Gamma distribution
@@ -59,13 +63,15 @@ def calcAkj(
 def calcXd(Z: np.ndarray, X: np.ndarray[float]) -> np.ndarray[float]:
     """Function to find Xd
 
-    Params:
+    Params
+    ------
         Z: np.ndarray
             cluster assignment matrix
         X: np.ndarray[float]
             2-D array of normalised data
 
-    Returns:
+    Returns
+    -------
         xd: np.ndarray[float]
             Array of values
 
@@ -92,13 +98,15 @@ def calcS(
 ) -> np.ndarray[float]:
     """Function to calculate S
 
-    Params:
+    Params
+    ------
         Z: np.ndarray
             cluster assignment matrix
         X: ndarray[float]
         xd: ndarray[float]
 
-    Returns:
+    Returns
+    -------
         S: ndarray[float]
 
     """
@@ -126,7 +134,8 @@ def calcbetakj(
     # A58
     """Function to calculate the updated variational parameter betaKJ.
 
-    Params:
+    Params
+    ------
         K: int
             maximum number of clusters
         XDim: int
@@ -140,7 +149,8 @@ def calcbetakj(
         T: float
             annealing temperature
 
-    Returns:
+    Returns
+    -------
         beta: np.ndarray[float]
             updated variational shrinkage parameter for the Gaussian conditional
             posterior
@@ -165,7 +175,8 @@ def calcM(
     # A59
     """Function to calculate the updated variational parameter M.
 
-    Params:
+    Params
+    ------
         K: int
             maximum number of clusters
         XDim: int
@@ -185,7 +196,8 @@ def calcM(
         T: float
             annealing temperature
 
-    Returns:
+    Returns
+    -------
         m: np.ndarray[float]
             updated variational cluster means
 
@@ -201,7 +213,8 @@ def calcM(
 def calcB(W0, xd, K, m0, XDim, beta0, S, C, NK, T) -> np.ndarray[float]:
     """Function to calculate the updated variational parameter B
 
-    Params:
+    Params
+    ------
         W0: np.ndarray[float]
             2-D array with diaganal 1s rest 0s
         xd: np.ndarray[float]
@@ -225,7 +238,8 @@ def calcB(W0, xd, K, m0, XDim, beta0, S, C, NK, T) -> np.ndarray[float]:
         T: float
             annealing temperature
 
-    Returns:
+    Returns
+    -------
         M: np.ndarray[float]
             calculated variational parameter B
     """
@@ -244,7 +258,8 @@ def calcB(W0, xd, K, m0, XDim, beta0, S, C, NK, T) -> np.ndarray[float]:
 def calcDelta(C: np.ndarray[float], d: int, T: float) -> np.ndarray[float]:
     """Function to calculate the updated variational parameter Delta
 
-    Params:
+    Params
+    ------
         C: np.ndarray[float]
             covariate selection indicators
         d: int
@@ -252,7 +267,8 @@ def calcDelta(C: np.ndarray[float], d: int, T: float) -> np.ndarray[float]:
         T: float
             annealing temperature
 
-    Returns:
+    Returns
+    -------
         np.ndarray of calculate annealing
     """
     return np.array([(c + d + T - 1) / (2 * d + 2 * T - 1) for c in C])
@@ -269,7 +285,8 @@ def expSigma(
 ) -> float:
     """Function to calculate expSigma
 
-    Params:
+    Params
+    ------
         X: np.ndarray[float]
             2-D normalised array of data
         XDim: int
@@ -285,7 +302,8 @@ def expSigma(
         C: np.ndarray[int]
             covariate selection indicators
 
-    Returns:
+    Returns
+    -------
         s: float
 
     """
@@ -309,13 +327,15 @@ def expPi(alpha0: float, NK: float) -> np.ndarray[float]:
     # A45
     """Function to calculate expPi
 
-    Params:
+    Params
+    ------
         alpha0: float
             concentration of the Dirichlet prior on the mixture weights π
         NK: float
             number of expected observations associated with the Kth component
 
-    Returns:
+    Returns
+    -------
         pik: np.ndarray[float]
             expected value of pi
 
@@ -330,7 +350,8 @@ def expTau(
 ) -> list[float]:
     """Function to calculate expTau
 
-    Params:
+    Params
+    ------
         b: np.ndarray[float]
             calcbkj value
         a: np.ndarray[float]
@@ -338,7 +359,8 @@ def expTau(
         C: np.ndarray[int]
             covariate selection indicators
 
-    Returns:
+    Returns
+    -------
         invc: list[float]
             The calculated expected Tau value
 
@@ -367,7 +389,8 @@ def calcF0(
 ) -> float:
     """Function to calculate F0
 
-    Params:
+    Params
+    ------
         X: np.ndarray[float]
             2-D array of normalised data
         XDim: int
@@ -379,7 +402,8 @@ def calcF0(
         C: np.ndarray[int]
             covariate selection indicators
 
-    Returns:
+    Returns
+    -------
         f0: float
             calculated f0 parameter
 
@@ -414,7 +438,8 @@ def calcZ(
 ) -> np.ndarray[float]:
     """Function to the updated variational parameter Z
 
-    Params:
+    Params
+    ------
         exp_ln_pi: np.ndarray[float]
             expected natural log of pi
         exp_ln_gam: np.ndarray[float]
@@ -432,7 +457,8 @@ def calcZ(
         T: float
             annealing temperature
 
-    Returns:
+    Returns
+    -------
         Z1: np.ndarray[float]
 
     """
@@ -457,7 +483,8 @@ def normal(
 ) -> np.ndarray[float]:
     """Function to get a normal distribution
 
-    Params:
+    Params
+    ------
         x: np.ndarray[float]
             2-D array of normalised data
         mu: float
@@ -465,7 +492,8 @@ def normal(
         sigma: np.ndarray[float]
             standard deviation of the normal distribution
 
-    Returns:
+    Returns
+    -------
         n: np.ndarray[float]
             Array with normalised distribution
 
@@ -485,7 +513,8 @@ def calcexpF(
 ) -> float:
     """Function to calculate expF
 
-    Params:
+    Params
+    ------
         X: np.ndarray[float]
             2-D array of normalised data
         b: np.ndarray[float]
@@ -499,7 +528,8 @@ def calcexpF(
         Z: np.ndarray
             cluster assignment matrix
 
-    Returns:
+    Returns
+    -------
         expF: float
             intermediate factor to calculate the updated covariate selection indicators
 
@@ -538,7 +568,8 @@ def calcexpF0(
 ) -> np.ndarray[float]:
     """Function to calculate exp of F0
 
-    Params:
+    Params
+    ------
         X: np.ndarray
             2-D array of normalised data
         N: int
@@ -554,7 +585,8 @@ def calcexpF0(
         mu_0: np.ndarray[float]
             n-dim array of squared mu values
 
-    Returns:
+    Returns
+    -------
         expF0: np.ndarray[float]
             intermediate factor to calculate the updated covariate selection indicators
 
@@ -579,7 +611,8 @@ def calcN1(C: np.ndarray[int], d: int, expF: float, T: float) -> tuple:
     # A53
     """Function to calculate N1
 
-    Params:
+    Params
+    ------
         C: np.ndarray[int]
             covariate selection indicator
         d: int
@@ -589,7 +622,8 @@ def calcN1(C: np.ndarray[int], d: int, expF: float, T: float) -> tuple:
         T: float
             Annealing temperature
 
-    Returns:
+    Returns
+    -------
         N1, lnN1:
             intermediate factors to calculate the updated covariate selection indicators
     """
@@ -603,7 +637,8 @@ def calcN2(C: np.ndarray[int], d: int, expF0: float, T: float) -> tuple:
     # A54
     """Function to calculate N2
 
-    Params:
+    Params
+    ------
         C: np.ndarray[int]
             covariate selection indicator
         d: int
@@ -613,7 +648,8 @@ def calcN2(C: np.ndarray[int], d: int, expF0: float, T: float) -> tuple:
         T: float
             Annealing temperature
 
-    Returns:
+    Returns
+    -------
         N2, lnN2: intermediate factors to calculate the updated covariate selection indicators
     """
     expDelta = digamma((T - C + d) / T) - digamma((2 * d + 2 * T - 1) / T)
@@ -641,7 +677,8 @@ def calcC(
 ) -> np.ndarray[float]:
     """Function to calculate the updated variational parameter C, covariate selection indicators
 
-    Params:
+    Params
+    ------
         XDim: int
             number of columns
         N: int
@@ -673,7 +710,8 @@ def calcC(
         trick: bool
             whether or not to use a mathematical trick to avoid numerical errors
 
-    Returns:
+    Returns
+    -------
         C0: np.ndarray[float]
             calculated variational parameter C
     """

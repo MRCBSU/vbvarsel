@@ -1,0 +1,196 @@
+vbvarsel.elbo
+=============
+
+.. py:module:: vbvarsel.elbo
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   vbvarsel.elbo.ELBO_Computation
+
+
+Module Contents
+---------------
+
+.. py:class:: ELBO_Computation
+
+   A class to contain the Evidence Lower Bound (ELBO) computation.
+
+   This class has no attributes, aside from Python's built-ins, and contains
+   only methods, many of which are private.
+
+
+   .. py:method:: _ln_pi(alphaK, k)
+
+      Private method to calculate Pi natural log.
+
+      Params
+          alphaK: np.ndarray
+              Calculated variational Paramter alphaK
+          k: int
+              The Kth target cluster
+      Returns: float
+          Calculated ln(π)
+
+
+
+
+   .. py:method:: _ln_precision(akj, B)
+
+      Private method for calculating precision natural log.
+
+      Params
+          akj: float
+              Calculated variational parameter Alphakj
+          B: np.ndarray
+              Calculated variational parameter B
+      Returns: np.ndarray
+              Calculated precision natural log
+
+
+
+
+   .. py:method:: _log_resp_annealed(exp_ln_tau, exp_ln_sigma, f0, N, K, C, T)
+
+      Private function to calculate log resp annealed. (A27?)
+
+      Params
+          exp_ln_tau: list
+              Expected ln(tau) array
+          exp_ln_sigma: np.ndarray
+              Expected ln(sigma) array
+          f0: np.ndarray
+              Calculated f0 value
+          N: int
+              the Nth observation
+          K: int
+              number of clusters
+          C: np.ndarray
+              Calculated variational parameter C, the covariate selection indicators
+          T: float
+              annealing temperature
+      Returns
+          log_resp: np.ndarray
+              array of calculated values
+
+
+
+
+   .. py:method:: _ln_delta_annealed(C, j, d, T)
+
+      Private function to calculate the annealed value of delta natural log.
+
+      Params
+          C: np.ndarray
+              covariate selection indicators
+          j: int
+              iteration count
+          d: np.ndarray
+              Shape parameter of the Beta distribution on the probability.
+          T: float
+              annealing temperature
+      Returns
+          ln_delta_ann: np.ndarray
+              calculated array of natural log of annealed delta values
+
+
+
+
+   .. py:method:: _ln_delta_minus_annealed(C, j, d, T)
+
+      Private function to calculate the minus of annealed delta natural log.
+
+      Params
+          C: np.ndarray
+              covariate selection indicators
+          j: int
+              iteration count
+          d: np.ndarray
+              Shape parameter of the Beta distribution on the probability.
+          T: float
+              annealing temperature
+      Returns
+          ln_delta_ann_minus: np.ndarray
+              calculated array of natural log of annealed delta values
+
+
+
+
+   .. py:method:: _entropy_wishart(k, j, b, a)
+
+      Private function to calculate wishart entropy.
+
+      Params
+          K: int
+              the kth cluster of the observation
+          j: int
+              iteration count
+          b: np.ndarray
+              calculated B value
+          a: float
+              calculated alphakj value
+      Returns
+          e_w: np.ndarray
+              array of entropy wishart values
+
+
+
+
+   .. py:method:: compute(XDim, K, N, C, Z, d, delta, beta, beta0, alpha, alpha0, a, a0, b, b0, m, m0, exp_ln_tau, exp_ln_sigma, f0, T=1) -> float
+
+      Function to compute the Evidence Lower Bound (ELBO). The ELBO is
+      the useful lower-bound on the log-likelihood of observed data. (A51)
+
+      Params
+          XDim: int
+              number of columns
+          K: int
+              the kth cluster of the observation
+          N: int
+              the Nth observation
+          C: np.ndarray
+              covariate selection indicators
+          Z: np.ndarray
+              cluster assignment matrix
+          d: np.ndarray
+              Shape parameter of the Beta distribution on the probability.
+          delta: int
+              calculated delta value
+          beta: np.ndarray
+              calculated betakj value
+          beta0: float
+              Shrinkage parameter of the Gaussian conditional prior on the cluster means
+          alpha: np.ndarray
+              calculated alphak value
+          alpha0: float
+              Prior coefficient count
+          a: float
+              calculated alphakj value
+          a0: np.ndarray
+              Degrees of freedom for the Gamma prior on the cluster precision
+          b: np.ndarray
+              calculated B value
+          b0: np.ndarray
+              prior covariance
+          m: np.ndarray
+              calculated m value
+          m0: np.ndarray
+              prior mean
+          exp_ln_tau: list
+              expected ln(tau) array
+          exp_ln_sigma: np.ndarray
+              expected ln(sigma) array
+          f0: np.ndarray
+              calculated f0 value
+          T: float
+              annealing temperature
+
+      Returns
+          calculated ELBO
+
+
+
+

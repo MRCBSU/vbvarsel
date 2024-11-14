@@ -1,0 +1,448 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>vbvarsel.vbvarsel &mdash; vbvarsel 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="prev" title="vbvarsel.global_parameters" href="../global_parameters/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            vbvarsel
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">vbvarsel</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../calcparams/index.html">vbvarsel.calcparams</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../custodian/index.html">vbvarsel.custodian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../data_sim_crook/index.html">vbvarsel.data_sim_crook</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../elbo/index.html">vbvarsel.elbo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../experiment_data/index.html">vbvarsel.experiment_data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../global_parameters/index.html">vbvarsel.global_parameters</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">vbvarsel.vbvarsel</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#attributes">Attributes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#classes">Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#functions">Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#package-contents">Package Contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">vbvarsel</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">vbvarsel</a></li>
+      <li class="breadcrumb-item active">vbvarsel.vbvarsel</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/autoapi/vbvarsel/vbvarsel/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-vbvarsel.vbvarsel">
+<span id="vbvarsel-vbvarsel"></span><h1>vbvarsel.vbvarsel<a class="headerlink" href="#module-vbvarsel.vbvarsel" title="Link to this heading"></a></h1>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#vbvarsel.vbvarsel._Results" title="vbvarsel.vbvarsel._Results"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_Results</span></code></a></p></td>
+<td><p>Dataclass object to store clustering results.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#vbvarsel.vbvarsel.geometric_schedule" title="vbvarsel.vbvarsel.geometric_schedule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">geometric_schedule</span></code></a>(→ float)</p></td>
+<td><p>Function to calculate geometric annealing.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#vbvarsel.vbvarsel.harmonic_schedule" title="vbvarsel.vbvarsel.harmonic_schedule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">harmonic_schedule</span></code></a>(→ float)</p></td>
+<td><p>Function to calculate harmonic annealing.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#vbvarsel.vbvarsel._extract_els" title="vbvarsel.vbvarsel._extract_els"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_extract_els</span></code></a>(→ int)</p></td>
+<td><p>Function to extract elements from counts of a matrix.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#vbvarsel.vbvarsel._run_sim" title="vbvarsel.vbvarsel._run_sim"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_run_sim</span></code></a>(→ tuple)</p></td>
+<td><p>Private function to handle running the actual maths of the simulation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#vbvarsel.vbvarsel.main" title="vbvarsel.vbvarsel.main"><code class="xref py py-obj docutils literal notranslate"><span class="pre">main</span></code></a>(→ _Results)</p></td>
+<td><p>The main entry point to the package.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="vbvarsel.vbvarsel._Results">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">vbvarsel.vbvarsel.</span></span><span class="sig-name descname"><span class="pre">_Results</span></span><a class="reference internal" href="../../../_modules/vbvarsel/vbvarsel.html#_Results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.vbvarsel._Results" title="Link to this definition"></a></dt>
+<dd><p>Dataclass object to store clustering results.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vbvarsel.vbvarsel._Results.convergence_ELBO">
+<span class="sig-name descname"><span class="pre">convergence_ELBO</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></em><a class="reference internal" href="../../../_modules/vbvarsel/vbvarsel.html#_Results.convergence_ELBO"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.vbvarsel._Results.convergence_ELBO" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vbvarsel.vbvarsel._Results.convergence_itr">
+<span class="sig-name descname"><span class="pre">convergence_itr</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></em><a class="reference internal" href="../../../_modules/vbvarsel/vbvarsel.html#_Results.convergence_itr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.vbvarsel._Results.convergence_itr" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vbvarsel.vbvarsel._Results.clust_predictions">
+<span class="sig-name descname"><span class="pre">clust_predictions</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></em><a class="reference internal" href="../../../_modules/vbvarsel/vbvarsel.html#_Results.clust_predictions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.vbvarsel._Results.clust_predictions" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vbvarsel.vbvarsel._Results.variable_selected">
+<span class="sig-name descname"><span class="pre">variable_selected</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">vbvarsel.calcparams.np.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="reference internal" href="../../../_modules/vbvarsel/vbvarsel.html#_Results.variable_selected"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.vbvarsel._Results.variable_selected" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vbvarsel.vbvarsel._Results.runtimes">
+<span class="sig-name descname"><span class="pre">runtimes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></em><a class="reference internal" href="../../../_modules/vbvarsel/vbvarsel.html#_Results.runtimes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.vbvarsel._Results.runtimes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vbvarsel.vbvarsel._Results.ARIs">
+<span class="sig-name descname"><span class="pre">ARIs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></em><a class="reference internal" href="../../../_modules/vbvarsel/vbvarsel.html#_Results.ARIs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.vbvarsel._Results.ARIs" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vbvarsel.vbvarsel._Results.relevants">
+<span class="sig-name descname"><span class="pre">relevants</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></em><a class="reference internal" href="../../../_modules/vbvarsel/vbvarsel.html#_Results.relevants"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.vbvarsel._Results.relevants" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vbvarsel.vbvarsel._Results.observations">
+<span class="sig-name descname"><span class="pre">observations</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></em><a class="reference internal" href="../../../_modules/vbvarsel/vbvarsel.html#_Results.observations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.vbvarsel._Results.observations" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vbvarsel.vbvarsel._Results.correct_rel_vars">
+<span class="sig-name descname"><span class="pre">correct_rel_vars</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></em><a class="reference internal" href="../../../_modules/vbvarsel/vbvarsel.html#_Results.correct_rel_vars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.vbvarsel._Results.correct_rel_vars" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vbvarsel.vbvarsel._Results.correct_irr_vars">
+<span class="sig-name descname"><span class="pre">correct_irr_vars</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></em><a class="reference internal" href="../../../_modules/vbvarsel/vbvarsel.html#_Results.correct_irr_vars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.vbvarsel._Results.correct_irr_vars" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vbvarsel.vbvarsel._Results.add_elbo">
+<span class="sig-name descname"><span class="pre">add_elbo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elbo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/vbvarsel/vbvarsel.html#_Results.add_elbo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.vbvarsel._Results.add_elbo" title="Link to this definition"></a></dt>
+<dd><p>Method to append the ELBO convergence.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vbvarsel.vbvarsel._Results.add_convergence">
+<span class="sig-name descname"><span class="pre">add_convergence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iteration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/vbvarsel/vbvarsel.html#_Results.add_convergence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.vbvarsel._Results.add_convergence" title="Link to this definition"></a></dt>
+<dd><p>Method to append convergence iteration.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vbvarsel.vbvarsel._Results.add_prediction">
+<span class="sig-name descname"><span class="pre">add_prediction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predictions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/vbvarsel/vbvarsel.html#_Results.add_prediction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.vbvarsel._Results.add_prediction" title="Link to this definition"></a></dt>
+<dd><p>Method to append predicted cluster.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vbvarsel.vbvarsel._Results.add_selected_variables">
+<span class="sig-name descname"><span class="pre">add_selected_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">vbvarsel.calcparams.np.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/vbvarsel/vbvarsel.html#_Results.add_selected_variables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.vbvarsel._Results.add_selected_variables" title="Link to this definition"></a></dt>
+<dd><p>Method to append selected variables.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vbvarsel.vbvarsel._Results.add_runtimes">
+<span class="sig-name descname"><span class="pre">add_runtimes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runtime</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/vbvarsel/vbvarsel.html#_Results.add_runtimes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.vbvarsel._Results.add_runtimes" title="Link to this definition"></a></dt>
+<dd><p>Method to append runtime.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vbvarsel.vbvarsel._Results.add_ari">
+<span class="sig-name descname"><span class="pre">add_ari</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ari</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/vbvarsel/vbvarsel.html#_Results.add_ari"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.vbvarsel._Results.add_ari" title="Link to this definition"></a></dt>
+<dd><p>Method to append the Adjusted Rand Index.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vbvarsel.vbvarsel._Results.add_relevants">
+<span class="sig-name descname"><span class="pre">add_relevants</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">relevant</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/vbvarsel/vbvarsel.html#_Results.add_relevants"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.vbvarsel._Results.add_relevants" title="Link to this definition"></a></dt>
+<dd><p>Method to append the relevant selected variables.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vbvarsel.vbvarsel._Results.add_observations">
+<span class="sig-name descname"><span class="pre">add_observations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/vbvarsel/vbvarsel.html#_Results.add_observations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.vbvarsel._Results.add_observations" title="Link to this definition"></a></dt>
+<dd><p>Method to append the number of observations.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vbvarsel.vbvarsel._Results.add_correct_rel_vars">
+<span class="sig-name descname"><span class="pre">add_correct_rel_vars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">correct</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/vbvarsel/vbvarsel.html#_Results.add_correct_rel_vars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.vbvarsel._Results.add_correct_rel_vars" title="Link to this definition"></a></dt>
+<dd><p>Method to append the relevant correct variables.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vbvarsel.vbvarsel._Results.add_correct_irr_vars">
+<span class="sig-name descname"><span class="pre">add_correct_irr_vars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">incorrect</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/vbvarsel/vbvarsel.html#_Results.add_correct_irr_vars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.vbvarsel._Results.add_correct_irr_vars" title="Link to this definition"></a></dt>
+<dd><p>Method to append the correct irrelevant variables.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vbvarsel.vbvarsel._Results.save_results">
+<span class="sig-name descname"><span class="pre">save_results</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/vbvarsel/vbvarsel.html#_Results.save_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.vbvarsel._Results.save_results" title="Link to this definition"></a></dt>
+<dd><p>Method to save results to a csv, using datetime format for naming.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="vbvarsel.vbvarsel.geometric_schedule">
+<span class="sig-prename descclassname"><span class="pre">vbvarsel.vbvarsel.</span></span><span class="sig-name descname"><span class="pre">geometric_schedule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">T</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">itr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_annealed_itr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../../../_modules/vbvarsel/vbvarsel.html#geometric_schedule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.vbvarsel.geometric_schedule" title="Link to this definition"></a></dt>
+<dd><p>Function to calculate geometric annealing.</p>
+<dl class="simple">
+<dt>Params</dt><dd><dl class="simple">
+<dt>T: int</dt><dd><p>initial temperature for annealing.</p>
+</dd>
+<dt>alpha: float</dt><dd><p>cooling rate</p>
+</dd>
+<dt>itr: int</dt><dd><p>current iteration</p>
+</dd>
+<dt>max_annealed_itr: int</dt><dd><p>maximum number of iteration to use annealing</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns</dt><dd><dl class="simple">
+<dt>float:</dt><dd><p>1, if itr &gt;= max_annealed_itr, else T0 * alpha^itr</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="vbvarsel.vbvarsel.harmonic_schedule">
+<span class="sig-prename descclassname"><span class="pre">vbvarsel.vbvarsel.</span></span><span class="sig-name descname"><span class="pre">harmonic_schedule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">T</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">itr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../../../_modules/vbvarsel/vbvarsel.html#harmonic_schedule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.vbvarsel.harmonic_schedule" title="Link to this definition"></a></dt>
+<dd><p>Function to calculate harmonic annealing.</p>
+<dl class="simple">
+<dt>Params</dt><dd><dl class="simple">
+<dt>T: int</dt><dd><p>the initial temperature</p>
+</dd>
+<dt>alpha: float</dt><dd><p>cooling rate</p>
+</dd>
+<dt>itr: int</dt><dd><p>current iteration</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns</dt><dd><dl class="simple">
+<dt>float:</dt><dd><p>Quotient of T by (1 + alpha * itr)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="vbvarsel.vbvarsel._extract_els">
+<span class="sig-prename descclassname"><span class="pre">vbvarsel.vbvarsel.</span></span><span class="sig-name descname"><span class="pre">_extract_els</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">el</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">unique_counts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">vbvarsel.calcparams.np.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">counts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">vbvarsel.calcparams.np.ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../../../_modules/vbvarsel/vbvarsel.html#_extract_els"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.vbvarsel._extract_els" title="Link to this definition"></a></dt>
+<dd><p>Function to extract elements from counts of a matrix.</p>
+<dl class="simple">
+<dt>Params</dt><dd><dl class="simple">
+<dt>el: int</dt><dd><p>element of interest (can it only be 1 or 0?)</p>
+</dd>
+<dt>unique_counts: NDarray</dt><dd><p>array of unique counts from a matrix</p>
+</dd>
+<dt>counts: NDarray</dt><dd><p>array of total counts from a matrix</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns</dt><dd><p>int: integer of counts of targeted element.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="vbvarsel.vbvarsel._run_sim">
+<span class="sig-prename descclassname"><span class="pre">vbvarsel.vbvarsel.</span></span><span class="sig-name descname"><span class="pre">_run_sim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">vbvarsel.calcparams.np.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">vbvarsel.calcparams.np.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">vbvarsel.calcparams.np.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">vbvarsel.calcparams.np.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hyperparameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters" title="vbvarsel.global_parameters.Hyperparameters"><span class="pre">vbvarsel.global_parameters.Hyperparameters</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ctrick</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annealing</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'fixed'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><span class="pre">tuple</span></a></span></span><a class="reference internal" href="../../../_modules/vbvarsel/vbvarsel.html#_run_sim"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.vbvarsel._run_sim" title="Link to this definition"></a></dt>
+<dd><p>Private function to handle running the actual maths of the simulation.
+Should not be called directly, it is used from the function <cite>main()</cite>.</p>
+<dl class="simple">
+<dt>Params</dt><dd><dl class="simple">
+<dt>X: np.ndarray[float]</dt><dd><p>An array of shuffled and normalised data. Can be derived from a dataset
+the user has supplied or a simulated dataset from the <cite>dataSimCrook</cite>
+module.</p>
+</dd>
+<dt>m0: np.ndarray[float]</dt><dd><p>2-D zeroed array</p>
+</dd>
+<dt>b0: np.ndarray[float]</dt><dd><p>2-D array with 1s in diagonal, zeroes in rest</p>
+</dd>
+<dt>C: np.ndarray[int]</dt><dd><p>covariate selection indicators</p>
+</dd>
+<dt>hyperparameters: Hyperparameters</dt><dd><p>An object of specified hyperparameters</p>
+</dd>
+<dt>CTrick: bool (Optional) (Default: True)</dt><dd><p>whether to use or not a mathematical trick to avoid numerical errors</p>
+</dd>
+<dt>annealing: str (Optional) (Default: “fixed”)</dt><dd><p>The type of annealing to apply to the simulation. Can be one of
+“fixed”, “geometric” or “harmonic”, “fixed” does not apply annealing.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns</dt><dd><dl class="simple">
+<dt>Tuple:</dt><dd><dl class="simple">
+<dt>Z: np.ndarray[float]</dt><dd><p>an NDarray of Dirchilet data</p>
+</dd>
+<dt>lower_bound: list[float]</dt><dd><p>List of the calculated estimated lower bounds of the experiment</p>
+</dd>
+<dt>C: np.ndarray[float]</dt><dd><p>Calculated covariate selection indicators.</p>
+</dd>
+<dt>itr: int</dt><dd><p>is the number of iterations performed before convergence</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="vbvarsel.vbvarsel.main">
+<span class="sig-prename descclassname"><span class="pre">vbvarsel.vbvarsel.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hyperparameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters" title="vbvarsel.global_parameters.Hyperparameters"><span class="pre">vbvarsel.global_parameters.Hyperparameters</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">simulation_parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../global_parameters/index.html#vbvarsel.global_parameters.SimulationParameters" title="vbvarsel.global_parameters.SimulationParameters"><span class="pre">vbvarsel.global_parameters.SimulationParameters</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ctrick</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/os.html#os.PathLike" title="(in Python v3.13)"><span class="pre">os.PathLike</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cols_to_skip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annealing_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'fixed'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#vbvarsel.vbvarsel._Results" title="vbvarsel.vbvarsel._Results"><span class="pre">_Results</span></a></span></span><a class="reference internal" href="../../../_modules/vbvarsel/vbvarsel.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.vbvarsel.main" title="Link to this definition"></a></dt>
+<dd><p>The main entry point to the package.</p>
+<p>Params</p>
+<blockquote>
+<div><dl>
+<dt>hyperparameters: Hyperparameters (Required)</dt><dd><p>An object of hyperparamters to apply to the simulation.</p>
+</dd>
+<dt>simulation_parameters: SimulationParameters (Optional) (Default: <cite>SimulationParameters()</cite>)</dt><dd><p>An object of simulation paramaters to apply to the simulation.
+Note: This is a required parameter if a user does not supply
+their own data.</p>
+</dd>
+<dt>Ctrick: bool (Optional) (Default: True)</dt><dd><p>Flag to determine whether or not to apply replica trick to the
+simulation</p>
+</dd>
+<dt>user_data: str or os.PathLike (Optional) (Default: None)</dt><dd><p>A location of a csv document for data a user whishes to test.</p>
+</dd>
+<dt>user_labels: str | list[str] (Optional) (Default: None)</dt><dd><p>A string or list of strings to identify labels. A string value will
+try to extract a column of the same name from the supplied data.</p>
+</dd>
+<dt>cols_to_skip: list[str] (Optional) (Default: None)</dt><dd><p>An optional list of columns to drop from the dataframe. This should
+be used to remove any non-numeric data from the dataframe. If a
+column shares the same name as a label column, the labels will be
+extracted before the column is dropped.</p>
+<p><strong>Hint</strong>: an unnamed column can be passed by using “Unnamed: [index]”,
+eg “Unnamed: 0” to drop a blank name first column.</p>
+</dd>
+<dt>annealing_type: str (Optional) (Default: “fixed”)</dt><dd><p>Optional type of annealing to apply to the simulation, can be one of
+“geometric”, “harmonic” or “fixed”, the latter of which does not
+apply any annealing.</p>
+</dd>
+<dt>save_output: bool (Optional) (Default: False)</dt><dd><p>Optional flag for users to save their output to a csv file. Data is
+saved in the current working directory with the file naming format
+“results-timestamp.csv”.</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>Returns</p>
+<blockquote>
+<div><dl class="simple">
+<dt>results: dataclass</dt><dd><p>An object of results stored in a series of arrays from the clustering
+algorithm. Some arrays may be populated by <cite>nan</cite> values. This is the
+case if a user supplies their own data but does not have corresponding
+labels. Additionally, some fields are only captured during entirely
+simulated runs, as such will be <cite>nan</cite>-ed if a user provides their own
+dataset.</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../global_parameters/index.html" class="btn btn-neutral float-left" title="vbvarsel.global_parameters" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-10-01 11:10:13, Cambridge University.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

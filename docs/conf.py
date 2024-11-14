@@ -46,6 +46,7 @@ extensions = [
     "sphinx.ext.viewcode",
     "autoapi.extension",
     "myst_parser",
+    "sphinx_rtd_theme"
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -80,9 +81,12 @@ html_theme = "sphinx_rtd_theme"
 
 intersphinx_mapping = {'python': ('https://docs.python.org/3', None),
                        # Commonly used libraries, uncomment when used in package
-                       # 'numpy': ('http://docs.scipy.org/doc/numpy/', None),
-                       # 'scipy': ('http://docs.scipy.org/doc/scipy/reference/', None),
-                       # 'scikit-learn': ('https://scikit-learn.org/stable/', None),
-                       # 'matplotlib': ('https://matplotlib.org/stable/', None),
-                       # 'pandas': ('http://pandas.pydata.org/docs/', None),
+                    #    'numpy': ('http://docs.scipy.org/doc/numpy/', None),
+                    #    'scipy': ('http://docs.scipy.org/doc/scipy/reference/', None),
+                    #    'scikit-learn': ('https://scikit-learn.org/stable/', None),
+                    #    'matplotlib': ('https://matplotlib.org/stable/', None),
+                    #    'pandas': ('http://pandas.pydata.org/docs/', None),
                        }
+
+numpydoc_show_class_members = False
+autosummary_imported_members = True 

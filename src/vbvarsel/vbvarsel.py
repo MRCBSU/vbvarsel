@@ -4,9 +4,9 @@ import time
 import os
 from datetime import datetime
 
-from .dataSimCrook import SimulateCrookData
+from .data_sim_crook import SimulateCrookData
 from .global_parameters import Hyperparameters, SimulationParameters
-from .calcparams import * #pretty much anything that starts with calc is from here
+from .calcparams import * #pretty much anything that starts with "calc" is from here
 from .elbo import ELBO_Computation
 from .custodian import UserDataHandler
 
@@ -16,7 +16,7 @@ from dataclasses import dataclass, field
 
 @dataclass(order=True)
 class _Results:
-    '''Dataclass to store the results of the simulation.'''
+    '''Dataclass object to store clustering results.'''
     convergence_ELBO: list[float] = field(default_factory=list)
     convergence_itr: list[int] = field(default_factory=list)
     clust_predictions: list[int] = field(default_factory=list)
@@ -29,58 +29,60 @@ class _Results:
     correct_irr_vars: list[int] = field(default_factory=list)  # correct irrelevant
     
     def add_elbo(self, elbo:float) -> None:
-        '''Function to append the ELBO convergence.'''
+        '''Method to append the ELBO convergence.'''
         self.convergence_ELBO.append(elbo)
     
     def add_convergence(self, iteration:int) -> None:
-        '''Function to append convergence iteration.'''
+        '''Method to append convergence iteration.'''
         self.convergence_itr.append(iteration)
 
     def add_prediction(self, predictions:list[int]) -> None:
-        '''Function to append predicted cluster.'''
+        '''Method to append predicted cluster.'''
         self.clust_predictions.append(predictions)
     
     def add_selected_variables(self, variables: np.ndarray[float]) -> None:
-        '''Function to append selected variables.'''
+        '''Method to append selected variables.'''
         self.variable_selected.append(variables)
 
     def add_runtimes(self, runtime: float) -> None:
-        '''Function to append runtime.'''
+        '''Method to append runtime.'''
         self.runtimes.append(runtime)
 
     def add_ari(self, ari:float) -> None:
-        '''Function to append the Adjusted Rand Index.'''
+        '''Method to append the Adjusted Rand Index.'''
         self.ARIs.append(ari)
     
     def add_relevants(self, relevant: int) -> None:
-        '''Function to append the relevant selected variables.'''
+        '''Method to append the relevant selected variables.'''
         self.relevants.append(relevant)
 
     def add_observations(self, observation: int) -> None:
-        '''Function to append the number of observations.'''
+        '''Method to append the number of observations.'''
         self.observations.append(observation)
 
     def add_correct_rel_vars(self, correct: int) -> None:
-        '''Function to append the relevant correct variables.'''
+        '''Method to append the relevant correct variables.'''
         self.correct_rel_vars.append(correct)
 
     def add_correct_irr_vars(self, incorrect: int) -> None:
-        '''Function to append the correct irrelevant variables.'''
+        '''Method to append the correct irrelevant variables.'''
         self.correct_irr_vars.append(incorrect)
     
-    def save_results(self, path):
+    def save_results(self):
+        '''Method to save results to a csv, using datetime format for naming.'''
+        path = os.getcwd()
         savetime = datetime.now().strftime("%m_%d_%Y_%H_%M_%S")
         savefile = f"results-{savetime}.csv"
         results_out = pd.DataFrame(self.__dict__)
         results_out.to_csv(path_or_buf=os.path.join(path, savefile), index=False)
 
-# classical geometric schedule T(k) = T0 * alpha^k where k is the current iteration
-# T0 is the initial temperature
-def geometric_schedule(T0, alpha, itr, max_annealed_itr):
+# classical geometric schedule T(k) = T * alpha^k where k is the current iteration
+# T is the initial temperature
+def geometric_schedule(T: int, alpha: float, itr: int, max_annealed_itr: int) -> float:
     '''Function to calculate geometric annealing.
 
-    Params:
-        T0: int
+    Params
+        T: int
             initial temperature for annealing.
         alpha: float
             cooling rate 
@@ -88,46 +90,50 @@ def geometric_schedule(T0, alpha, itr, max_annealed_itr):
             current iteration
         max_annealed_itr: int
             maximum number of iteration to use annealing 
+    Returns
+        float:
+            1, if itr >= max_annealed_itr, else T0 * alpha^itr
 
-    Returns: 1, if itr >= max_annealed_itr, else T * alpha^itr
     '''
     if itr < max_annealed_itr:
-        return T0 * (alpha**itr)
+        return T * (alpha**itr)
     else:
         return 1
 
 
 # classical harmonic schedule T(k) = T0 / (1 + alpha * k) where k is the current iteration
 # T0 is the initial temperature
-def harmonic_schedule(T0, alpha, itr):
+def harmonic_schedule(T: int, alpha: float, itr: int) -> float:
     '''Function to calculate harmonic annealing.
 
-    Params:
-        T0: int
+    Params
+        T: int
             the initial temperature
         alpha: float
             cooling rate 
         itr: int
             current iteration
-    
-    Returns:
-        Quotient of T0 by (1 + alpha * itr)
+    Returns
+        float:
+            Quotient of T by (1 + alpha * itr)
+
     '''
-    return T0 / (1 + alpha * itr)
+    return T / (1 + alpha * itr)
 
 
 def _extract_els(el:int, unique_counts:np.ndarray, counts:np.ndarray) -> int:
     '''Function to extract elements from counts of a matrix.
 
-    Params:
+    Params
         el: int 
             element of interest (can it only be 1 or 0?)
         unique_counts: NDarray
             array of unique counts from a matrix
         counts: NDarray
             array of total counts from a matrix
-    Returns:
-        counts_of_element[0]:int -> integer of counts of targeted element.
+    Returns
+        int: integer of counts of targeted element.
+
     '''
     index_of_element = np.where(unique_counts == el)[0]
     counts_of_element = counts[index_of_element]
@@ -145,44 +151,41 @@ def _run_sim(
     hyperparameters: Hyperparameters,
     Ctrick:bool=True,
     annealing:str="fixed",
-    max_annealed_itr:int=10,
-
     ) -> tuple:
     '''Private function to handle running the actual maths of the simulation. 
-    Should not be called directly, it is used from the function `main`.
+    Should not be called directly, it is used from the function `main()`.
 
-
-    X: np.ndarray[float]
-        An array of shuffled and normalised data. Can be derived from a dataset
-        the user has supplied or a simulated dataset from the `dataSimCrook`
-        module. 
-    m0: np.ndarray[float]
-        2-D zeroed array
-    b0: np.ndarray[float]
-        2-D array with 1s in diagonal, zeroes in rest
-    C: np.ndarray[int]
-        covariate selection indicator
-    CTrick: bool
-       whether to use or not a mathematical trick to avoid numerical errors (Default True)
-    hyperparameters: Hyperparameters
-        An object of specified hyperparameters
-    annealing: str
-        The type of annealing to apply to the simulation. Can be one of 
-        "fixed", "geometric" or "harmonic", "fixed" does not apply annealing.
-        (Default "fixed")
-    max_annealed_itr: int
-        How many iterations to apply the annealing function. (Default 10)
-
+    Params
+        X: np.ndarray[float]
+            An array of shuffled and normalised data. Can be derived from a dataset
+            the user has supplied or a simulated dataset from the `dataSimCrook`
+            module. 
+        m0: np.ndarray[float]
+            2-D zeroed array
+        b0: np.ndarray[float]
+            2-D array with 1s in diagonal, zeroes in rest
+        C: np.ndarray[int]
+            covariate selection indicators
+        hyperparameters: Hyperparameters
+            An object of specified hyperparameters
+        CTrick: bool (Optional) (Default: True)
+            whether to use or not a mathematical trick to avoid numerical errors 
+        annealing: str (Optional) (Default: "fixed")
+            The type of annealing to apply to the simulation. Can be one of 
+            "fixed", "geometric" or "harmonic", "fixed" does not apply annealing.
+            
 
     Returns
-    -------
-    Tuple(Z: np.NDarray, lower_bound: list, _C: np.NDarray, itr: int)
-        A tuple of experimental results.
-        Z is an NDarray of Dirchilet data
-        lower_bound is the calculated lower_bound of the experiment
-        C is the calculated value of C
-        itr is the number of iterations performed before convergence 
-           
+        Tuple:
+            Z: np.ndarray[float]
+                an NDarray of Dirchilet data
+            lower_bound: list[float]
+                List of the calculated estimated lower bounds of the experiment
+            C: np.ndarray[float]
+                Calculated covariate selection indicators. 
+            itr: int
+                is the number of iterations performed before convergence
+
     '''
     K = hyperparameters.k1
     max_itr = hyperparameters.max_itr
@@ -192,10 +195,12 @@ def _run_sim(
     beta0 = hyperparameters.beta0
     a0 = hyperparameters.a0
     d0 = hyperparameters.d0
+    max_annealed_itr = hyperparameters.max_annealed_itr
 
     (N, XDim) = np.shape(X)
 
-    # params:
+    # Params
+
     Z = np.array([np.random.dirichlet(np.ones(K)) for _ in range(N)])
 
     # parameter estimates for \Phi_{0j} precomputed as MLE
@@ -238,13 +243,13 @@ def _run_sim(
         delta = calcDelta(C=C, d=d0, T=T)
 
         # E-like-step
-        mu = expSigma(X=X, XDim=XDim, betak=betakj, m=m, b=bkj, a=akj, C=C)
-        invc = expTau(b=bkj, a=akj, C=C)
+        esig = expSigma(X=X, XDim=XDim, betak=betakj, m=m, b=bkj, a=akj, C=C)
+        invc = expTau(bkj=bkj, akj=akj, C=C)
         pik = expPi(alpha0=alpha0, NK=NK)
         f0 = calcF0(X=X, XDim=XDim, sigma_0=sigma_sq_0, mu_0=mu_0, C=C)
 
         Z = calcZ(
-            exp_ln_pi=pik, exp_ln_gam=invc, exp_ln_mu=mu, f0=f0, N=N, K=K, C=C, T=T
+            exp_ln_pi=pik, exp_ln_tau=invc, exp_ln_sigma=esig, f0=f0, N=N, K=K, C=C, T=T
         )
         C = calcC(
             XDim=XDim,
@@ -282,8 +287,8 @@ def _run_sim(
             b0=b0,
             m=m,
             m0=m0,
-            exp_ln_gam=invc,
-            exp_ln_mu=mu,
+            exp_ln_tau=invc,
+            exp_ln_sigma=esig,
             f0=f0,
             T=T,
         )
@@ -303,36 +308,60 @@ def _run_sim(
 
 
 
-def main(simulation_parameters: SimulationParameters, 
+def main(
          hyperparameters: Hyperparameters,
+         simulation_parameters: SimulationParameters, 
          Ctrick:bool = True,
-         user_data: pd.DataFrame = None,
-         user_labels: list[str] = None,
-         cols_to_skip: str | list[str] = None,
+         user_data: str | os.PathLike = None,
+         user_labels: str | list[str] = None,
+         cols_to_skip: list[str] = None,
          annealing_type:str="fixed",
-         save_output:bool=False):
-    '''Function that runs the simulation.
+         save_output:bool=False) -> _Results:
+    '''The main entry point to the package.
 
-    Params:
-        simulation_parameters: SimulationParameters
-            An object of simulation paramaters to apply to the simulation. 
-        hyperparameters: Hyperparameters
+    Params
+    
+        hyperparameters: Hyperparameters (Required)
             An object of hyperparamters to apply to the simulation.
-        Ctrick: bool
+        simulation_parameters: SimulationParameters (Optional) (Default: `SimulationParameters()`)
+            An object of simulation paramaters to apply to the simulation.
+            Note: This is a required parameter if a user does not supply
+            their own data. 
+        Ctrick: bool (Optional) (Default: True)
             Flag to determine whether or not to apply replica trick to the 
-            simulation (Default True)
-        user_data: np.ndarray
-            
-        annealing_type: str
+            simulation 
+        user_data: str or os.PathLike (Optional) (Default: None)
+            A location of a csv document for data a user whishes to test.
+        user_labels: str | list[str] (Optional) (Default: None)
+            A string or list of strings to identify labels. A string value will
+            try to extract a column of the same name from the supplied data.
+        cols_to_skip: list[str] (Optional) (Default: None)
+            An optional list of columns to drop from the dataframe. This should
+            be used to remove any non-numeric data from the dataframe. If a 
+            column shares the same name as a label column, the labels will be
+            extracted before the column is dropped. 
+
+            **Hint**: an unnamed column can be passed by using "Unnamed: [index]",
+            eg "Unnamed: 0" to drop a blank name first column.
+        annealing_type: str (Optional) (Default: "fixed")
             Optional type of annealing to apply to the simulation, can be one of
             "geometric", "harmonic" or "fixed", the latter of which does not
-            apply any annealing. (Default "fixed")
-        save_output: bool
+            apply any annealing. 
+        save_output: bool (Optional) (Default: False)
             Optional flag for users to save their output to a csv file. Data is
             saved in the current working directory with the file naming format
-            "results-timestamp.csv". (Default False)
-    '''
+            "results-timestamp.csv". 
+    Returns
+    
+        results: dataclass
+            An object of results stored in a series of arrays from the clustering
+            algorithm. Some arrays may be populated by `nan` values. This is the
+            case if a user supplies their own data but does not have corresponding
+            labels. Additionally, some fields are only captured during entirely
+            simulated runs, as such will be `nan`-ed if a user provides their own
+            dataset.
 
+    '''
 
     results = _Results() 
 
@@ -347,6 +376,8 @@ def main(simulation_parameters: SimulationParameters,
     ####BEGIN SIMULATION ONLY
     #IF USER DATA IGNORE THE FIRST TWO LOOPS
     #FOR USER DATA RUN ONLY MAX MODELS AMOUNT OF TIMES
+    print(simulation_parameters)
+    print(hyperparameters)
     for p, q in enumerate(simulation_parameters.n_observations): #nrows of user data [100]
         for n, o in enumerate(simulation_parameters.n_relevants): #nrows or anything [100]
             for i in range(hyperparameters.max_models):
@@ -457,50 +488,7 @@ def main(simulation_parameters: SimulationParameters,
                 print(f"rels: {results.relevants}")
                 print(f"obs: {results.observations}")
     if save_output:
-        print(results)
-        results.save_results(os.getcwd())
+        results.save_results()
+
+    #still want to return the results because this will probably just be 1 step in a series of steps
     return results
-
-#USERS SHOULD GET CSV WITH RUNTIME, CONVERGENCE, ELBO, ARI (if labels), VAR_SELECTION_ORDERED AND CLUST PREDICTIONS
-    # print(results)
-    # print(f"conv: {results.convergence_ELBO}")
-    # print(f"iter: {results.convergence_itr}")
-    # print(f"clusters: {results.clust_predictions}")
-    # print(f"var sel: {results.variable_selected}")
-    # print(f"time: {results.runtimes}")
-    # print(f"aris: {results.ARIs}")
-    # print(f"rels: {results.relevants}")
-    # print(f"obs: {results.observations}")
-
-
-
-
-if __name__ == "__main__":
-
-#     # simulationparameters = SimulationParameters([10,100], 50, [2,4,6], [0.2, 0.4, 0.7], [0,-2,2])
-#     # print(simulationparameters.means[0])
-#     import cProfile
-#     import pstats
-
-#     with cProfile.Profile() as profile:
-
-
-    hp = Hyperparameters(max_models=10)
-    sp = SimulationParameters(
-        n_observations=[10, 100,1000],
-        n_variables=200,
-        n_relevants=[10, 20, 50, 100],
-        mixture_proportions=[0.2, 0.3, 0.5])
-    
-    main(sp, hp) #, save_output=True, Ctrick=True, user_data="test_input.csv")
-
-#     pres = pstats.Stats(profile)
-#     pres.sort_stats(pstats.SortKey.TIME)
-#     pres.print_stats()
-#     # # pass
-
-#     # print(np.array(pd.read_csv("test.csv", header=None )[0]))
-
-#     # df = UserDataHandler.load_data("BRCA.pam50.csv")
-#     # UserDataHandler.normalise_data(df)
-#     # print(UserDataHandler.ExperimentValues.data)

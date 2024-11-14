@@ -1,0 +1,10 @@
+Contributing
+============
+
+We appreciate you using our package in your research. Of course, we are not flawless human beings, and are always open to suggestions and improvements.
+
+Bug fixes can be reported on the GitHub issues page_ and we will get to them as soon as possible.
+
+To contribute my extending the capabilities, please submit a pull request. Note: we will reject any changes that modify the underlying algorithm unless it is a change to improve performance.
+
+.. _page: https://github.com/ANardo9/variationalTempering_beta/issues

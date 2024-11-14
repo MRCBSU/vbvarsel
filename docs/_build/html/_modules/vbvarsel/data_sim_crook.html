@@ -1,0 +1,270 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>vbvarsel.data_sim_crook &mdash; vbvarsel 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            vbvarsel
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">vbvarsel</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../vbvarsel.html">vbvarsel</a></li>
+      <li class="breadcrumb-item active">vbvarsel.data_sim_crook</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for vbvarsel.data_sim_crook</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">.experiment_data</span> <span class="kn">import</span> <span class="n">ExperimentValues</span>
+
+<div class="viewcode-block" id="SimulateCrookData">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/data_sim_crook/index.html#vbvarsel.data_sim_crook.SimulateCrookData">[docs]</a>
+<span class="k">class</span> <span class="nc">SimulateCrookData</span><span class="p">:</span>
+    <span class="c1"># &quot;&quot;&quot;</span>
+    <span class="c1"># A class to represent simulated data as described by Crook et al. These </span>
+    <span class="c1"># attributes mirror the simulation parameters, which are set via the</span>
+    <span class="c1"># `SimulationParameters()` function in `global_parameters.py`.</span>
+
+    <span class="c1"># Attributes</span>
+    <span class="c1">#     observation : int</span>
+    <span class="c1">#         Number of observations to simulate.</span>
+    <span class="c1">#     n_variables : int</span>
+    <span class="c1">#         Number of variables to simulate.</span>
+    <span class="c1">#     n_relevant : int</span>
+    <span class="c1">#         Number of variables that are relevant.</span>
+    <span class="c1">#     mixture_proportions : list[float]</span>
+    <span class="c1">#         Proportion of observations in each cluster, length of the array defines </span>
+    <span class="c1">#         number of simulated clusters.</span>
+    <span class="c1">#     means : list[int]</span>
+    <span class="c1">#         Mean of the Gaussian distribution for each cluster.</span>
+    <span class="c1">#     variance_covariance_matrix : np.ndarray</span>
+    <span class="c1">#         Matrix of variance and covariance for simulation.</span>
+
+    <span class="c1"># &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">observation</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span>
+        <span class="n">n_variables</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">n_relevant</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">mixture_proportions</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
+        <span class="n">means</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
+        <span class="n">variance_covariance_matrix</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="p">):</span>
+<div class="viewcode-block" id="SimulateCrookData.observation">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/data_sim_crook/index.html#vbvarsel.data_sim_crook.SimulateCrookData.observation">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">observation</span> <span class="o">=</span> <span class="n">observation</span></div>
+
+<div class="viewcode-block" id="SimulateCrookData.n_variables">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/data_sim_crook/index.html#vbvarsel.data_sim_crook.SimulateCrookData.n_variables">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_variables</span> <span class="o">=</span> <span class="n">n_variables</span></div>
+
+<div class="viewcode-block" id="SimulateCrookData.n_relevant">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/data_sim_crook/index.html#vbvarsel.data_sim_crook.SimulateCrookData.n_relevant">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_relevant</span> <span class="o">=</span> <span class="n">n_relevant</span></div>
+
+<div class="viewcode-block" id="SimulateCrookData.mixture_proportions">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/data_sim_crook/index.html#vbvarsel.data_sim_crook.SimulateCrookData.mixture_proportions">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mixture_proportions</span> <span class="o">=</span> <span class="n">mixture_proportions</span></div>
+
+<div class="viewcode-block" id="SimulateCrookData.means">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/data_sim_crook/index.html#vbvarsel.data_sim_crook.SimulateCrookData.means">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">means</span> <span class="o">=</span> <span class="n">means</span></div>
+
+<div class="viewcode-block" id="SimulateCrookData.variance_covariance_matrix">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/data_sim_crook/index.html#vbvarsel.data_sim_crook.SimulateCrookData.variance_covariance_matrix">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">variance_covariance_matrix</span> <span class="o">=</span> <span class="n">variance_covariance_matrix</span></div>
+
+<div class="viewcode-block" id="SimulateCrookData.ExperimentValues">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/data_sim_crook/index.html#vbvarsel.data_sim_crook.SimulateCrookData.ExperimentValues">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ExperimentValues</span> <span class="o">=</span> <span class="n">ExperimentValues</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="SimulateCrookData.relevant_vars">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/data_sim_crook/index.html#vbvarsel.data_sim_crook.SimulateCrookData.relevant_vars">[docs]</a>
+    <span class="k">def</span> <span class="nf">relevant_vars</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns array of relevant variables for use in simulation.&quot;&quot;&quot;</span>
+        <span class="n">samples</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">true_labels</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Store the true labels</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">observation</span><span class="p">):</span>
+            <span class="c1"># Select mixture component based on proportions</span>
+            <span class="n">component</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mixture_proportions</span><span class="p">))),</span> <span class="n">p</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mixture_proportions</span><span class="p">)</span>
+            <span class="n">true_labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">component</span><span class="p">)</span>  <span class="c1"># Store the true label</span>
+            
+            <span class="n">mean_vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_relevant</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">means</span><span class="p">[</span><span class="n">component</span><span class="p">])</span>
+            <span class="n">sample</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="p">(</span>
+                <span class="n">mean_vector</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">variance_covariance_matrix</span>
+            <span class="p">)</span>
+            <span class="n">samples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+
+        <span class="c1"># Convert list of samples to numpy array</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ExperimentValues</span><span class="o">.</span><span class="n">true_labels</span> <span class="o">=</span> <span class="n">true_labels</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="SimulateCrookData.irrelevant_vars">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/data_sim_crook/index.html#vbvarsel.data_sim_crook.SimulateCrookData.irrelevant_vars">[docs]</a>
+    <span class="k">def</span> <span class="nf">irrelevant_vars</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns array of irrelevant variables in simulation.&quot;&quot;&quot;</span>
+        <span class="n">n_irrelevant</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_variables</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_relevant</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">observation</span><span class="p">,</span> <span class="n">n_irrelevant</span><span class="p">)</span></div>
+
+         
+
+<div class="viewcode-block" id="SimulateCrookData.data_sim">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/data_sim_crook/index.html#vbvarsel.data_sim_crook.SimulateCrookData.data_sim">[docs]</a>
+    <span class="k">def</span> <span class="nf">data_sim</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns simulated data array.&quot;&quot;&quot;</span>
+        <span class="c1"># Combine relevant and irrelevant variables</span>
+        <span class="n">relevant_variables</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relevant_vars</span><span class="p">()</span>
+        <span class="n">irrelevant_variables</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">irrelevant_vars</span><span class="p">()</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">relevant_variables</span><span class="p">,</span> <span class="n">irrelevant_variables</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ExperimentValues</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="k">return</span> <span class="n">data</span></div>
+
+
+
+<div class="viewcode-block" id="SimulateCrookData.permutation">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/data_sim_crook/index.html#vbvarsel.data_sim_crook.SimulateCrookData.permutation">[docs]</a>
+    <span class="k">def</span> <span class="nf">permutation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns permutations for simulation.&quot;&quot;&quot;</span>
+        <span class="n">permutations</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_variables</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ExperimentValues</span><span class="o">.</span><span class="n">permutations</span> <span class="o">=</span> <span class="n">permutations</span>
+        <span class="k">return</span> <span class="n">permutations</span></div>
+
+
+
+<div class="viewcode-block" id="SimulateCrookData.shuffle_sim_data">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/data_sim_crook/index.html#vbvarsel.data_sim_crook.SimulateCrookData.shuffle_sim_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">shuffle_sim_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">permutation</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Shuffles randomised data for simulation.</span>
+
+<span class="sd">        Params</span>
+<span class="sd">            data: np.ndarray</span>
+<span class="sd">                Array of data generated from `self.data_sim()`</span>
+<span class="sd">            permutation: np.ndarray</span>
+<span class="sd">                Array of permutations generated from `self.permutations()`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">shuffled_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="n">permutation</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ExperimentValues</span><span class="o">.</span><span class="n">shuffled_data</span> <span class="o">=</span> <span class="n">shuffled_data</span></div>
+</div>
+
+
+    
+<span class="c1"># if __name__ == &#39;__main__&#39;:</span>
+<span class="c1">#     test = []</span>
+<span class="c1">#     for n in range(100):</span>
+<span class="c1">#         test.append(np.random.choice([0, 1, 2], p=[0.2, 0.3, 0.5]))</span>
+<span class="c1">#     one = 0</span>
+<span class="c1">#     two = 0</span>
+<span class="c1">#     zero = 0</span>
+<span class="c1">#     for t in test:</span>
+<span class="c1">#         if t == 0:</span>
+<span class="c1">#             zero += 1</span>
+<span class="c1">#         if t == 1:</span>
+<span class="c1">#             one += 1</span>
+<span class="c1">#         else:</span>
+<span class="c1">#             two += 1</span>
+    
+<span class="c1">#     print(f&quot;zeroes: {zero/100}&quot;)</span>
+<span class="c1">#     print(f&quot;ones: {one/100}&quot;)</span>
+<span class="c1">#     print(f&quot;twos: {two/100}&quot;)</span>
+
+
+
+    <span class="c1"># scd = SimulateCrookData(10, 100, 10, [0.5, 0.3, 0.2], [0, 2, -2],  np.identity(10))</span>
+    <span class="c1"># scd.relevant_vars()</span>
+    <span class="c1"># print(scd.ExperimentValues.true_labels)</span>
+
+    
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-10-01 11:10:13, Cambridge University.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

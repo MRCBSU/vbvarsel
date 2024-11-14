@@ -1,0 +1,714 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>vbvarsel.vbvarsel &mdash; vbvarsel 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            vbvarsel
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">vbvarsel</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../vbvarsel.html">vbvarsel</a></li>
+      <li class="breadcrumb-item active">vbvarsel.vbvarsel</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for vbvarsel.vbvarsel</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="kn">from</span> <span class="nn">.data_sim_crook</span> <span class="kn">import</span> <span class="n">SimulateCrookData</span>
+<span class="kn">from</span> <span class="nn">.global_parameters</span> <span class="kn">import</span> <span class="n">Hyperparameters</span><span class="p">,</span> <span class="n">SimulationParameters</span>
+<span class="kn">from</span> <span class="nn">.calcparams</span> <span class="kn">import</span> <span class="o">*</span> <span class="c1">#pretty much anything that starts with &quot;calc&quot; is from here</span>
+<span class="kn">from</span> <span class="nn">.elbo</span> <span class="kn">import</span> <span class="n">ELBO_Computation</span>
+<span class="kn">from</span> <span class="nn">.custodian</span> <span class="kn">import</span> <span class="n">UserDataHandler</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">adjusted_rand_score</span>
+
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="viewcode-block" id="_Results">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/vbvarsel/index.html#vbvarsel._Results">[docs]</a>
+<span class="k">class</span> <span class="nc">_Results</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Dataclass object to store clustering results.&#39;&#39;&#39;</span>
+<div class="viewcode-block" id="_Results.convergence_ELBO">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/vbvarsel/index.html#vbvarsel._Results.convergence_ELBO">[docs]</a>
+    <span class="n">convergence_ELBO</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="_Results.convergence_itr">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/vbvarsel/index.html#vbvarsel._Results.convergence_itr">[docs]</a>
+    <span class="n">convergence_itr</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="_Results.clust_predictions">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/vbvarsel/index.html#vbvarsel._Results.clust_predictions">[docs]</a>
+    <span class="n">clust_predictions</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="_Results.variable_selected">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/vbvarsel/index.html#vbvarsel._Results.variable_selected">[docs]</a>
+    <span class="n">variable_selected</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="_Results.runtimes">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/vbvarsel/index.html#vbvarsel._Results.runtimes">[docs]</a>
+    <span class="n">runtimes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="_Results.ARIs">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/vbvarsel/index.html#vbvarsel._Results.ARIs">[docs]</a>
+    <span class="n">ARIs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="_Results.relevants">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/vbvarsel/index.html#vbvarsel._Results.relevants">[docs]</a>
+    <span class="n">relevants</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="_Results.observations">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/vbvarsel/index.html#vbvarsel._Results.observations">[docs]</a>
+    <span class="n">observations</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="_Results.correct_rel_vars">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/vbvarsel/index.html#vbvarsel._Results.correct_rel_vars">[docs]</a>
+    <span class="n">correct_rel_vars</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>  <span class="c1"># correct relevant</span></div>
+
+<div class="viewcode-block" id="_Results.correct_irr_vars">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/vbvarsel/index.html#vbvarsel._Results.correct_irr_vars">[docs]</a>
+    <span class="n">correct_irr_vars</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>  <span class="c1"># correct irrelevant</span></div>
+
+    
+<div class="viewcode-block" id="_Results.add_elbo">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/vbvarsel/index.html#vbvarsel._Results.add_elbo">[docs]</a>
+    <span class="k">def</span> <span class="nf">add_elbo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">elbo</span><span class="p">:</span><span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Method to append the ELBO convergence.&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">convergence_ELBO</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">elbo</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="_Results.add_convergence">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/vbvarsel/index.html#vbvarsel._Results.add_convergence">[docs]</a>
+    <span class="k">def</span> <span class="nf">add_convergence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iteration</span><span class="p">:</span><span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Method to append convergence iteration.&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">convergence_itr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">iteration</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="_Results.add_prediction">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/vbvarsel/index.html#vbvarsel._Results.add_prediction">[docs]</a>
+    <span class="k">def</span> <span class="nf">add_prediction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">predictions</span><span class="p">:</span><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Method to append predicted cluster.&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clust_predictions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="_Results.add_selected_variables">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/vbvarsel/index.html#vbvarsel._Results.add_selected_variables">[docs]</a>
+    <span class="k">def</span> <span class="nf">add_selected_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variables</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Method to append selected variables.&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">variable_selected</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">variables</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="_Results.add_runtimes">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/vbvarsel/index.html#vbvarsel._Results.add_runtimes">[docs]</a>
+    <span class="k">def</span> <span class="nf">add_runtimes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Method to append runtime.&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">runtimes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">runtime</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="_Results.add_ari">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/vbvarsel/index.html#vbvarsel._Results.add_ari">[docs]</a>
+    <span class="k">def</span> <span class="nf">add_ari</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ari</span><span class="p">:</span><span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Method to append the Adjusted Rand Index.&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ARIs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ari</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="_Results.add_relevants">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/vbvarsel/index.html#vbvarsel._Results.add_relevants">[docs]</a>
+    <span class="k">def</span> <span class="nf">add_relevants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">relevant</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Method to append the relevant selected variables.&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">relevants</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">relevant</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="_Results.add_observations">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/vbvarsel/index.html#vbvarsel._Results.add_observations">[docs]</a>
+    <span class="k">def</span> <span class="nf">add_observations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observation</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Method to append the number of observations.&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">observations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">observation</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="_Results.add_correct_rel_vars">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/vbvarsel/index.html#vbvarsel._Results.add_correct_rel_vars">[docs]</a>
+    <span class="k">def</span> <span class="nf">add_correct_rel_vars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">correct</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Method to append the relevant correct variables.&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">correct_rel_vars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">correct</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="_Results.add_correct_irr_vars">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/vbvarsel/index.html#vbvarsel._Results.add_correct_irr_vars">[docs]</a>
+    <span class="k">def</span> <span class="nf">add_correct_irr_vars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">incorrect</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Method to append the correct irrelevant variables.&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">correct_irr_vars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">incorrect</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="_Results.save_results">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/vbvarsel/index.html#vbvarsel._Results.save_results">[docs]</a>
+    <span class="k">def</span> <span class="nf">save_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Method to save results to a csv, using datetime format for naming.&#39;&#39;&#39;</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+        <span class="n">savetime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%m_</span><span class="si">%d</span><span class="s2">_%Y_%H_%M_%S&quot;</span><span class="p">)</span>
+        <span class="n">savefile</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;results-</span><span class="si">{</span><span class="n">savetime</span><span class="si">}</span><span class="s2">.csv&quot;</span>
+        <span class="n">results_out</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
+        <span class="n">results_out</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">path_or_buf</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">savefile</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+</div>
+
+
+<span class="c1"># classical geometric schedule T(k) = T * alpha^k where k is the current iteration</span>
+<span class="c1"># T is the initial temperature</span>
+<div class="viewcode-block" id="geometric_schedule">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/vbvarsel/index.html#vbvarsel.geometric_schedule">[docs]</a>
+<span class="k">def</span> <span class="nf">geometric_schedule</span><span class="p">(</span><span class="n">T</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">itr</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">max_annealed_itr</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Function to calculate geometric annealing.</span>
+
+<span class="sd">    Params</span>
+<span class="sd">        T: int</span>
+<span class="sd">            initial temperature for annealing.</span>
+<span class="sd">        alpha: float</span>
+<span class="sd">            cooling rate </span>
+<span class="sd">        itr: int</span>
+<span class="sd">            current iteration</span>
+<span class="sd">        max_annealed_itr: int</span>
+<span class="sd">            maximum number of iteration to use annealing </span>
+<span class="sd">    Returns</span>
+<span class="sd">        float:</span>
+<span class="sd">            1, if itr &gt;= max_annealed_itr, else T0 * alpha^itr</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">itr</span> <span class="o">&lt;</span> <span class="n">max_annealed_itr</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">T</span> <span class="o">*</span> <span class="p">(</span><span class="n">alpha</span><span class="o">**</span><span class="n">itr</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span></div>
+
+
+
+<span class="c1"># classical harmonic schedule T(k) = T0 / (1 + alpha * k) where k is the current iteration</span>
+<span class="c1"># T0 is the initial temperature</span>
+<div class="viewcode-block" id="harmonic_schedule">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/vbvarsel/index.html#vbvarsel.harmonic_schedule">[docs]</a>
+<span class="k">def</span> <span class="nf">harmonic_schedule</span><span class="p">(</span><span class="n">T</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">itr</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Function to calculate harmonic annealing.</span>
+
+<span class="sd">    Params</span>
+<span class="sd">        T: int</span>
+<span class="sd">            the initial temperature</span>
+<span class="sd">        alpha: float</span>
+<span class="sd">            cooling rate </span>
+<span class="sd">        itr: int</span>
+<span class="sd">            current iteration</span>
+<span class="sd">    Returns</span>
+<span class="sd">        float:</span>
+<span class="sd">            Quotient of T by (1 + alpha * itr)</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">T</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">itr</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="_extract_els">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/vbvarsel/index.html#vbvarsel._extract_els">[docs]</a>
+<span class="k">def</span> <span class="nf">_extract_els</span><span class="p">(</span><span class="n">el</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">unique_counts</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">counts</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Function to extract elements from counts of a matrix.</span>
+
+<span class="sd">    Params</span>
+<span class="sd">        el: int </span>
+<span class="sd">            element of interest (can it only be 1 or 0?)</span>
+<span class="sd">        unique_counts: NDarray</span>
+<span class="sd">            array of unique counts from a matrix</span>
+<span class="sd">        counts: NDarray</span>
+<span class="sd">            array of total counts from a matrix</span>
+<span class="sd">    Returns</span>
+<span class="sd">        int: integer of counts of targeted element.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">index_of_element</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">unique_counts</span> <span class="o">==</span> <span class="n">el</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">counts_of_element</span> <span class="o">=</span> <span class="n">counts</span><span class="p">[</span><span class="n">index_of_element</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">counts_of_element</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">counts_of_element</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+
+
+<span class="c1"># MAIN RUN FUNCTION</span>
+<div class="viewcode-block" id="_run_sim">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/vbvarsel/index.html#vbvarsel._run_sim">[docs]</a>
+<span class="k">def</span> <span class="nf">_run_sim</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+    <span class="n">m0</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+    <span class="n">b0</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+    <span class="n">C</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+    <span class="n">hyperparameters</span><span class="p">:</span> <span class="n">Hyperparameters</span><span class="p">,</span>
+    <span class="n">Ctrick</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">annealing</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s2">&quot;fixed&quot;</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Private function to handle running the actual maths of the simulation. </span>
+<span class="sd">    Should not be called directly, it is used from the function `main()`.</span>
+
+<span class="sd">    Params</span>
+<span class="sd">        X: np.ndarray[float]</span>
+<span class="sd">            An array of shuffled and normalised data. Can be derived from a dataset</span>
+<span class="sd">            the user has supplied or a simulated dataset from the `dataSimCrook`</span>
+<span class="sd">            module. </span>
+<span class="sd">        m0: np.ndarray[float]</span>
+<span class="sd">            2-D zeroed array</span>
+<span class="sd">        b0: np.ndarray[float]</span>
+<span class="sd">            2-D array with 1s in diagonal, zeroes in rest</span>
+<span class="sd">        C: np.ndarray[int]</span>
+<span class="sd">            covariate selection indicators</span>
+<span class="sd">        hyperparameters: Hyperparameters</span>
+<span class="sd">            An object of specified hyperparameters</span>
+<span class="sd">        CTrick: bool (Optional) (Default: True)</span>
+<span class="sd">            whether to use or not a mathematical trick to avoid numerical errors </span>
+<span class="sd">        annealing: str (Optional) (Default: &quot;fixed&quot;)</span>
+<span class="sd">            The type of annealing to apply to the simulation. Can be one of </span>
+<span class="sd">            &quot;fixed&quot;, &quot;geometric&quot; or &quot;harmonic&quot;, &quot;fixed&quot; does not apply annealing.</span>
+<span class="sd">            </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">        Tuple:</span>
+<span class="sd">            Z: np.ndarray[float]</span>
+<span class="sd">                an NDarray of Dirchilet data</span>
+<span class="sd">            lower_bound: list[float]</span>
+<span class="sd">                List of the calculated estimated lower bounds of the experiment</span>
+<span class="sd">            C: np.ndarray[float]</span>
+<span class="sd">                Calculated covariate selection indicators. </span>
+<span class="sd">            itr: int</span>
+<span class="sd">                is the number of iterations performed before convergence</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">K</span> <span class="o">=</span> <span class="n">hyperparameters</span><span class="o">.</span><span class="n">k1</span>
+    <span class="n">max_itr</span> <span class="o">=</span> <span class="n">hyperparameters</span><span class="o">.</span><span class="n">max_itr</span>
+    <span class="n">threshold</span> <span class="o">=</span> <span class="n">hyperparameters</span><span class="o">.</span><span class="n">threshold</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="n">hyperparameters</span><span class="o">.</span><span class="n">t_max</span>
+    <span class="n">alpha0</span> <span class="o">=</span> <span class="n">hyperparameters</span><span class="o">.</span><span class="n">alpha0</span>
+    <span class="n">beta0</span> <span class="o">=</span> <span class="n">hyperparameters</span><span class="o">.</span><span class="n">beta0</span>
+    <span class="n">a0</span> <span class="o">=</span> <span class="n">hyperparameters</span><span class="o">.</span><span class="n">a0</span>
+    <span class="n">d0</span> <span class="o">=</span> <span class="n">hyperparameters</span><span class="o">.</span><span class="n">d0</span>
+    <span class="n">max_annealed_itr</span> <span class="o">=</span> <span class="n">hyperparameters</span><span class="o">.</span><span class="n">max_annealed_itr</span>
+
+    <span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">XDim</span><span class="p">)</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+    <span class="c1"># Params</span>
+
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">dirichlet</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">K</span><span class="p">))</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)])</span>
+
+    <span class="c1"># parameter estimates for \Phi_{0j} precomputed as MLE</span>
+    <span class="n">mu_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">XDim</span><span class="p">)</span>
+    <span class="n">sigma_sq_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">XDim</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">XDim</span><span class="p">):</span>
+        <span class="n">mu_0</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="n">j</span><span class="p">])</span> <span class="o">/</span> <span class="n">N</span>
+        <span class="n">sigma_sq_0</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">((</span><span class="n">X</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">mu_0</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">N</span>
+
+    <span class="n">itr</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">lower_bound</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">converged</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">while</span> <span class="n">itr</span> <span class="o">&lt;</span> <span class="n">max_itr</span><span class="p">:</span>
+
+        <span class="k">if</span> <span class="n">annealing</span> <span class="o">==</span> <span class="s2">&quot;geometric&quot;</span><span class="p">:</span>
+            <span class="n">cooling_rate</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">T</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">max_annealed_itr</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="n">T</span> <span class="o">=</span> <span class="n">geometric_schedule</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">cooling_rate</span><span class="p">,</span> <span class="n">itr</span><span class="p">,</span> <span class="n">max_annealed_itr</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">annealing</span> <span class="o">==</span> <span class="s2">&quot;harmonic&quot;</span><span class="p">:</span>
+            <span class="n">cooling_rate</span> <span class="o">=</span> <span class="p">(</span><span class="n">T</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">max_annealed_itr</span>
+            <span class="n">T</span> <span class="o">=</span> <span class="n">harmonic_schedule</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">cooling_rate</span><span class="p">,</span> <span class="n">itr</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">annealing</span> <span class="o">==</span> <span class="s2">&quot;fixed&quot;</span><span class="p">:</span>
+            <span class="n">T</span> <span class="o">=</span> <span class="n">T</span>
+
+        <span class="n">NK</span> <span class="o">=</span> <span class="n">Z</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># M-like-step</span>
+        <span class="n">alphak</span> <span class="o">=</span> <span class="n">calcAlphak</span><span class="p">(</span><span class="n">NK</span><span class="o">=</span><span class="n">NK</span><span class="p">,</span> <span class="n">alpha0</span><span class="o">=</span><span class="n">alpha0</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">)</span>
+        <span class="n">akj</span> <span class="o">=</span> <span class="n">calcAkj</span><span class="p">(</span><span class="n">K</span><span class="o">=</span><span class="n">K</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="n">XDim</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="n">C</span><span class="p">,</span> <span class="n">NK</span><span class="o">=</span><span class="n">NK</span><span class="p">,</span> <span class="n">a0</span><span class="o">=</span><span class="n">a0</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">)</span>
+        <span class="n">xd</span> <span class="o">=</span> <span class="n">calcXd</span><span class="p">(</span><span class="n">Z</span><span class="o">=</span><span class="n">Z</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">calcS</span><span class="p">(</span><span class="n">Z</span><span class="o">=</span><span class="n">Z</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">xd</span><span class="o">=</span><span class="n">xd</span><span class="p">)</span>
+        <span class="n">betakj</span> <span class="o">=</span> <span class="n">calcbetakj</span><span class="p">(</span><span class="n">K</span><span class="o">=</span><span class="n">K</span><span class="p">,</span> <span class="n">XDim</span><span class="o">=</span><span class="n">XDim</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="n">C</span><span class="p">,</span> <span class="n">NK</span><span class="o">=</span><span class="n">NK</span><span class="p">,</span> <span class="n">beta0</span><span class="o">=</span><span class="n">beta0</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">)</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">calcM</span><span class="p">(</span>
+            <span class="n">K</span><span class="o">=</span><span class="n">K</span><span class="p">,</span> <span class="n">XDim</span><span class="o">=</span><span class="n">XDim</span><span class="p">,</span> <span class="n">beta0</span><span class="o">=</span><span class="n">beta0</span><span class="p">,</span> <span class="n">m0</span><span class="o">=</span><span class="n">m0</span><span class="p">,</span> <span class="n">NK</span><span class="o">=</span><span class="n">NK</span><span class="p">,</span> <span class="n">xd</span><span class="o">=</span><span class="n">xd</span><span class="p">,</span> <span class="n">betakj</span><span class="o">=</span><span class="n">betakj</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="n">C</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span>
+        <span class="p">)</span>
+        <span class="n">bkj</span> <span class="o">=</span> <span class="n">calcB</span><span class="p">(</span>
+            <span class="n">W0</span><span class="o">=</span><span class="n">b0</span><span class="p">,</span> <span class="n">xd</span><span class="o">=</span><span class="n">xd</span><span class="p">,</span> <span class="n">K</span><span class="o">=</span><span class="n">K</span><span class="p">,</span> <span class="n">m0</span><span class="o">=</span><span class="n">m0</span><span class="p">,</span> <span class="n">XDim</span><span class="o">=</span><span class="n">XDim</span><span class="p">,</span> <span class="n">beta0</span><span class="o">=</span><span class="n">beta0</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="n">S</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="n">C</span><span class="p">,</span> <span class="n">NK</span><span class="o">=</span><span class="n">NK</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span>
+        <span class="p">)</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="n">calcDelta</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="n">C</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="n">d0</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">)</span>
+
+        <span class="c1"># E-like-step</span>
+        <span class="n">esig</span> <span class="o">=</span> <span class="n">expSigma</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">XDim</span><span class="o">=</span><span class="n">XDim</span><span class="p">,</span> <span class="n">betak</span><span class="o">=</span><span class="n">betakj</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="n">m</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="n">bkj</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="n">akj</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="n">C</span><span class="p">)</span>
+        <span class="n">invc</span> <span class="o">=</span> <span class="n">expTau</span><span class="p">(</span><span class="n">bkj</span><span class="o">=</span><span class="n">bkj</span><span class="p">,</span> <span class="n">akj</span><span class="o">=</span><span class="n">akj</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="n">C</span><span class="p">)</span>
+        <span class="n">pik</span> <span class="o">=</span> <span class="n">expPi</span><span class="p">(</span><span class="n">alpha0</span><span class="o">=</span><span class="n">alpha0</span><span class="p">,</span> <span class="n">NK</span><span class="o">=</span><span class="n">NK</span><span class="p">)</span>
+        <span class="n">f0</span> <span class="o">=</span> <span class="n">calcF0</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">XDim</span><span class="o">=</span><span class="n">XDim</span><span class="p">,</span> <span class="n">sigma_0</span><span class="o">=</span><span class="n">sigma_sq_0</span><span class="p">,</span> <span class="n">mu_0</span><span class="o">=</span><span class="n">mu_0</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="n">C</span><span class="p">)</span>
+
+        <span class="n">Z</span> <span class="o">=</span> <span class="n">calcZ</span><span class="p">(</span>
+            <span class="n">exp_ln_pi</span><span class="o">=</span><span class="n">pik</span><span class="p">,</span> <span class="n">exp_ln_tau</span><span class="o">=</span><span class="n">invc</span><span class="p">,</span> <span class="n">exp_ln_sigma</span><span class="o">=</span><span class="n">esig</span><span class="p">,</span> <span class="n">f0</span><span class="o">=</span><span class="n">f0</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">K</span><span class="o">=</span><span class="n">K</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="n">C</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span>
+        <span class="p">)</span>
+        <span class="n">C</span> <span class="o">=</span> <span class="n">calcC</span><span class="p">(</span>
+            <span class="n">XDim</span><span class="o">=</span><span class="n">XDim</span><span class="p">,</span>
+            <span class="n">N</span><span class="o">=</span><span class="n">N</span><span class="p">,</span>
+            <span class="n">K</span><span class="o">=</span><span class="n">K</span><span class="p">,</span>
+            <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span>
+            <span class="n">b</span><span class="o">=</span><span class="n">bkj</span><span class="p">,</span>
+            <span class="n">a</span><span class="o">=</span><span class="n">akj</span><span class="p">,</span>
+            <span class="n">m</span><span class="o">=</span><span class="n">m</span><span class="p">,</span>
+            <span class="n">beta</span><span class="o">=</span><span class="n">betakj</span><span class="p">,</span>
+            <span class="n">d</span><span class="o">=</span><span class="n">d0</span><span class="p">,</span>
+            <span class="n">C</span><span class="o">=</span><span class="n">C</span><span class="p">,</span>
+            <span class="n">Z</span><span class="o">=</span><span class="n">Z</span><span class="p">,</span>
+            <span class="n">sigma_0</span><span class="o">=</span><span class="n">sigma_sq_0</span><span class="p">,</span>
+            <span class="n">mu_0</span><span class="o">=</span><span class="n">mu_0</span><span class="p">,</span>
+            <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span>
+            <span class="n">trick</span><span class="o">=</span><span class="n">Ctrick</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">lb</span> <span class="o">=</span> <span class="n">ELBO_Computation</span><span class="p">()</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span>
+            <span class="n">XDim</span><span class="o">=</span><span class="n">XDim</span><span class="p">,</span>
+            <span class="n">K</span><span class="o">=</span><span class="n">K</span><span class="p">,</span>
+            <span class="n">N</span><span class="o">=</span><span class="n">N</span><span class="p">,</span>
+            <span class="n">C</span><span class="o">=</span><span class="n">C</span><span class="p">,</span>
+            <span class="n">Z</span><span class="o">=</span><span class="n">Z</span><span class="p">,</span>
+            <span class="n">d</span><span class="o">=</span><span class="n">d0</span><span class="p">,</span>
+            <span class="n">delta</span><span class="o">=</span><span class="n">delta</span><span class="p">,</span>
+            <span class="n">beta</span><span class="o">=</span><span class="n">betakj</span><span class="p">,</span>
+            <span class="n">beta0</span><span class="o">=</span><span class="n">beta0</span><span class="p">,</span>
+            <span class="n">alpha</span><span class="o">=</span><span class="n">alphak</span><span class="p">,</span>
+            <span class="n">alpha0</span><span class="o">=</span><span class="n">alpha0</span><span class="p">,</span>
+            <span class="n">a</span><span class="o">=</span><span class="n">akj</span><span class="p">,</span>
+            <span class="n">a0</span><span class="o">=</span><span class="n">a0</span><span class="p">,</span>
+            <span class="n">b</span><span class="o">=</span><span class="n">bkj</span><span class="p">,</span>
+            <span class="n">b0</span><span class="o">=</span><span class="n">b0</span><span class="p">,</span>
+            <span class="n">m</span><span class="o">=</span><span class="n">m</span><span class="p">,</span>
+            <span class="n">m0</span><span class="o">=</span><span class="n">m0</span><span class="p">,</span>
+            <span class="n">exp_ln_tau</span><span class="o">=</span><span class="n">invc</span><span class="p">,</span>
+            <span class="n">exp_ln_sigma</span><span class="o">=</span><span class="n">esig</span><span class="p">,</span>
+            <span class="n">f0</span><span class="o">=</span><span class="n">f0</span><span class="p">,</span>
+            <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">lower_bound</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lb</span><span class="p">)</span>
+
+        <span class="c1"># Convergence criterion</span>
+        <span class="n">improve</span> <span class="o">=</span> <span class="p">(</span><span class="n">lb</span> <span class="o">-</span> <span class="n">lower_bound</span><span class="p">[</span><span class="n">itr</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span> <span class="k">if</span> <span class="n">itr</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">lb</span>
+        <span class="k">if</span> <span class="n">itr</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">improve</span> <span class="o">&lt;</span> <span class="n">threshold</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Converged at iteration </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">itr</span><span class="p">))</span>
+            <span class="n">converged</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">break</span>
+
+        <span class="n">itr</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">Z</span><span class="p">,</span> <span class="n">lower_bound</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">itr</span></div>
+
+
+
+
+
+<div class="viewcode-block" id="main">
+<a class="viewcode-back" href="../../autoapi/vbvarsel/vbvarsel/index.html#vbvarsel.main">[docs]</a>
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span>
+         <span class="n">hyperparameters</span><span class="p">:</span> <span class="n">Hyperparameters</span><span class="p">,</span>
+         <span class="n">simulation_parameters</span><span class="p">:</span> <span class="n">SimulationParameters</span><span class="p">,</span> 
+         <span class="n">Ctrick</span><span class="p">:</span><span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+         <span class="n">user_data</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+         <span class="n">user_labels</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+         <span class="n">cols_to_skip</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+         <span class="n">annealing_type</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s2">&quot;fixed&quot;</span><span class="p">,</span>
+         <span class="n">save_output</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Results</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;The main entry point to the package.</span>
+
+<span class="sd">    Params</span>
+<span class="sd">    </span>
+<span class="sd">        hyperparameters: Hyperparameters (Required)</span>
+<span class="sd">            An object of hyperparamters to apply to the simulation.</span>
+<span class="sd">        simulation_parameters: SimulationParameters (Optional) (Default: `SimulationParameters()`)</span>
+<span class="sd">            An object of simulation paramaters to apply to the simulation.</span>
+<span class="sd">            Note: This is a required parameter if a user does not supply</span>
+<span class="sd">            their own data. </span>
+<span class="sd">        Ctrick: bool (Optional) (Default: True)</span>
+<span class="sd">            Flag to determine whether or not to apply replica trick to the </span>
+<span class="sd">            simulation </span>
+<span class="sd">        user_data: str or os.PathLike (Optional) (Default: None)</span>
+<span class="sd">            A location of a csv document for data a user whishes to test.</span>
+<span class="sd">        user_labels: str | list[str] (Optional) (Default: None)</span>
+<span class="sd">            A string or list of strings to identify labels. A string value will</span>
+<span class="sd">            try to extract a column of the same name from the supplied data.</span>
+<span class="sd">        cols_to_skip: list[str] (Optional) (Default: None)</span>
+<span class="sd">            An optional list of columns to drop from the dataframe. This should</span>
+<span class="sd">            be used to remove any non-numeric data from the dataframe. If a </span>
+<span class="sd">            column shares the same name as a label column, the labels will be</span>
+<span class="sd">            extracted before the column is dropped. </span>
+
+<span class="sd">            **Hint**: an unnamed column can be passed by using &quot;Unnamed: [index]&quot;,</span>
+<span class="sd">            eg &quot;Unnamed: 0&quot; to drop a blank name first column.</span>
+<span class="sd">        annealing_type: str (Optional) (Default: &quot;fixed&quot;)</span>
+<span class="sd">            Optional type of annealing to apply to the simulation, can be one of</span>
+<span class="sd">            &quot;geometric&quot;, &quot;harmonic&quot; or &quot;fixed&quot;, the latter of which does not</span>
+<span class="sd">            apply any annealing. </span>
+<span class="sd">        save_output: bool (Optional) (Default: False)</span>
+<span class="sd">            Optional flag for users to save their output to a csv file. Data is</span>
+<span class="sd">            saved in the current working directory with the file naming format</span>
+<span class="sd">            &quot;results-timestamp.csv&quot;. </span>
+<span class="sd">    Returns</span>
+<span class="sd">    </span>
+<span class="sd">        results: dataclass</span>
+<span class="sd">            An object of results stored in a series of arrays from the clustering</span>
+<span class="sd">            algorithm. Some arrays may be populated by `nan` values. This is the</span>
+<span class="sd">            case if a user supplies their own data but does not have corresponding</span>
+<span class="sd">            labels. Additionally, some fields are only captured during entirely</span>
+<span class="sd">            simulated runs, as such will be `nan`-ed if a user provides their own</span>
+<span class="sd">            dataset.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">results</span> <span class="o">=</span> <span class="n">_Results</span><span class="p">()</span> 
+
+    <span class="k">if</span> <span class="n">user_data</span><span class="p">:</span>
+        <span class="n">test_data</span> <span class="o">=</span> <span class="n">UserDataHandler</span><span class="p">()</span>
+        <span class="n">test_data</span><span class="o">.</span><span class="n">load_data</span><span class="p">(</span><span class="n">data_source</span><span class="o">=</span><span class="n">user_data</span><span class="p">,</span> <span class="n">cols_to_ignore</span><span class="o">=</span><span class="n">cols_to_skip</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">user_labels</span><span class="p">)</span>
+        <span class="n">simulation_parameters</span><span class="o">.</span><span class="n">n_observations</span> <span class="o">=</span> <span class="p">[</span><span class="n">test_data</span><span class="o">.</span><span class="n">ExperimentValues</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="n">simulation_parameters</span><span class="o">.</span><span class="n">n_relevants</span> <span class="o">=</span> <span class="p">[</span><span class="n">test_data</span><span class="o">.</span><span class="n">ExperimentValues</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="n">perms</span> <span class="o">=</span> <span class="n">test_data</span><span class="o">.</span><span class="n">ExperimentValues</span><span class="o">.</span><span class="n">permutations</span>
+    <span class="c1">#instantiate user data outside of the loop, because most of the loop is for creating the simulated data.</span>
+
+    <span class="c1">####BEGIN SIMULATION ONLY</span>
+    <span class="c1">#IF USER DATA IGNORE THE FIRST TWO LOOPS</span>
+    <span class="c1">#FOR USER DATA RUN ONLY MAX MODELS AMOUNT OF TIMES</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">simulation_parameters</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">hyperparameters</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">simulation_parameters</span><span class="o">.</span><span class="n">n_observations</span><span class="p">):</span> <span class="c1">#nrows of user data [100]</span>
+        <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">simulation_parameters</span><span class="o">.</span><span class="n">n_relevants</span><span class="p">):</span> <span class="c1">#nrows or anything [100]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">hyperparameters</span><span class="o">.</span><span class="n">max_models</span><span class="p">):</span>
+                
+                <span class="c1">#COMMENT/DELETE after</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Model &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;obs &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">q</span><span class="p">))</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;rel &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">o</span><span class="p">))</span>
+                
+                <span class="k">if</span> <span class="n">user_data</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">results</span><span class="o">.</span><span class="n">add_relevants</span><span class="p">(</span><span class="n">simulation_parameters</span><span class="o">.</span><span class="n">n_relevants</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
+                    <span class="n">results</span><span class="o">.</span><span class="n">add_observations</span><span class="p">(</span><span class="n">simulation_parameters</span><span class="o">.</span><span class="n">n_observations</span><span class="p">[</span><span class="n">p</span><span class="p">])</span>
+                    <span class="n">variance_covariance_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">simulation_parameters</span><span class="o">.</span><span class="n">n_relevants</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
+                    <span class="n">test_data</span> <span class="o">=</span> <span class="n">SimulateCrookData</span><span class="p">(</span>
+                        <span class="n">simulation_parameters</span><span class="o">.</span><span class="n">n_observations</span><span class="p">[</span><span class="n">p</span><span class="p">],</span>
+                        <span class="n">simulation_parameters</span><span class="o">.</span><span class="n">n_variables</span><span class="p">,</span>
+                        <span class="n">simulation_parameters</span><span class="o">.</span><span class="n">n_relevants</span><span class="p">[</span><span class="n">n</span><span class="p">],</span>
+                        <span class="n">simulation_parameters</span><span class="o">.</span><span class="n">mixture_proportions</span><span class="p">,</span>
+                        <span class="n">simulation_parameters</span><span class="o">.</span><span class="n">means</span><span class="p">,</span>
+                        <span class="n">variance_covariance_matrix</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="n">crook_data</span> <span class="o">=</span> <span class="n">test_data</span><span class="o">.</span><span class="n">data_sim</span><span class="p">()</span>
+                    <span class="n">perms</span> <span class="o">=</span> <span class="n">test_data</span><span class="o">.</span><span class="n">permutation</span><span class="p">()</span>
+                    <span class="n">test_data</span><span class="o">.</span><span class="n">shuffle_sim_data</span><span class="p">(</span><span class="n">crook_data</span><span class="p">,</span> <span class="n">perms</span><span class="p">)</span>
+
+                
+                <span class="c1">##THIS APPLIES TO EVERYTHING (SIMULATED AND NON-SIMULATED)</span>
+                <span class="n">N</span><span class="p">,</span> <span class="n">XDim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">test_data</span><span class="o">.</span><span class="n">ExperimentValues</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+                <span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">XDim</span><span class="p">)</span>  
+                <span class="n">W0</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1e-1</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">XDim</span><span class="p">)</span> <span class="c1">#prior cov (bigger: smaller covariance)</span>
+                <span class="n">m0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">XDim</span><span class="p">)</span> <span class="c1">#prior mean</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">XDim</span><span class="p">):</span>
+                    <span class="n">m0</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">test_data</span><span class="o">.</span><span class="n">ExperimentValues</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="n">j</span><span class="p">])</span>
+                
+                <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+                <span class="c1"># Measure the execution time of the following code</span>
+                <span class="n">Z</span><span class="p">,</span> <span class="n">lower_bound</span><span class="p">,</span> <span class="n">Cs</span><span class="p">,</span> <span class="n">iterations</span> <span class="o">=</span> <span class="n">_run_sim</span><span class="p">(</span>
+                    <span class="n">X</span><span class="o">=</span><span class="n">test_data</span><span class="o">.</span><span class="n">ExperimentValues</span><span class="o">.</span><span class="n">shuffled_data</span><span class="p">,</span>
+                    <span class="n">hyperparameters</span><span class="o">=</span><span class="n">hyperparameters</span><span class="p">,</span>
+                    <span class="n">m0</span><span class="o">=</span><span class="n">m0</span><span class="p">,</span>
+                    <span class="n">b0</span><span class="o">=</span><span class="n">W0</span><span class="p">,</span>
+                    <span class="n">C</span><span class="o">=</span><span class="n">C</span><span class="p">,</span>
+                    <span class="n">Ctrick</span><span class="o">=</span><span class="n">Ctrick</span><span class="p">,</span>
+                    <span class="n">annealing</span><span class="o">=</span><span class="n">annealing_type</span>
+                    <span class="p">)</span>
+                <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+                <span class="n">run_time</span> <span class="o">=</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;runtime: </span><span class="si">{</span><span class="n">run_time</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">add_runtimes</span><span class="p">(</span><span class="n">run_time</span><span class="p">)</span>
+
+                <span class="n">results</span><span class="o">.</span><span class="n">add_elbo</span><span class="p">(</span><span class="n">lower_bound</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">add_convergence</span><span class="p">(</span><span class="n">iterations</span><span class="p">)</span>
+        
+                <span class="n">clust_pred</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">Z</span><span class="p">]</span>
+                <span class="n">clust_pred</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">clust_pred</span><span class="p">]</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">add_prediction</span><span class="p">(</span><span class="n">clust_pred</span><span class="p">)</span>
+            
+                <span class="c1">#only with true labels</span>
+                <span class="c1">#expected value for pam50 ~0.5 or so</span>
+                <span class="k">if</span> <span class="p">((</span><span class="n">user_labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">user_labels</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">))</span> <span class="ow">or</span> <span class="p">(</span><span class="ow">not</span> <span class="n">user_data</span><span class="p">):</span>
+                    <span class="n">ari</span> <span class="o">=</span> <span class="n">adjusted_rand_score</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">test_data</span><span class="o">.</span><span class="n">ExperimentValues</span><span class="o">.</span><span class="n">true_labels</span><span class="p">),</span>
+                                            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">clust_pred</span><span class="p">))</span>
+                    <span class="n">results</span><span class="o">.</span><span class="n">add_ari</span><span class="p">(</span><span class="n">ari</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">results</span><span class="o">.</span><span class="n">add_ari</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+        
+                <span class="n">original_order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">perms</span><span class="p">)</span>
+                <span class="c1">#ADD THIS TO THE RESULTS OBJECT</span>
+                <span class="n">var_selection_ordered</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Cs</span><span class="p">)[</span><span class="n">original_order</span><span class="p">])</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">add_selected_variables</span><span class="p">(</span><span class="n">var_selection_ordered</span><span class="p">)</span>
+                <span class="c1">###TO END ONLY FOR SIMULATION</span>
+                <span class="c1">#Find correct relevant variables</span>
+                <span class="k">if</span> <span class="n">user_data</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">unique_counts</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span>
+                        <span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="n">var_selection_ordered</span><span class="p">[:</span><span class="n">simulation_parameters</span><span class="o">.</span><span class="n">n_relevants</span><span class="p">[</span><span class="n">n</span><span class="p">]]),</span>
+                        <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span>
+                        <span class="p">)</span>
+                    <span class="c1"># Extract the counts of the specific element from the counts array</span>
+                    <span class="n">rel_counts_of_element</span> <span class="o">=</span> <span class="n">_extract_els</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">unique_counts</span><span class="p">,</span> <span class="n">counts</span><span class="p">)</span>
+                    <span class="n">results</span><span class="o">.</span><span class="n">add_correct_rel_vars</span><span class="p">(</span><span class="n">rel_counts_of_element</span><span class="p">)</span>        
+
+                    <span class="c1">#Find correct irrelevant variables</span>
+                    <span class="n">unique_counts</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span>
+                        <span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="n">var_selection_ordered</span><span class="p">[</span><span class="n">simulation_parameters</span><span class="o">.</span><span class="n">n_relevants</span><span class="p">[</span><span class="n">n</span><span class="p">]:]),</span>
+                        <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span>
+                        <span class="p">)</span>
+
+                    <span class="c1"># Extract the counts of the specific element from the counts array</span>
+                    <span class="n">irr_counts_of_element</span> <span class="o">=</span> <span class="n">_extract_els</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">unique_counts</span><span class="p">,</span> <span class="n">counts</span><span class="p">)</span>
+                    <span class="n">results</span><span class="o">.</span><span class="n">add_correct_irr_vars</span><span class="p">(</span><span class="n">irr_counts_of_element</span><span class="p">)</span>    
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1">#because theres no values, the arrays arent the same length and it cant be saved</span>
+                    <span class="c1">#so this is kind of hacky but it works</span>
+                    <span class="n">results</span><span class="o">.</span><span class="n">add_correct_irr_vars</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+                    <span class="n">results</span><span class="o">.</span><span class="n">add_correct_rel_vars</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+                    <span class="n">results</span><span class="o">.</span><span class="n">add_relevants</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+                    <span class="n">results</span><span class="o">.</span><span class="n">add_observations</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+
+
+                <span class="c1">#USERS SHOULD GET CSV WITH RUNTIME, CONVERGENCE, ELBO, ARI (if labels), VAR_SELECTION_ORDERED AND CLUST PREDICTIONS</span>
+                <span class="c1"># print(results)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;conv: </span><span class="si">{</span><span class="n">results</span><span class="o">.</span><span class="n">convergence_ELBO</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;iter: </span><span class="si">{</span><span class="n">results</span><span class="o">.</span><span class="n">convergence_itr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;clusters: </span><span class="si">{</span><span class="n">results</span><span class="o">.</span><span class="n">clust_predictions</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;var sel: </span><span class="si">{</span><span class="n">results</span><span class="o">.</span><span class="n">variable_selected</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;time: </span><span class="si">{</span><span class="n">results</span><span class="o">.</span><span class="n">runtimes</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;aris: </span><span class="si">{</span><span class="n">results</span><span class="o">.</span><span class="n">ARIs</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;rels: </span><span class="si">{</span><span class="n">results</span><span class="o">.</span><span class="n">relevants</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;obs: </span><span class="si">{</span><span class="n">results</span><span class="o">.</span><span class="n">observations</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">save_output</span><span class="p">:</span>
+        <span class="n">results</span><span class="o">.</span><span class="n">save_results</span><span class="p">()</span>
+
+    <span class="c1">#still want to return the results because this will probably just be 1 step in a series of steps</span>
+    <span class="k">return</span> <span class="n">results</span></div>
+
+
+
+
+
+
+<span class="c1"># if __name__ == &quot;__main__&quot;:</span>
+
+<span class="c1"># #     # simulationparameters = SimulationParameters([10,100], 50, [2,4,6], [0.2, 0.4, 0.7], [0,-2,2])</span>
+<span class="c1"># #     # print(simulationparameters.means[0])</span>
+<span class="c1"># #     import cProfile</span>
+<span class="c1"># #     import pstats</span>
+
+<span class="c1"># #     with cProfile.Profile() as profile:</span>
+
+
+<span class="c1">#     hp = Hyperparameters(max_models=10)</span>
+<span class="c1">#     sp = SimulationParameters(</span>
+<span class="c1">#         n_observations=[10, 100,1000],</span>
+<span class="c1">#         n_variables=200,</span>
+<span class="c1">#         n_relevants=[10, 20, 50, 100],</span>
+<span class="c1">#         mixture_proportions=[0.2, 0.3, 0.5])</span>
+    
+<span class="c1">#     main(sp, hp) #, save_output=True, Ctrick=True, user_data=&quot;test_input.csv&quot;)</span>
+
+<span class="c1">#     pres = pstats.Stats(profile)</span>
+<span class="c1">#     pres.sort_stats(pstats.SortKey.TIME)</span>
+<span class="c1">#     pres.print_stats()</span>
+<span class="c1">#     # # pass</span>
+
+<span class="c1">#     # print(np.array(pd.read_csv(&quot;test.csv&quot;, header=None )[0]))</span>
+
+<span class="c1">#     # df = UserDataHandler.load_data(&quot;BRCA.pam50.csv&quot;)</span>
+<span class="c1">#     # UserDataHandler.normalise_data(df)</span>
+<span class="c1">#     # print(UserDataHandler.ExperimentValues.data)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-10-01 11:10:13, Cambridge University.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

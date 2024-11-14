@@ -1,0 +1,41 @@
+vbvarsel.experiment_data
+========================
+
+.. py:module:: vbvarsel.experiment_data
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   vbvarsel.experiment_data.ExperimentValues
+
+
+Module Contents
+---------------
+
+.. py:class:: ExperimentValues
+
+   .. py:attribute:: true_labels
+      :type:  list[int]
+
+      Just a test to see what happens if I put stuff down here.
+
+
+   .. py:attribute:: data
+      :type:  numpy.ndarray
+      :value: None
+
+
+
+   .. py:attribute:: permutations
+      :type:  list[int]
+
+
+   .. py:attribute:: shuffled_data
+      :type:  numpy.ndarray
+      :value: None
+
+
+

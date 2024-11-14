@@ -1,0 +1,226 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>vbvarsel.custodian &mdash; vbvarsel 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="vbvarsel.data_sim_crook" href="../data_sim_crook/index.html" />
+    <link rel="prev" title="vbvarsel.calcparams" href="../calcparams/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            vbvarsel
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">vbvarsel</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../calcparams/index.html">vbvarsel.calcparams</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">vbvarsel.custodian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../data_sim_crook/index.html">vbvarsel.data_sim_crook</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../elbo/index.html">vbvarsel.elbo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../experiment_data/index.html">vbvarsel.experiment_data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../global_parameters/index.html">vbvarsel.global_parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vbvarsel/index.html">vbvarsel.vbvarsel</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#attributes">Attributes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#classes">Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#functions">Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#package-contents">Package Contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">vbvarsel</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">vbvarsel</a></li>
+      <li class="breadcrumb-item active">vbvarsel.custodian</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/autoapi/vbvarsel/custodian/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-vbvarsel.custodian">
+<span id="vbvarsel-custodian"></span><h1>vbvarsel.custodian<a class="headerlink" href="#module-vbvarsel.custodian" title="Link to this heading"></a></h1>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#vbvarsel.custodian.UserDataHandler" title="vbvarsel.custodian.UserDataHandler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UserDataHandler</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="vbvarsel.custodian.UserDataHandler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">vbvarsel.custodian.</span></span><span class="sig-name descname"><span class="pre">UserDataHandler</span></span><a class="reference internal" href="../../../_modules/vbvarsel/custodian.html#UserDataHandler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.custodian.UserDataHandler" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="vbvarsel.custodian.UserDataHandler.ExperimentValues">
+<span class="sig-name descname"><span class="pre">ExperimentValues</span></span><a class="reference internal" href="../../../_modules/vbvarsel/custodian.html#UserDataHandler.ExperimentValues"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.custodian.UserDataHandler.ExperimentValues" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vbvarsel.custodian.UserDataHandler.normalise_data">
+<span class="sig-name descname"><span class="pre">normalise_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="reference internal" href="../../../_modules/vbvarsel/custodian.html#UserDataHandler.normalise_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.custodian.UserDataHandler.normalise_data" title="Link to this definition"></a></dt>
+<dd><p>Function that returns a normalised dataframe from a non-normalised input.</p>
+<dl class="simple">
+<dt>Params</dt><dd><dl class="simple">
+<dt>data: pd.DataFrame</dt><dd><p>DataFrame of unsorted, unshuffled and non-normalised data to be used.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns</dt><dd><dl class="simple">
+<dt>array_normalised: np.ndarray</dt><dd><p>2-D array of normalised data</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vbvarsel.custodian.UserDataHandler.shuffle_normalised_data">
+<span class="sig-name descname"><span class="pre">shuffle_normalised_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">normalised_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.Series</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span></span></span><a class="reference internal" href="../../../_modules/vbvarsel/custodian.html#UserDataHandler.shuffle_normalised_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.custodian.UserDataHandler.shuffle_normalised_data" title="Link to this definition"></a></dt>
+<dd><p>Shuffles a DataFrame of normalised data.</p>
+<dl class="simple">
+<dt>Params</dt><dd><dl class="simple">
+<dt>normalised_data: pd.DataFrame</dt><dd><p>A normalisd dataframe of numerical data.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns</dt><dd><dl class="simple">
+<dt>Tuple:</dt><dd><dl class="simple">
+<dt>shuffled_data: pd.Series, shuffled_indices: np.ndarray</dt><dd><p>A tuple of shuffled data and their corresponding indices.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vbvarsel.custodian.UserDataHandler.load_data">
+<span class="sig-name descname"><span class="pre">load_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/os.html#os.PathLike" title="(in Python v3.13)"><span class="pre">os.PathLike</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">cols_to_ignore</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">header</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index_col</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/vbvarsel/custodian.html#UserDataHandler.load_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.custodian.UserDataHandler.load_data" title="Link to this definition"></a></dt>
+<dd><p>Loads data to be be used in simulations with option to clean data.</p>
+<dl class="simple">
+<dt>Params</dt><dd><dl class="simple">
+<dt>data_loc: str | os.Pathlike</dt><dd><p>The file location of the spreadsheet, must be in CSV format.
+IMPORTANT Format note: Columns should be variables, and rows should be observation.
+Header rows and index column will not be loaded. CSV must only have numerical values.
+Non-numerical values can be passed, via the <cite>cols_to_ignore</cite> parameter.</p>
+</dd>
+<dt>cols_to_ignore: list[str] (Optional) (Default: None)</dt><dd><p>Any columns which are irrelevant or non-numerical to be dropped.</p>
+</dd>
+<dt>labels: str | list[str] (Optional) (Default: None)</dt><dd><p>Labels to be used to calculate the ARI to check clustering accuracy.
+This parameter is optional but strongly encouraged. If a string value
+is passed, logic assumes that is the name of a column to be used as
+labels. Alternatively, a list of strings may be passed separately.
+Label column can be included in the <cite>cols_to_drop</cite> parameter, labels
+are extracted before the ignored columns are dropped.</p>
+</dd>
+<dt>header: int (Optional) (Default: 0)</dt><dd><p>Parameter to determine the header of the incoming dataframe.</p>
+</dd>
+<dt>index_col: bool (Optional) (Default: False)</dt><dd><p>Parameter to determine whether to include an index col.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns</dt><dd><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../calcparams/index.html" class="btn btn-neutral float-left" title="vbvarsel.calcparams" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../data_sim_crook/index.html" class="btn btn-neutral float-right" title="vbvarsel.data_sim_crook" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-10-01 11:10:13, Cambridge University.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

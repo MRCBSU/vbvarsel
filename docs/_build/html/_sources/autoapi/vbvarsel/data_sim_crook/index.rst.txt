@@ -1,0 +1,76 @@
+vbvarsel.data_sim_crook
+=======================
+
+.. py:module:: vbvarsel.data_sim_crook
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   vbvarsel.data_sim_crook.SimulateCrookData
+
+
+Module Contents
+---------------
+
+.. py:class:: SimulateCrookData(observation: int, n_variables: int, n_relevant: int, mixture_proportions: list, means: list, variance_covariance_matrix: numpy.ndarray)
+
+   .. py:attribute:: observation
+
+
+   .. py:attribute:: n_variables
+
+
+   .. py:attribute:: n_relevant
+
+
+   .. py:attribute:: mixture_proportions
+
+
+   .. py:attribute:: means
+
+
+   .. py:attribute:: variance_covariance_matrix
+
+
+   .. py:attribute:: ExperimentValues
+
+
+   .. py:method:: relevant_vars() -> numpy.ndarray
+
+      Returns array of relevant variables for use in simulation.
+
+
+
+   .. py:method:: irrelevant_vars() -> numpy.ndarray
+
+      Returns array of irrelevant variables in simulation.
+
+
+
+   .. py:method:: data_sim() -> numpy.ndarray
+
+      Returns simulated data array.
+
+
+
+   .. py:method:: permutation() -> numpy.ndarray
+
+      Returns permutations for simulation.
+
+
+
+   .. py:method:: shuffle_sim_data(data, permutation) -> numpy.ndarray
+
+      Shuffles randomised data for simulation.
+
+      Params
+          data: np.ndarray
+              Array of data generated from `self.data_sim()`
+          permutation: np.ndarray
+              Array of permutations generated from `self.permutations()`
+
+
+

@@ -1,0 +1,231 @@
+vbvarsel
+========
+
+.. py:module:: vbvarsel
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/vbvarsel/calcparams/index
+   /autoapi/vbvarsel/custodian/index
+   /autoapi/vbvarsel/data_sim_crook/index
+   /autoapi/vbvarsel/elbo/index
+   /autoapi/vbvarsel/experiment_data/index
+   /autoapi/vbvarsel/global_parameters/index
+   /autoapi/vbvarsel/vbvarsel/index
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   vbvarsel.__version__
+   vbvarsel.__authors__
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   vbvarsel.Hyperparameters
+   vbvarsel.SimulationParameters
+   vbvarsel.ExperimentValues
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   vbvarsel.main
+
+
+Package Contents
+----------------
+
+.. py:function:: main(hyperparameters: vbvarsel.global_parameters.Hyperparameters, simulation_parameters: vbvarsel.global_parameters.SimulationParameters, Ctrick: bool = True, user_data: str | os.PathLike = None, user_labels: str | list[str] = None, cols_to_skip: list[str] = None, annealing_type: str = 'fixed', save_output: bool = False) -> _Results
+
+   The main entry point to the package.
+
+   Params
+
+       hyperparameters: Hyperparameters (Required)
+           An object of hyperparamters to apply to the simulation.
+       simulation_parameters: SimulationParameters (Optional) (Default: `SimulationParameters()`)
+           An object of simulation paramaters to apply to the simulation.
+           Note: This is a required parameter if a user does not supply
+           their own data.
+       Ctrick: bool (Optional) (Default: True)
+           Flag to determine whether or not to apply replica trick to the
+           simulation
+       user_data: str or os.PathLike (Optional) (Default: None)
+           A location of a csv document for data a user whishes to test.
+       user_labels: str | list[str] (Optional) (Default: None)
+           A string or list of strings to identify labels. A string value will
+           try to extract a column of the same name from the supplied data.
+       cols_to_skip: list[str] (Optional) (Default: None)
+           An optional list of columns to drop from the dataframe. This should
+           be used to remove any non-numeric data from the dataframe. If a
+           column shares the same name as a label column, the labels will be
+           extracted before the column is dropped.
+
+           **Hint**: an unnamed column can be passed by using "Unnamed: [index]",
+           eg "Unnamed: 0" to drop a blank name first column.
+       annealing_type: str (Optional) (Default: "fixed")
+           Optional type of annealing to apply to the simulation, can be one of
+           "geometric", "harmonic" or "fixed", the latter of which does not
+           apply any annealing.
+       save_output: bool (Optional) (Default: False)
+           Optional flag for users to save their output to a csv file. Data is
+           saved in the current working directory with the file naming format
+           "results-timestamp.csv".
+   Returns
+
+       results: dataclass
+           An object of results stored in a series of arrays from the clustering
+           algorithm. Some arrays may be populated by `nan` values. This is the
+           case if a user supplies their own data but does not have corresponding
+           labels. Additionally, some fields are only captured during entirely
+           simulated runs, as such will be `nan`-ed if a user provides their own
+           dataset.
+
+
+
+.. py:class:: Hyperparameters
+
+   Class representing the hyperparameters for the simulation.
+
+
+   .. py:attribute:: threshold
+      :type:  float
+      :value: 0.1
+
+
+
+   .. py:attribute:: k1
+      :type:  int
+      :value: 5
+
+
+
+   .. py:attribute:: alpha0
+      :type:  float
+
+
+   .. py:attribute:: a0
+      :type:  int
+      :value: 3
+
+
+
+   .. py:attribute:: beta0
+      :type:  float
+      :value: 0.001
+
+
+
+   .. py:attribute:: d0
+      :type:  int
+      :value: 1
+
+
+
+   .. py:attribute:: t_max
+      :type:  int
+      :value: 1
+
+
+
+   .. py:attribute:: max_itr
+      :type:  int
+      :value: 25
+
+
+
+   .. py:attribute:: max_annealed_itr
+      :type:  int
+      :value: 10
+
+
+
+   .. py:attribute:: max_models
+      :type:  int
+      :value: 10
+
+
+
+   .. py:method:: __post_init__()
+
+
+.. py:class:: SimulationParameters
+
+   Class representing the simulation parameters.
+
+   These parameters are the "settings" for the simulation experiment. For more
+   information regarding the simulation, see [INSERT PAPER HERE]. Mixture
+   proportions must be numbers between 0 and 1. The n_relevants array must
+   be all numbers that are less than the n_variables value, as it is not
+   possible to have a higher number of relevant variables than total variables.
+
+
+
+   .. py:attribute:: n_observations
+      :type:  list[int]
+
+
+   .. py:attribute:: n_variables
+      :type:  int
+      :value: 200
+
+
+
+   .. py:attribute:: n_relevants
+      :type:  list[int]
+
+
+   .. py:attribute:: mixture_proportions
+      :type:  list[float]
+
+
+   .. py:attribute:: means
+      :type:  list[int]
+
+
+.. py:class:: ExperimentValues
+
+   .. py:attribute:: true_labels
+      :type:  list[int]
+
+      Just a test to see what happens if I put stuff down here.
+
+
+   .. py:attribute:: data
+      :type:  numpy.ndarray
+      :value: None
+
+
+
+   .. py:attribute:: permutations
+      :type:  list[int]
+
+
+   .. py:attribute:: shuffled_data
+      :type:  numpy.ndarray
+      :value: None
+
+
+
+.. py:data:: __version__
+   :value: '0.0.1'
+
+
+.. py:data:: __authors__
+   :value: ['Paul Kirk', 'Emma Prevot', 'Rory Toogood', 'Filippo Pagani', 'Alan Nardo']
+
+

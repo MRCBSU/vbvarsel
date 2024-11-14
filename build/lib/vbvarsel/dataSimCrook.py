@@ -6,7 +6,7 @@ class SimulateCrookData:
     A class to represent simulated data as described by Crook et al.
 
     Attributes:
-    n_observations : list[int]
+    n_observations : int
         Number of observations to simulate.
     n_variables : int
         Number of variables to simulate.
@@ -89,7 +89,8 @@ class SimulateCrookData:
     def shuffle_sim_data(self, data, permutation) -> np.ndarray:
         """Shuffles randomised data for simulation.
 
-        Params:
+        Params
+        ------
             data:np.ndarray
                 Array of data generated from `self.data_sim()`
             permutation:np.ndarray

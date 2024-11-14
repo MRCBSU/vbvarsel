@@ -1,0 +1,715 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>vbvarsel.calcparams &mdash; vbvarsel 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="vbvarsel.custodian" href="../custodian/index.html" />
+    <link rel="prev" title="vbvarsel" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            vbvarsel
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">vbvarsel</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">vbvarsel.calcparams</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../custodian/index.html">vbvarsel.custodian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../data_sim_crook/index.html">vbvarsel.data_sim_crook</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../elbo/index.html">vbvarsel.elbo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../experiment_data/index.html">vbvarsel.experiment_data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../global_parameters/index.html">vbvarsel.global_parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vbvarsel/index.html">vbvarsel.vbvarsel</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#attributes">Attributes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#classes">Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#functions">Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#package-contents">Package Contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">vbvarsel</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">vbvarsel</a></li>
+      <li class="breadcrumb-item active">vbvarsel.calcparams</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/autoapi/vbvarsel/calcparams/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-vbvarsel.calcparams">
+<span id="vbvarsel-calcparams"></span><h1>vbvarsel.calcparams<a class="headerlink" href="#module-vbvarsel.calcparams" title="Link to this heading"></a></h1>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#vbvarsel.calcparams.calcAlphak" title="vbvarsel.calcparams.calcAlphak"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calcAlphak</span></code></a>(→ float)</p></td>
+<td><p>Function to find the updated variational parameter alphaK, i.e., the concentration parameter for Dirichelet posterior distribution on the mixture proportions (A29/A57)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#vbvarsel.calcparams.calcAkj" title="vbvarsel.calcparams.calcAkj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calcAkj</span></code></a>(→ numpy.ndarray[float])</p></td>
+<td><p>Function to calculate the updated variational parameter akj (A35/A60)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#vbvarsel.calcparams.calcXd" title="vbvarsel.calcparams.calcXd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calcXd</span></code></a>(→ numpy.ndarray[float])</p></td>
+<td><p>Function to find Xd. (A37)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#vbvarsel.calcparams.calcS" title="vbvarsel.calcparams.calcS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calcS</span></code></a>(→ numpy.ndarray[float])</p></td>
+<td><p>Function to calculate Skj. (A38)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#vbvarsel.calcparams.calcbetakj" title="vbvarsel.calcparams.calcbetakj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calcbetakj</span></code></a>(→ numpy.ndarray[float])</p></td>
+<td><p>Function to calculate the updated variational parameter betaKJ. (A33/A58)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#vbvarsel.calcparams.calcM" title="vbvarsel.calcparams.calcM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calcM</span></code></a>(→ numpy.ndarray[float])</p></td>
+<td><p>Function to calculate the updated variational parameter Mkj (A34/A59).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#vbvarsel.calcparams.calcB" title="vbvarsel.calcparams.calcB"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calcB</span></code></a>(→ numpy.ndarray[float])</p></td>
+<td><p>Function to calculate the updated variational parameter B</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#vbvarsel.calcparams.calcDelta" title="vbvarsel.calcparams.calcDelta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calcDelta</span></code></a>(→ numpy.ndarray[float])</p></td>
+<td><p>Function to calculate the updated variational parameter Delta (A43/A62)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#vbvarsel.calcparams.expSigma" title="vbvarsel.calcparams.expSigma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">expSigma</span></code></a>(→ float)</p></td>
+<td><p>Function to calculate the expected Sigma values. (A47/A48)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#vbvarsel.calcparams.expPi" title="vbvarsel.calcparams.expPi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">expPi</span></code></a>(→ numpy.ndarray[float])</p></td>
+<td><p>Function to calculate Expected Pi value (A45)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#vbvarsel.calcparams.expTau" title="vbvarsel.calcparams.expTau"><code class="xref py py-obj docutils literal notranslate"><span class="pre">expTau</span></code></a>(→ list[float])</p></td>
+<td><p>Function to calculate Expected Tau value (A47)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#vbvarsel.calcparams.calcF0" title="vbvarsel.calcparams.calcF0"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calcF0</span></code></a>(→ float)</p></td>
+<td><p>Function to calculate F0 (A30?)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#vbvarsel.calcparams.calcZ" title="vbvarsel.calcparams.calcZ"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calcZ</span></code></a>(→ numpy.ndarray[float])</p></td>
+<td><p>Function to the updated variational parameter Z, the latent cluster assignments (A23)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#vbvarsel.calcparams.normal" title="vbvarsel.calcparams.normal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">normal</span></code></a>(→ numpy.ndarray[float])</p></td>
+<td><p>Function to get a normal distribution</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#vbvarsel.calcparams.calcexpF" title="vbvarsel.calcparams.calcexpF"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calcexpF</span></code></a>(→ float)</p></td>
+<td><p>Function to calculate expected F, an intermediate factor to calculate the updated covariate selection indicators</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#vbvarsel.calcparams.calcexpF0" title="vbvarsel.calcparams.calcexpF0"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calcexpF0</span></code></a>(→ numpy.ndarray[float])</p></td>
+<td><p>Function to calculate expected F0, an intermediate factor to calculate the updated covariate selection indicators</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#vbvarsel.calcparams.calcN1" title="vbvarsel.calcparams.calcN1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calcN1</span></code></a>(→ tuple)</p></td>
+<td><p>Function to calculate N1 (A41), a parameter for Cj (A40) in the Bernoulli distribution (A39)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#vbvarsel.calcparams.calcN2" title="vbvarsel.calcparams.calcN2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calcN2</span></code></a>(→ tuple)</p></td>
+<td><p>Function to calculate N1 (A42), a parameter for Cj (A40) in the Bernoulli distribution (A39)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#vbvarsel.calcparams.calcC" title="vbvarsel.calcparams.calcC"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calcC</span></code></a>(→ numpy.ndarray[float])</p></td>
+<td><p>Function to calculate the updated variational parameter C (A40), the covariate selection indicators</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="vbvarsel.calcparams.calcAlphak">
+<span class="sig-prename descclassname"><span class="pre">vbvarsel.calcparams.</span></span><span class="sig-name descname"><span class="pre">calcAlphak</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">NK</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">T</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../../../_modules/vbvarsel/calcparams.html#calcAlphak"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.calcparams.calcAlphak" title="Link to this definition"></a></dt>
+<dd><p>Function to find the updated variational parameter alphaK, i.e., the concentration parameter for Dirichelet posterior distribution on the mixture proportions (A29/A57)</p>
+<dl class="simple">
+<dt>Params</dt><dd><dl class="simple">
+<dt>NK: float</dt><dd><p>Number of observations assigned to each cluster K</p>
+</dd>
+<dt>alpha0: float</dt><dd><p>Prior coefficient count, <a class="reference internal" href="../global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.alpha0" title="vbvarsel.global_parameters.Hyperparameters.alpha0"><code class="xref py py-func docutils literal notranslate"><span class="pre">alpha0()</span></code></a></p>
+</dd>
+<dt>T: float</dt><dd><p>Annealing temperature</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns</dt><dd><dl class="simple">
+<dt>alphaK: np.ndarray[float]</dt><dd><p>Calculated Alphak values</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="vbvarsel.calcparams.calcAkj">
+<span class="sig-prename descclassname"><span class="pre">vbvarsel.calcparams.</span></span><span class="sig-name descname"><span class="pre">calcAkj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">K</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">J</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">C</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NK</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">a0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">T</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/vbvarsel/calcparams.html#calcAkj"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.calcparams.calcAkj" title="Link to this definition"></a></dt>
+<dd><p>Function to calculate the updated variational parameter akj (A35/A60)</p>
+<dl class="simple">
+<dt>Params</dt><dd><dl class="simple">
+<dt>K: int</dt><dd><p>Maximum number of clusters</p>
+</dd>
+<dt>J: int</dt><dd><p>number of covariates</p>
+</dd>
+<dt>C: np.ndarray[float]</dt><dd><p>covariate selection indicators, <a class="reference internal" href="#vbvarsel.calcparams.calcC" title="vbvarsel.calcparams.calcC"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcC()</span></code></a></p>
+</dd>
+<dt>NK: float</dt><dd><p>number of observations assigned to each cluster K</p>
+</dd>
+<dt>alpha0: float</dt><dd><p>degrees of freedom, for the Gamma prior, <a class="reference internal" href="../global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.alpha0" title="vbvarsel.global_parameters.Hyperparameters.alpha0"><code class="xref py py-func docutils literal notranslate"><span class="pre">alpha0()</span></code></a></p>
+</dd>
+<dt>T: float</dt><dd><p>annealing temperature</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns</dt><dd><dl class="simple">
+<dt>akj: float</dt><dd><p>updated variational parameter for the degrees of freedom of the
+posterior Gamma distribution</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="vbvarsel.calcparams.calcXd">
+<span class="sig-prename descclassname"><span class="pre">vbvarsel.calcparams.</span></span><span class="sig-name descname"><span class="pre">calcXd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/vbvarsel/calcparams.html#calcXd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.calcparams.calcXd" title="Link to this definition"></a></dt>
+<dd><p>Function to find Xd. (A37)</p>
+<dl class="simple">
+<dt>Params</dt><dd><dl class="simple">
+<dt>Z: np.ndarray</dt><dd><p>Latent cluster assignment matrix, <a class="reference internal" href="#vbvarsel.calcparams.calcZ" title="vbvarsel.calcparams.calcZ"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcZ()</span></code></a></p>
+</dd>
+<dt>X: np.ndarray[float]</dt><dd><p>2-D array of normalised data</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns</dt><dd><dl class="simple">
+<dt>xd: np.ndarray[float]</dt><dd><p>Array of values</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="vbvarsel.calcparams.calcS">
+<span class="sig-prename descclassname"><span class="pre">vbvarsel.calcparams.</span></span><span class="sig-name descname"><span class="pre">calcS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/vbvarsel/calcparams.html#calcS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.calcparams.calcS" title="Link to this definition"></a></dt>
+<dd><p>Function to calculate Skj. (A38)</p>
+<dl class="simple">
+<dt>Params</dt><dd><dl class="simple">
+<dt>Z: np.ndarray</dt><dd><p>Latent cluster assignment matrix, <a class="reference internal" href="#vbvarsel.calcparams.calcZ" title="vbvarsel.calcparams.calcZ"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcZ()</span></code></a></p>
+</dd>
+<dt>X: ndarray[float]</dt><dd><p>Shuffled array</p>
+</dd>
+<dt>xd: ndarray[float]</dt><dd><p>Variational paramater Xd, <a class="reference internal" href="#vbvarsel.calcparams.calcXd" title="vbvarsel.calcparams.calcXd"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcXd()</span></code></a></p>
+</dd>
+</dl>
+</dd>
+<dt>Returns</dt><dd><dl class="simple">
+<dt>S: ndarray[float]</dt><dd><p>Calculated S variable parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="vbvarsel.calcparams.calcbetakj">
+<span class="sig-prename descclassname"><span class="pre">vbvarsel.calcparams.</span></span><span class="sig-name descname"><span class="pre">calcbetakj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">K</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">XDim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">C</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NK</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">T</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/vbvarsel/calcparams.html#calcbetakj"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.calcparams.calcbetakj" title="Link to this definition"></a></dt>
+<dd><p>Function to calculate the updated variational parameter betaKJ. (A33/A58)</p>
+<dl class="simple">
+<dt>Params</dt><dd><dl class="simple">
+<dt>K: int</dt><dd><p>maximum number of clusters</p>
+</dd>
+<dt>XDim: int</dt><dd><p>number of variables (columns)</p>
+</dd>
+<dt>C: np.ndarray[int]</dt><dd><p>covariate selection indicators, <a class="reference internal" href="#vbvarsel.calcparams.calcC" title="vbvarsel.calcparams.calcC"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcC()</span></code></a></p>
+</dd>
+<dt>NK: float</dt><dd><p>number of observations assigned to each cluster K</p>
+</dd>
+<dt>beta0: float</dt><dd><p>shrinkage parameter of the Gaussian conditional prior, <a class="reference internal" href="../global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.beta0" title="vbvarsel.global_parameters.Hyperparameters.beta0"><code class="xref py py-func docutils literal notranslate"><span class="pre">beta0()</span></code></a></p>
+</dd>
+<dt>T: float</dt><dd><p>annealing temperature, <a class="reference internal" href="../global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.t_max" title="vbvarsel.global_parameters.Hyperparameters.t_max"><code class="xref py py-func docutils literal notranslate"><span class="pre">t_max()</span></code></a></p>
+</dd>
+</dl>
+</dd>
+<dt>Returns</dt><dd><dl class="simple">
+<dt>beta: np.ndarray[float]</dt><dd><p>updated variational shrinkage parameter for the Gaussian conditional
+posterior</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="vbvarsel.calcparams.calcM">
+<span class="sig-prename descclassname"><span class="pre">vbvarsel.calcparams.</span></span><span class="sig-name descname"><span class="pre">calcM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">K</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">XDim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">m0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">NK</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">xd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">betakj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/vbvarsel/calcparams.html#calcM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.calcparams.calcM" title="Link to this definition"></a></dt>
+<dd><p>Function to calculate the updated variational parameter Mkj (A34/A59).</p>
+<dl class="simple">
+<dt>Params</dt><dd><dl class="simple">
+<dt>K: int</dt><dd><p>maximum number of clusters</p>
+</dd>
+<dt>XDim: int</dt><dd><p>number of variables (columns)</p>
+</dd>
+<dt>beta0: float</dt><dd><p>shrinkage parameter of the Gaussian conditional prior, <a class="reference internal" href="../global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.beta0" title="vbvarsel.global_parameters.Hyperparameters.beta0"><code class="xref py py-func docutils literal notranslate"><span class="pre">beta0()</span></code></a></p>
+</dd>
+<dt>m0: float</dt><dd><p>prior cluster means</p>
+</dd>
+<dt>NK: float</dt><dd><p>number of observations assigned to each cluster K</p>
+</dd>
+<dt>xd: np.ndarray[float]</dt><dd><p>Value of calculated variational parameter xd, , <a class="reference internal" href="#vbvarsel.calcparams.calcXd" title="vbvarsel.calcparams.calcXd"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcXd()</span></code></a></p>
+</dd>
+<dt>betakj: np.ndarray[float]</dt><dd><p>updated variational shrinkage parameter for the Gaussian conditional posterior</p>
+</dd>
+<dt>C: np.ndarray[int]</dt><dd><p>covariate selection indicators, <a class="reference internal" href="#vbvarsel.calcparams.calcC" title="vbvarsel.calcparams.calcC"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcC()</span></code></a></p>
+</dd>
+<dt>T: float</dt><dd><p>annealing temperature, <a class="reference internal" href="../global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.t_max" title="vbvarsel.global_parameters.Hyperparameters.t_max"><code class="xref py py-func docutils literal notranslate"><span class="pre">t_max()</span></code></a></p>
+</dd>
+</dl>
+</dd>
+<dt>Returns</dt><dd><dl class="simple">
+<dt>m: np.ndarray[float]</dt><dd><p>updated variational cluster means</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="vbvarsel.calcparams.calcB">
+<span class="sig-prename descclassname"><span class="pre">vbvarsel.calcparams.</span></span><span class="sig-name descname"><span class="pre">calcB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">W0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">K</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">XDim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NK</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/vbvarsel/calcparams.html#calcB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.calcparams.calcB" title="Link to this definition"></a></dt>
+<dd><p>Function to calculate the updated variational parameter B</p>
+<dl class="simple">
+<dt>Params</dt><dd><dl class="simple">
+<dt>W0: np.ndarray[float]</dt><dd><p>2-D array with diagonal 1s rest 0s</p>
+</dd>
+<dt>xd: np.ndarray[float]</dt><dd><p>Value of calculated variational parameter xd, <a class="reference internal" href="#vbvarsel.calcparams.calcXd" title="vbvarsel.calcparams.calcXd"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcXd()</span></code></a></p>
+</dd>
+<dt>K: int</dt><dd><p>Hyperparameter k1, the number of clusters</p>
+</dd>
+<dt>m0: np.ndarray[int]</dt><dd><p>Array of 0s with same shape as test data</p>
+</dd>
+<dt>XDim: int</dt><dd><p>Number of variables (columns)</p>
+</dd>
+<dt>beta0: float</dt><dd><p>Shrinkage parameter of the Gaussian conditional prior on the cluster mean, <a class="reference internal" href="../global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.beta0" title="vbvarsel.global_parameters.Hyperparameters.beta0"><code class="xref py py-func docutils literal notranslate"><span class="pre">beta0()</span></code></a></p>
+</dd>
+<dt>S: list[np.ndarray[float]]</dt><dd><p>Calculated value of variational paramater S, <a class="reference internal" href="#vbvarsel.calcparams.calcS" title="vbvarsel.calcparams.calcS"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcS()</span></code></a></p>
+</dd>
+<dt>C: np.ndarray[float]</dt><dd><p>covariate selection indicators, <a class="reference internal" href="#vbvarsel.calcparams.calcC" title="vbvarsel.calcparams.calcC"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcC()</span></code></a></p>
+</dd>
+<dt>NK: float</dt><dd><p>Number of observations assigned to each cluster K</p>
+</dd>
+<dt>T: float</dt><dd><p>Annealing temperature, <a class="reference internal" href="../global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.t_max" title="vbvarsel.global_parameters.Hyperparameters.t_max"><code class="xref py py-func docutils literal notranslate"><span class="pre">t_max()</span></code></a></p>
+</dd>
+</dl>
+</dd>
+<dt>Returns</dt><dd><dl class="simple">
+<dt>B: np.ndarray[float]</dt><dd><p>Calculated variational parameter B</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="vbvarsel.calcparams.calcDelta">
+<span class="sig-prename descclassname"><span class="pre">vbvarsel.calcparams.</span></span><span class="sig-name descname"><span class="pre">calcDelta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">C</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">T</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/vbvarsel/calcparams.html#calcDelta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.calcparams.calcDelta" title="Link to this definition"></a></dt>
+<dd><p>Function to calculate the updated variational parameter Delta (A43/A62)</p>
+<dl class="simple">
+<dt>Params</dt><dd><dl class="simple">
+<dt>C: np.ndarray[float]</dt><dd><p>covariate selection indicators, <a class="reference internal" href="#vbvarsel.calcparams.calcC" title="vbvarsel.calcparams.calcC"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcC()</span></code></a></p>
+</dd>
+<dt>d: int</dt><dd><p>Shape of the Beta prior on the covariate selection probabilities, <a class="reference internal" href="../global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.d0" title="vbvarsel.global_parameters.Hyperparameters.d0"><code class="xref py py-func docutils literal notranslate"><span class="pre">d0()</span></code></a></p>
+</dd>
+<dt>T: float</dt><dd><p>annealing temperature, <a class="reference internal" href="../global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.t_max" title="vbvarsel.global_parameters.Hyperparameters.t_max"><code class="xref py py-func docutils literal notranslate"><span class="pre">t_max()</span></code></a></p>
+</dd>
+</dl>
+</dd>
+<dt>Returns: float</dt><dd><p>np.ndarray of calculate annealing</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="vbvarsel.calcparams.expSigma">
+<span class="sig-prename descclassname"><span class="pre">vbvarsel.calcparams.</span></span><span class="sig-name descname"><span class="pre">expSigma</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">XDim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">betak</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../../../_modules/vbvarsel/calcparams.html#expSigma"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.calcparams.expSigma" title="Link to this definition"></a></dt>
+<dd><p>Function to calculate the expected Sigma values. (A47/A48)</p>
+<dl class="simple">
+<dt>Params</dt><dd><dl class="simple">
+<dt>X: np.ndarray[float]</dt><dd><p>2-D normalised array of data</p>
+</dd>
+<dt>XDim: int</dt><dd><p>Number of variables (columns)</p>
+</dd>
+<dt>betak: float</dt><dd><p>Calculated value for the variational paramater betakj, <a class="reference internal" href="#vbvarsel.calcparams.calcbetakj" title="vbvarsel.calcparams.calcbetakj"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcbetakj()</span></code></a></p>
+</dd>
+<dt>m: np.ndarray[float]</dt><dd><p>Calculated value for the variational paramater m, <a class="reference internal" href="#vbvarsel.calcparams.calcM" title="vbvarsel.calcparams.calcM"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcM()</span></code></a></p>
+</dd>
+<dt>b: np.ndarray[float]</dt><dd><p>Calculated value for the variational paramater B, <a class="reference internal" href="#vbvarsel.calcparams.calcB" title="vbvarsel.calcparams.calcB"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcB()</span></code></a></p>
+</dd>
+<dt>a: np.ndarray[float]</dt><dd><p>Calculated value for the variational paramater akj, <a class="reference internal" href="#vbvarsel.calcparams.calcAkj" title="vbvarsel.calcparams.calcAkj"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcAkj()</span></code></a></p>
+</dd>
+<dt>C: np.ndarray[int]</dt><dd><p>Covariate selection indicators, <a class="reference internal" href="#vbvarsel.calcparams.calcC" title="vbvarsel.calcparams.calcC"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcC()</span></code></a></p>
+</dd>
+</dl>
+</dd>
+<dt>Returns</dt><dd><dl class="simple">
+<dt>s: float</dt><dd><p>Calculated expected sigma values</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="vbvarsel.calcparams.expPi">
+<span class="sig-prename descclassname"><span class="pre">vbvarsel.calcparams.</span></span><span class="sig-name descname"><span class="pre">expPi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">NK</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/vbvarsel/calcparams.html#expPi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.calcparams.expPi" title="Link to this definition"></a></dt>
+<dd><p>Function to calculate Expected Pi value (A45)</p>
+<dl class="simple">
+<dt>Params</dt><dd><dl class="simple">
+<dt>alpha0: float</dt><dd><p>Concentration of the Dirichlet prior on the mixture weights π, <code class="xref py py-func docutils literal notranslate"><span class="pre">alpha0()</span></code></p>
+</dd>
+<dt>NK: float</dt><dd><p>Number of expected observations associated with the Kth component</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns</dt><dd><dl class="simple">
+<dt>pik: np.ndarray[float]</dt><dd><p>Expected values of pi</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="vbvarsel.calcparams.expTau">
+<span class="sig-prename descclassname"><span class="pre">vbvarsel.calcparams.</span></span><span class="sig-name descname"><span class="pre">expTau</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">betakj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">akj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/vbvarsel/calcparams.html#expTau"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.calcparams.expTau" title="Link to this definition"></a></dt>
+<dd><p>Function to calculate Expected Tau value (A47)</p>
+<dl class="simple">
+<dt>Params</dt><dd><dl class="simple">
+<dt>betakj: np.ndarray[float]</dt><dd><p>Value for the calculated variational parameter betakj, <a class="reference internal" href="#vbvarsel.calcparams.calcbetakj" title="vbvarsel.calcparams.calcbetakj"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcbetakj()</span></code></a></p>
+</dd>
+<dt>akj: np.ndarray[float]</dt><dd><p>Value for the calculated variational parameter akj, <a class="reference internal" href="#vbvarsel.calcparams.calcAkj" title="vbvarsel.calcparams.calcAkj"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcAkj()</span></code></a></p>
+</dd>
+<dt>C: np.ndarray[int]</dt><dd><p>covariate selection indicators, <a class="reference internal" href="#vbvarsel.calcparams.calcC" title="vbvarsel.calcparams.calcC"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcC()</span></code></a></p>
+</dd>
+</dl>
+</dd>
+<dt>Returns</dt><dd><dl class="simple">
+<dt>invc: list[float]</dt><dd><p>The calculated expected Tau values</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="vbvarsel.calcparams.calcF0">
+<span class="sig-prename descclassname"><span class="pre">vbvarsel.calcparams.</span></span><span class="sig-name descname"><span class="pre">calcF0</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">XDim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu_0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../../../_modules/vbvarsel/calcparams.html#calcF0"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.calcparams.calcF0" title="Link to this definition"></a></dt>
+<dd><p>Function to calculate F0 (A30?)</p>
+<dl class="simple">
+<dt>Params</dt><dd><dl class="simple">
+<dt>X: np.ndarray[float]</dt><dd><p>2-D array of normalised data</p>
+</dd>
+<dt>XDim: int</dt><dd><p>number of columns</p>
+</dd>
+<dt>sigma_0: np.ndarray[float]</dt><dd><p>Paramater estimate for Phi0j as MLE</p>
+</dd>
+<dt>mu_0: np.ndarray[float]</dt><dd><p>Paramater estimate for Phi0j as MLE</p>
+</dd>
+<dt>C: np.ndarray[int]</dt><dd><p>covariate selection indicators, <a class="reference internal" href="#vbvarsel.calcparams.calcC" title="vbvarsel.calcparams.calcC"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcC()</span></code></a></p>
+</dd>
+</dl>
+</dd>
+<dt>Returns</dt><dd><dl class="simple">
+<dt>F0: np.ndarray</dt><dd><p>calculated value for variational parameter F0</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="vbvarsel.calcparams.calcZ">
+<span class="sig-prename descclassname"><span class="pre">vbvarsel.calcparams.</span></span><span class="sig-name descname"><span class="pre">calcZ</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exp_ln_pi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exp_ln_tau</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exp_ln_sigma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">K</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">C</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/vbvarsel/calcparams.html#calcZ"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.calcparams.calcZ" title="Link to this definition"></a></dt>
+<dd><p>Function to the updated variational parameter Z, the latent cluster assignments (A23)</p>
+<dl class="simple">
+<dt>Params</dt><dd><dl class="simple">
+<dt>exp_ln_pi: np.ndarray[float]</dt><dd><p>Expected natural log of pi, <a class="reference internal" href="#vbvarsel.calcparams.expPi" title="vbvarsel.calcparams.expPi"><code class="xref py py-func docutils literal notranslate"><span class="pre">expPi()</span></code></a></p>
+</dd>
+<dt>exp_ln_tau: np.ndarray[float]</dt><dd><p>Expected natural log of tau, <a class="reference internal" href="#vbvarsel.calcparams.expTau" title="vbvarsel.calcparams.expTau"><code class="xref py py-func docutils literal notranslate"><span class="pre">expTau()</span></code></a></p>
+</dd>
+<dt>exp_ln_sigma: np.ndarray[float]</dt><dd><p>Expected natural log of sigma, <a class="reference internal" href="#vbvarsel.calcparams.expSigma" title="vbvarsel.calcparams.expSigma"><code class="xref py py-func docutils literal notranslate"><span class="pre">expSigma()</span></code></a></p>
+</dd>
+<dt>f0: float</dt><dd><p>calculated f0 value, <a class="reference internal" href="#vbvarsel.calcparams.calcF0" title="vbvarsel.calcparams.calcF0"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcF0()</span></code></a></p>
+</dd>
+<dt>N: int</dt><dd><p>the nth observation</p>
+</dd>
+<dt>K: int</dt><dd><p>the kth cluster of the observation</p>
+</dd>
+<dt>C: np.ndarray[int]</dt><dd><p>covariate selection indicators, <a class="reference internal" href="#vbvarsel.calcparams.calcC" title="vbvarsel.calcparams.calcC"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcC()</span></code></a></p>
+</dd>
+<dt>T: float</dt><dd><p>annealing temperature, <code class="xref py py-func docutils literal notranslate"><span class="pre">tmax()</span></code></p>
+</dd>
+</dl>
+</dd>
+<dt>Returns</dt><dd><dl class="simple">
+<dt>Z: np.ndarray[float]</dt><dd><p>Calculated variational parameter Z</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="vbvarsel.calcparams.normal">
+<span class="sig-prename descclassname"><span class="pre">vbvarsel.calcparams.</span></span><span class="sig-name descname"><span class="pre">normal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/vbvarsel/calcparams.html#normal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.calcparams.normal" title="Link to this definition"></a></dt>
+<dd><p>Function to get a normal distribution</p>
+<dl class="simple">
+<dt>Params</dt><dd><dl class="simple">
+<dt>x: np.ndarray[float]</dt><dd><p>2-D array of normalised data</p>
+</dd>
+<dt>mu: float</dt><dd><p>mean of the normal distribution</p>
+</dd>
+<dt>sigma: np.ndarray[float]</dt><dd><p>standard deviation of the normal distribution</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns</dt><dd><dl class="simple">
+<dt>n: np.ndarray[float]</dt><dd><p>Array with normalised distribution</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="vbvarsel.calcparams.calcexpF">
+<span class="sig-prename descclassname"><span class="pre">vbvarsel.calcparams.</span></span><span class="sig-name descname"><span class="pre">calcexpF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../../../_modules/vbvarsel/calcparams.html#calcexpF"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.calcparams.calcexpF" title="Link to this definition"></a></dt>
+<dd><p>Function to calculate expected F, an intermediate factor to calculate the updated covariate selection indicators</p>
+<dl class="simple">
+<dt>Params</dt><dd><dl class="simple">
+<dt>X: np.ndarray[float]</dt><dd><p>2-D array of normalised data</p>
+</dd>
+<dt>b: np.ndarray[float]</dt><dd><p>Value for the calculated variational parameter B, <a class="reference internal" href="#vbvarsel.calcparams.calcB" title="vbvarsel.calcparams.calcB"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcB()</span></code></a></p>
+</dd>
+<dt>a: np.ndarray[float]</dt><dd><p>Value for the calculated variational parameter akj, <a class="reference internal" href="#vbvarsel.calcparams.calcAkj" title="vbvarsel.calcparams.calcAkj"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcAkj()</span></code></a></p>
+</dd>
+<dt>m: np.ndarray[float]</dt><dd><p>Value for the calculated variational parameter m, <a class="reference internal" href="#vbvarsel.calcparams.calcM" title="vbvarsel.calcparams.calcM"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcM()</span></code></a></p>
+</dd>
+<dt>beta: np.ndarray[float]</dt><dd><p>Value for the calculated variational parameter betakj, <a class="reference internal" href="#vbvarsel.calcparams.calcbetakj" title="vbvarsel.calcparams.calcbetakj"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcbetakj()</span></code></a></p>
+</dd>
+<dt>Z: np.ndarray</dt><dd><p>Latent cluster assignment matrix, <a class="reference internal" href="#vbvarsel.calcparams.calcZ" title="vbvarsel.calcparams.calcZ"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcZ()</span></code></a></p>
+</dd>
+</dl>
+</dd>
+<dt>Returns</dt><dd><dl class="simple">
+<dt>expF: float</dt><dd><p>intermediate factor to calculate the updated covariate selection indicators</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="vbvarsel.calcparams.calcexpF0">
+<span class="sig-prename descclassname"><span class="pre">vbvarsel.calcparams.</span></span><span class="sig-name descname"><span class="pre">calcexpF0</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">K</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">XDim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">Z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu_0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/vbvarsel/calcparams.html#calcexpF0"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.calcparams.calcexpF0" title="Link to this definition"></a></dt>
+<dd><p>Function to calculate expected F0, an intermediate factor to calculate the updated covariate selection indicators</p>
+<dl class="simple">
+<dt>Params</dt><dd><dl class="simple">
+<dt>X: np.ndarray</dt><dd><p>2-D array of normalised data</p>
+</dd>
+<dt>N: int</dt><dd><p>the nth observation</p>
+</dd>
+<dt>K: int</dt><dd><p>the kth cluster of the observation</p>
+</dd>
+<dt>XDim: int</dt><dd><p>number of columns</p>
+</dd>
+<dt>Z: np.ndarray</dt><dd><p>Latent cluster assignment matrix, <a class="reference internal" href="#vbvarsel.calcparams.calcZ" title="vbvarsel.calcparams.calcZ"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcZ()</span></code></a></p>
+</dd>
+<dt>sigma_0: np.ndarray[float]</dt><dd><p>n-dim array of squared sigma values</p>
+</dd>
+<dt>mu_0: np.ndarray[float]</dt><dd><p>n-dim array of squared mu values</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns</dt><dd><dl class="simple">
+<dt>expF0: np.ndarray[float]</dt><dd><p>Expected F0, an intermediate factor to calculate the updated covariate selection indicators</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="vbvarsel.calcparams.calcN1">
+<span class="sig-prename descclassname"><span class="pre">vbvarsel.calcparams.</span></span><span class="sig-name descname"><span class="pre">calcN1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">C</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expF</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">T</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><span class="pre">tuple</span></a></span></span><a class="reference internal" href="../../../_modules/vbvarsel/calcparams.html#calcN1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.calcparams.calcN1" title="Link to this definition"></a></dt>
+<dd><p>Function to calculate N1 (A41), a parameter for Cj (A40) in the Bernoulli distribution (A39)</p>
+<dl class="simple">
+<dt>Params</dt><dd><dl class="simple">
+<dt>C: np.ndarray[int]</dt><dd><p>covariate selection indicators, <a class="reference internal" href="#vbvarsel.calcparams.calcC" title="vbvarsel.calcparams.calcC"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcC()</span></code></a></p>
+</dd>
+<dt>d: int</dt><dd><p>Shape parameter of the Beta distribution on the probability. <a class="reference internal" href="../global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.d0" title="vbvarsel.global_parameters.Hyperparameters.d0"><code class="xref py py-func docutils literal notranslate"><span class="pre">d0()</span></code></a></p>
+</dd>
+<dt>expF: float</dt><dd><p>intermediate factor to calculate the updated covariate selection indicators <a class="reference internal" href="#vbvarsel.calcparams.calcexpF" title="vbvarsel.calcparams.calcexpF"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcexpF()</span></code></a></p>
+</dd>
+<dt>T: float</dt><dd><p>Annealing temperature, <a class="reference internal" href="../global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.t_max" title="vbvarsel.global_parameters.Hyperparameters.t_max"><code class="xref py py-func docutils literal notranslate"><span class="pre">t_max()</span></code></a></p>
+</dd>
+</dl>
+</dd>
+<dt>Returns</dt><dd><dl class="simple">
+<dt>N1, lnN1:</dt><dd><p>intermediate factors to calculate the updated covariate selection indicators</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="vbvarsel.calcparams.calcN2">
+<span class="sig-prename descclassname"><span class="pre">vbvarsel.calcparams.</span></span><span class="sig-name descname"><span class="pre">calcN2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">C</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expF0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">T</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><span class="pre">tuple</span></a></span></span><a class="reference internal" href="../../../_modules/vbvarsel/calcparams.html#calcN2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.calcparams.calcN2" title="Link to this definition"></a></dt>
+<dd><p>Function to calculate N1 (A42), a parameter for Cj (A40) in the Bernoulli distribution (A39)</p>
+<dl class="simple">
+<dt>Params</dt><dd><dl class="simple">
+<dt>C: np.ndarray[int]</dt><dd><p>covariate selection indicators, <a class="reference internal" href="#vbvarsel.calcparams.calcC" title="vbvarsel.calcparams.calcC"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcC()</span></code></a></p>
+</dd>
+<dt>d: int</dt><dd><p>Shape parameter of the Beta distribution on the probability. <a class="reference internal" href="../global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.d0" title="vbvarsel.global_parameters.Hyperparameters.d0"><code class="xref py py-func docutils literal notranslate"><span class="pre">d0()</span></code></a></p>
+</dd>
+<dt>expF0: float</dt><dd><p>intermediate factor to calculate the updated covariate selection indicators <a class="reference internal" href="#vbvarsel.calcparams.calcexpF0" title="vbvarsel.calcparams.calcexpF0"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcexpF0()</span></code></a></p>
+</dd>
+<dt>T: float</dt><dd><p>Annealing temperature, <a class="reference internal" href="../global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.t_max" title="vbvarsel.global_parameters.Hyperparameters.t_max"><code class="xref py py-func docutils literal notranslate"><span class="pre">t_max()</span></code></a></p>
+</dd>
+</dl>
+</dd>
+<dt>Returns</dt><dd><dl class="simple">
+<dt>N2, lnN2:</dt><dd><p>intermediate factors to calculate the updated covariate selection indicators</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="vbvarsel.calcparams.calcC">
+<span class="sig-prename descclassname"><span class="pre">vbvarsel.calcparams.</span></span><span class="sig-name descname"><span class="pre">calcC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">XDim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">K</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">C</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu_0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">trick</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/vbvarsel/calcparams.html#calcC"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.calcparams.calcC" title="Link to this definition"></a></dt>
+<dd><p>Function to calculate the updated variational parameter C (A40), the covariate selection indicators</p>
+<dl class="simple">
+<dt>Params</dt><dd><dl class="simple">
+<dt>XDim: int</dt><dd><p>number of columns</p>
+</dd>
+<dt>N: int</dt><dd><p>the nth observation</p>
+</dd>
+<dt>K: int</dt><dd><p>the kth cluster of the observation</p>
+</dd>
+<dt>X: np.ndarray[float]</dt><dd><p>2-D array of normalised data</p>
+</dd>
+<dt>b: np.ndarray[float]</dt><dd><p>Calculated variational paramater B, derived from <a class="reference internal" href="#vbvarsel.calcparams.calcB" title="vbvarsel.calcparams.calcB"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcB()</span></code></a></p>
+</dd>
+<dt>a: np.ndarray[float]</dt><dd><p>Calculated variational paramater akj, derived from <a class="reference internal" href="#vbvarsel.calcparams.calcAkj" title="vbvarsel.calcparams.calcAkj"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcAkj()</span></code></a></p>
+</dd>
+<dt>m: np.ndarray[float]</dt><dd><p>Calculated variational paramater m, derived from <a class="reference internal" href="#vbvarsel.calcparams.calcM" title="vbvarsel.calcparams.calcM"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcM()</span></code></a></p>
+</dd>
+<dt>beta: np.ndarray[float]</dt><dd><p>Calculated variational paramater betakj, derived from <a class="reference internal" href="#vbvarsel.calcparams.calcbetakj" title="vbvarsel.calcparams.calcbetakj"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcbetakj()</span></code></a></p>
+</dd>
+<dt>d: int</dt><dd><p>Shape parameter of the Beta distribution on the probability.</p>
+</dd>
+<dt>C: np.ndarray[float]</dt><dd><p>Covariate selection indicators, <a class="reference internal" href="#vbvarsel.calcparams.calcC" title="vbvarsel.calcparams.calcC"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcC()</span></code></a></p>
+</dd>
+<dt>Z: np.ndarray</dt><dd><p>Latent cluster assignment matrix</p>
+</dd>
+<dt>sigma_0: np.ndarray[float]</dt><dd><p>N-dimensional array of squared sigma values</p>
+</dd>
+<dt>mu_0: np.ndarray[float]</dt><dd><p>N-dimensional array of squared mu values</p>
+</dd>
+<dt>T: float</dt><dd><p>Annealing temperature, <a class="reference internal" href="../global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.t_max" title="vbvarsel.global_parameters.Hyperparameters.t_max"><code class="xref py py-func docutils literal notranslate"><span class="pre">t_max()</span></code></a></p>
+</dd>
+<dt>trick: bool (Optional) (Default: True)</dt><dd><p>whether or not to use a mathematical trick to avoid numerical errors</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns</dt><dd><dl class="simple">
+<dt>C0: np.ndarray[float]</dt><dd><p>Calculated variational parameter C</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="vbvarsel" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../custodian/index.html" class="btn btn-neutral float-right" title="vbvarsel.custodian" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-10-01 11:10:13, Cambridge University.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

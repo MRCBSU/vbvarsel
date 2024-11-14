@@ -13,57 +13,57 @@ class ELBO_Computation:
     only methods, many of which are private.
     """
 
-    def _ln_pi(self, alpha, k):
+    def _ln_pi(self, alphaK, k):
         """Private method to calculate Pi natural log.
 
-        Params:
-            alpha: calculated alphak value
-            k: the Kth cluster
-
-        Returns:
+        Params
+            alphaK: np.ndarray
+                Calculated variational Paramter alphaK
+            k: int
+                The Kth target cluster
+        Returns: float
             Calculated ln(π)
-        """
-        return digamma(alpha[k]) - digamma(sum(alpha))
 
-    def _ln_precision(self, a, b):
+        """
+        return digamma(alphaK[k]) - digamma(sum(alphaK))
+
+    def _ln_precision(self, akj, B):
         """Private method for calculating precision natural log.
 
-        Params:
-            a: float
-                calculated alphakj value
-            b: np.ndarray
-                calculated B value
+        Params
+            akj: float
+                Calculated variational parameter Alphakj 
+            B: np.ndarray
+                Calculated variational parameter B
+        Returns: np.ndarray
+                Calculated precision natural log
 
-        Returns:
-            np.ndarray
-                calculated precision natural log
         """
-        if b > 1e-30:
-            ld = np.log(b)
+        if B > 1e-30:
+            ld = np.log(B)
         else:
             ld = 0.0
-        return psi(a) - ld
+        return psi(akj) - ld
 
-    def _log_resp_annealed(self, exp_ln_gam, exp_ln_mu, f0, N, K, C, T):
-        """Private function to calculate log resp annealed.
+    def _log_resp_annealed(self, exp_ln_tau, exp_ln_sigma, f0, N, K, C, T):
+        """Private function to calculate log resp annealed. (A27?)
 
-        Params:
-            exp_ln_gam: list
-                expected ln(gamma) array
-            exp_ln_mu: np.ndarray
-                expected ln(mu) array
+        Params
+            exp_ln_tau: list
+                Expected ln(tau) array
+            exp_ln_sigma: np.ndarray
+                Expected ln(sigma) array
             f0: np.ndarray
-                calculated f0 value
+                Calculated f0 value
             N: int
                 the Nth observation
             K: int
                 number of clusters
             C: np.ndarray
-                covariate selection indicator
+                Calculated variational parameter C, the covariate selection indicators
             T: float
                 annealing temperature
-
-        Returns:
+        Returns
             log_resp: np.ndarray
                 array of calculated values
 
@@ -71,9 +71,9 @@ class ELBO_Computation:
         log_resp = np.zeros((N, K))  # ln Z
         for k in range(K):
             log_resp[:, k] = (
-                0.5 * exp_ln_gam[k]
+                0.5 * exp_ln_tau[k]
                 - 0.5 * sum(C) * np.log(2 * math.pi)
-                - 0.5 * exp_ln_mu[:, k]
+                - 0.5 * exp_ln_sigma[:, k]
                 + f0
             ) / T
         return log_resp
@@ -81,19 +81,19 @@ class ELBO_Computation:
     def _ln_delta_annealed(self, C, j, d, T):
         """Private function to calculate the annealed value of delta natural log.
 
-        Params:
+        Params
             C: np.ndarray
-                covariate selection indicator
+                covariate selection indicators
             j: int
                 iteration count
             d: np.ndarray
                 Shape parameter of the Beta distribution on the probability.
             T: float
                 annealing temperature
-
-        Returns:
+        Returns
             ln_delta_ann: np.ndarray
                 calculated array of natural log of annealed delta values
+
         """
         ln_delta_ann = digamma((C[j] + d + T - 1.0) / T) - digamma(
             (2 * d + 2 * T - 1.0) / T
@@ -103,16 +103,16 @@ class ELBO_Computation:
     def _ln_delta_minus_annealed(self, C, j, d, T):
         """Private function to calculate the minus of annealed delta natural log.
 
-        Params:
+        Params
             C: np.ndarray
-                covariate selection indicator
+                covariate selection indicators
             j: int
                 iteration count
             d: np.ndarray
                 Shape parameter of the Beta distribution on the probability.
             T: float
                 annealing temperature
-        Returns:
+        Returns
             ln_delta_ann_minus: np.ndarray
                 calculated array of natural log of annealed delta values
 
@@ -125,7 +125,7 @@ class ELBO_Computation:
     def _entropy_wishart(self, k, j, b, a):
         """Private function to calculate wishart entropy.
 
-        Params:
+        Params
             K: int
                 the kth cluster of the observation
             j: int
@@ -134,9 +134,10 @@ class ELBO_Computation:
                 calculated B value
             a: float
                 calculated alphakj value
-        Returns:
+        Returns
             e_w: np.ndarray
                 array of entropy wishart values
+
         """
         if b[k][j, j] > 1e-30:
             ld = np.log(b[k][j, j])
@@ -164,15 +165,15 @@ class ELBO_Computation:
         b0,
         m,
         m0,
-        exp_ln_gam,
-        exp_ln_mu,
+        exp_ln_tau,
+        exp_ln_sigma,
         f0,
         T=1,
     ) -> float:
         """Function to compute the Evidence Lower Bound (ELBO). The ELBO is
-        the useful lower-bound on the log-likelihood of observed data.
+        the useful lower-bound on the log-likelihood of observed data. (A51)
 
-        Params:
+        Params
             XDim: int
                 number of columns
             K: int
@@ -180,7 +181,7 @@ class ELBO_Computation:
             N: int
                 the Nth observation
             C: np.ndarray
-                covariate selection indicator
+                covariate selection indicators
             Z: np.ndarray
                 cluster assignment matrix
             d: np.ndarray
@@ -207,17 +208,18 @@ class ELBO_Computation:
                 calculated m value
             m0: np.ndarray
                 prior mean
-            exp_ln_gam: list
-                expected ln(gamma) array
-            exp_ln_mu: np.ndarray
-                expected ln(mu) array
+            exp_ln_tau: list
+                expected ln(tau) array
+            exp_ln_sigma: np.ndarray
+                expected ln(sigma) array
             f0: np.ndarray
                 calculated f0 value
             T: float
                 annealing temperature
 
-        Returns:
+        Returns
             calculated ELBO
+
         """
 
         # nifty way to find out what the attributes are of the class I am using when
@@ -237,10 +239,10 @@ class ELBO_Computation:
         # # <class 'numpy.ndarray'>, <class 'numpy.ndarray'>, <class 'float'>]
 
         # E[ln p(X|Z, μ, Λ)]
-        def _first_term(N, K, Z, C, exp_ln_gam, exp_ln_mu, f0, T):
+        def _first_term(N, K, Z, C, exp_ln_tau, exp_ln_sigma, f0, T):
             """Private internal function to calculate the 1st term of the ELBO
 
-            Params:
+            Params
                 N: int
                     the nth observation
                 K: int
@@ -248,21 +250,21 @@ class ELBO_Computation:
                 Z: np.ndarray
                     cluster assignment matrix
                 C: np.ndarray[int]
-                    covariate selection indicator
-                exp_ln_gam: list
-                    expected ln(gamma) array
-                exp_ln_mu: np.ndarray
+                    covariate selection indicators
+                exp_ln_tau: list
+                    expected ln(tau) array
+                exp_ln_sigma: np.ndarray
                     expected ln(mu) array
                 f0: np.ndarray
                     calculated f0 value
                 T: float
                     Annealing temperature
-
-            Returns:
+            Returns
                 F2: float
                     first ELBO algorithm term
+
             """
-            ln_resp = self._log_resp_annealed(exp_ln_gam, exp_ln_mu, f0, N, K, C, T)
+            ln_resp = self._log_resp_annealed(exp_ln_tau, exp_ln_sigma, f0, N, K, C, T)
             F2 = 0
             for n in range(N):
                 for k in range(K):
@@ -274,7 +276,7 @@ class ELBO_Computation:
         def _second_term(N, K, Z, alpha):
             """Private internal function to calculate ELBO 2nd term
 
-            Params:
+            Params
                 N: int
                     the nth observation
                 K: int
@@ -283,9 +285,10 @@ class ELBO_Computation:
                     cluster assignment matrix
                 alpha: np.ndarray
                     calculated alphak value
-            Returns:
+            Returns
                 s: float
                     calculated second ELBO algorithm term
+
             """
             s = 0
             for n in range(N):
@@ -297,14 +300,13 @@ class ELBO_Computation:
         def _third_term(alpha0, K, alpha):
             """Private internal function to calculate the 3rd term of the ELBO
 
-            Params:
+            Params
                 alpha0: float
-                    Degrees of freedom for the Gamma prior on the cluster precision                K: int
+                    Degrees of freedom for the Gamma prior on the cluster precision
                 K: int
                     the kth cluster of the observation
                 alpha: float
                     Prior coefficient count
-
             Return:
                 a + b: float
                     calculated third term for ELBO algorithm
@@ -318,7 +320,7 @@ class ELBO_Computation:
         def _fourth_term(K, XDim, beta0, beta, a0, a, b0, b, m, m0):
             """Private internal function to calculate the 4th term of the ELBO
 
-            Params:
+            Params
                 K: int
                     the kth cluster of the observation
                 XDim: int
@@ -339,10 +341,10 @@ class ELBO_Computation:
                     calculated m value
                 m0: np.ndarray
                     prior mean
-
-            Returns:
+            Returns
                 t: float
                     calculated fourth term of the ELBO algorithm
+
             """
             t = 0
             for k in range(K):
@@ -376,18 +378,20 @@ class ELBO_Computation:
         def _fifth_term(XDim, d, C, T):
             """Private internal function to calculate the 5th term of the ELBO
 
-            Params:
+            Params
                 XDim: int
                     number of columns
                 d: np.ndarray
                     Shape parameter of the Beta distribution on the probability.
                 C: np.ndarray[int]
-                    covariate selection indicator matrix
+                    covariate selection indicators matrix
                 T: float
                     Annealing temperature
 
-            Returns:
-                a:
+            Returns
+                a: ndarray
+                    the calculated 6th term of the ELBO algorithm
+
             """
             a = 0
             for j in range(XDim):
@@ -401,7 +405,8 @@ class ELBO_Computation:
         def _sixth_term(Z:np.ndarray, N:int, K:int):
             """Private internal function to calculate the 6th term of the ELBO
 
-            Params:
+            Params
+            
                 Z: np.ndarray
                     cluster assignment matrix
                 N: int
@@ -409,7 +414,8 @@ class ELBO_Computation:
                 K: int
                     the Kth cluster of the observation
 
-            Returns:
+            Returns
+            
                 a: ndarray
                     the calculated 6th term of the ELBO algorithm
             """
@@ -427,11 +433,13 @@ class ELBO_Computation:
         def _seventh_term(alpha:np.ndarray):
             """Private internal function to calculate the 7th term of the ELBO
 
-            Params:
+            Params
+            
                 alpha: np.ndarray
                     Calculated alpha value 
 
-            Returns:
+            Returns
+            
                 a + b
             """
             a = sum([(alpha[k] - 1) * self._ln_pi(alpha, k) for k in range(K)])
@@ -442,7 +450,8 @@ class ELBO_Computation:
         def _eighth_term(K, XDim, beta, a, b):
             """Private internal function to calculate the 8th term of the ELBO
 
-            Params:
+            Params
+            
                 K: int
                     the Kth cluster
                 XDim: int
@@ -454,7 +463,8 @@ class ELBO_Computation:
                 b: ndarray[float]
                     calculated bkj values
 
-            Returns: 
+            Returns
+             
                 t: float
                     calculated 8th term for the ELBO algorithm
             """
@@ -473,7 +483,8 @@ class ELBO_Computation:
         def _ninth_term(XDim, d, delta, C, T):
             """Private internal function to calculate the 9th term of the ELBO
 
-            Params:
+            Params
+            
                 XDim: int
                     number of columns
                 d: np.ndarray
@@ -481,11 +492,12 @@ class ELBO_Computation:
                 delta: int
                     calculated delta value
                 C: np.ndarray[int]
-                    covariate selection indicator matrix
+                    covariate selection indicators matrix
                 T: float
                     annealing temperature
 
-            Returns:
+            Returns
+            
                 F0 + F1: float
                     calculated 9th term of the ELBO algorithm
 
@@ -507,7 +519,7 @@ class ELBO_Computation:
 
             return F0 + F1
 
-        a_t = _first_term(N, K, Z, C, exp_ln_gam, exp_ln_mu, f0, T)
+        a_t = _first_term(N, K, Z, C, exp_ln_tau, exp_ln_sigma, f0, T)
         b_t = _second_term(N, K, Z, alpha)
         c_t = _third_term(alpha0, K, alpha)
         d_t = _fourth_term(K, XDim, beta0, beta, a0, a, b0, b, m, m0)

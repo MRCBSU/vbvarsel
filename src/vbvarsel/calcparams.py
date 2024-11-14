@@ -4,46 +4,43 @@ from scipy.special import digamma
 
 
 def calcAlphak(NK: float, alpha0: float, T: float) -> float:
-    # A57
-    """Function to find the updated variational parameter alphaK, i.e., the concentration parameter for
-            Dirichelet posterior distribution on the mixture proportions
+    """Function to find the updated variational parameter alphaK, i.e., the concentration parameter for Dirichelet posterior distribution on the mixture proportions (A29/A57)
 
-    Params:
+    Params
         NK: float
-            number of observations assigned to each cluster K
+            Number of observations assigned to each cluster K
         alpha0: float
-            Prior coefficient count
+            Prior coefficient count, :func:`~vbvarsel.global_parameters.Hyperparameters.alpha0`
         T: float
-            annealing temperature
+            Annealing temperature
+    Returns
+        alphaK: np.ndarray[float]
+            Calculated Alphak values
 
-    Returns:
-        alpha: np.ndarray[float]
-            calculated alpha value
     """
-    alpha = (NK + alpha0 + T - 1) / T
-    return alpha
+    alphaK = (NK + alpha0 + T - 1) / T
+    return alphaK
 
 
 def calcAkj(
     K: int, J: int, C: np.ndarray[float], NK: float, a0: float, T: float
 ) -> np.ndarray[float]:
-    """Function to calculate the updated variational parameter akj
+    """Function to calculate the updated variational parameter akj (A35/A60)
 
-    Params:
+    Params
         K: int
             Maximum number of clusters
         J: int
             number of covariates
         C: np.ndarray[float]
-            covariate selection indicators
+            covariate selection indicators, :func:`~vbvarsel.calcparams.calcC`
         NK: float
             number of observations assigned to each cluster K
-        a0: float
-            degrees of freedom, for the Gamma prior
+        alpha0: float
+            degrees of freedom, for the Gamma prior, :func:`~vbvarsel.global_parameters.Hyperparameters.alpha0`
         T: float
             annealing temperature
-
-    Returns:
+    Returns
         akj: float
             updated variational parameter for the degrees of freedom of the
             posterior Gamma distribution
@@ -57,15 +54,14 @@ def calcAkj(
 
 
 def calcXd(Z: np.ndarray, X: np.ndarray[float]) -> np.ndarray[float]:
-    """Function to find Xd
+    """Function to find Xd. (A37)
 
-    Params:
+    Params
         Z: np.ndarray
-            cluster assignment matrix
+            Latent cluster assignment matrix, :func:`~vbvarsel.calcparams.calcZ`
         X: np.ndarray[float]
             2-D array of normalised data
-
-    Returns:
+    Returns
         xd: np.ndarray[float]
             Array of values
 
@@ -90,16 +86,18 @@ def calcXd(Z: np.ndarray, X: np.ndarray[float]) -> np.ndarray[float]:
 def calcS(
     Z: np.ndarray, X: np.ndarray[float], xd: np.ndarray[float]
 ) -> np.ndarray[float]:
-    """Function to calculate S
+    """Function to calculate Skj. (A38)
 
-    Params:
+    Params
         Z: np.ndarray
-            cluster assignment matrix
+            Latent cluster assignment matrix, :func:`~vbvarsel.calcparams.calcZ`
         X: ndarray[float]
+            Shuffled array
         xd: ndarray[float]
-
-    Returns:
+            Variational paramater Xd, :func:`~vbvarsel.calcparams.calcXd`
+    Returns
         S: ndarray[float]
+            Calculated S variable parameter
 
     """
     K = Z.shape[1]
@@ -123,27 +121,26 @@ def calcS(
 def calcbetakj(
     K: int, XDim: int, C: np.ndarray[int], NK: float, beta0: float, T: float
 ) -> np.ndarray[float]:
-    # A58
-    """Function to calculate the updated variational parameter betaKJ.
+    """Function to calculate the updated variational parameter betaKJ. (A33/A58)
 
-    Params:
+    Params
         K: int
             maximum number of clusters
         XDim: int
             number of variables (columns)
         C: np.ndarray[int]
-            covariate selection indicators
+            covariate selection indicators, :func:`~vbvarsel.calcparams.calcC`
         NK: float
             number of observations assigned to each cluster K
         beta0: float
-            shrinkage parameter of the Gaussian conditional prior
+            shrinkage parameter of the Gaussian conditional prior, :func:`~vbvarsel.global_parameters.Hyperparameters.beta0`
         T: float
-            annealing temperature
-
-    Returns:
+            annealing temperature, :func:`~vbvarsel.global_parameters.Hyperparameters.t_max`
+    Returns
         beta: np.ndarray[float]
             updated variational shrinkage parameter for the Gaussian conditional
             posterior
+
     """
     C = np.array(C).reshape(1, XDim)
     NK = np.array(NK).reshape(K, 1)
@@ -162,30 +159,28 @@ def calcM(
     C: np.ndarray[int],
     T: float,
 ) -> np.ndarray[float]:
-    # A59
-    """Function to calculate the updated variational parameter M.
+    """Function to calculate the updated variational parameter Mkj (A34/A59).
 
-    Params:
+    Params
         K: int
             maximum number of clusters
         XDim: int
             number of variables (columns)
         beta0: float
-            shrinkage parameter of the Gaussian conditional prior
+            shrinkage parameter of the Gaussian conditional prior, :func:`~vbvarsel.global_parameters.Hyperparameters.beta0`
         m0: float
             prior cluster means
         NK: float
             number of observations assigned to each cluster K
         xd: np.ndarray[float]
-            calculated xd
+            Value of calculated variational parameter xd, , :func:`~vbvarsel.calcparams.calcXd`
         betakj: np.ndarray[float]
             updated variational shrinkage parameter for the Gaussian conditional posterior
         C: np.ndarray[int]
-            covariate selection indicators
+            covariate selection indicators, :func:`~vbvarsel.calcparams.calcC`
         T: float
-            annealing temperature
-
-    Returns:
+            annealing temperature, :func:`~vbvarsel.global_parameters.Hyperparameters.t_max`
+    Returns
         m: np.ndarray[float]
             updated variational cluster means
 
@@ -201,33 +196,32 @@ def calcM(
 def calcB(W0, xd, K, m0, XDim, beta0, S, C, NK, T) -> np.ndarray[float]:
     """Function to calculate the updated variational parameter B
 
-    Params:
+    Params
         W0: np.ndarray[float]
-            2-D array with diaganal 1s rest 0s
+            2-D array with diagonal 1s rest 0s
         xd: np.ndarray[float]
-            array of values generated from `calcXd`
+            Value of calculated variational parameter xd, :func:`~vbvarsel.calcparams.calcXd`
         K: int
-            hyperparameter k1, the number of clusters
+            Hyperparameter k1, the number of clusters
         m0: np.ndarray[int]
-            array of 0s with same shape as test data
+            Array of 0s with same shape as test data
         XDim: int
-            number of columns
+            Number of variables (columns)
         beta0: float
-            Shrinkage parameter of the Gaussian conditional prior on the cluster
-            mean.
+            Shrinkage parameter of the Gaussian conditional prior on the cluster mean, :func:`~vbvarsel.global_parameters.Hyperparameters.beta0`
         S: list[np.ndarray[float]]
-            list of ndarrays with of float values detrived from `calcS`
+            Calculated value of variational paramater S, :func:`~vbvarsel.calcparams.calcS`
         C: np.ndarray[float]
-            ndarray of 1s
+            covariate selection indicators, :func:`~vbvarsel.calcparams.calcC`
         NK: float
-            number of observations assigned to each cluster K
-
+            Number of observations assigned to each cluster K
         T: float
-            annealing temperature
+            Annealing temperature, :func:`~vbvarsel.global_parameters.Hyperparameters.t_max`
 
-    Returns:
-        M: np.ndarray[float]
-            calculated variational parameter B
+    Returns
+        B: np.ndarray[float]
+            Calculated variational parameter B
+
     """
     epsilon = 1e-8  # small constant to avoid division by zero
     M = np.zeros((K, XDim, XDim))
@@ -237,23 +231,23 @@ def calcB(W0, xd, K, m0, XDim, beta0, S, C, NK, T) -> np.ndarray[float]:
         M[k, np.diag_indices(XDim)] += ((beta0 * NK[k] * C) / (beta0 + C * NK[k])) * Q0[
             k
         ] ** 2
-    M = M / (2 * T)
-    return M
+    B = M / (2 * T)
+    return B
 
 
 def calcDelta(C: np.ndarray[float], d: int, T: float) -> np.ndarray[float]:
-    """Function to calculate the updated variational parameter Delta
+    """Function to calculate the updated variational parameter Delta (A43/A62)
 
-    Params:
+    Params
         C: np.ndarray[float]
-            covariate selection indicators
+            covariate selection indicators, :func:`~vbvarsel.calcparams.calcC`
         d: int
-            shape of the Beta prior on the covariate selection probabilities
+            Shape of the Beta prior on the covariate selection probabilities, :func:`~vbvarsel.global_parameters.Hyperparameters.d0`
         T: float
-            annealing temperature
-
-    Returns:
+            annealing temperature, :func:`~vbvarsel.global_parameters.Hyperparameters.t_max`
+    Returns: float
         np.ndarray of calculate annealing
+
     """
     return np.array([(c + d + T - 1) / (2 * d + 2 * T - 1) for c in C])
 
@@ -267,28 +261,29 @@ def expSigma(
     a: np.ndarray[float],
     C: np.ndarray[float],
 ) -> float:
-    """Function to calculate expSigma
+    """Function to calculate the expected Sigma values. (A47/A48)
 
-    Params:
+    Params
         X: np.ndarray[float]
             2-D normalised array of data
         XDim: int
-            number of columns
+            Number of variables (columns)
         betak: float
-            calcultaed betakj value
+            Calculated value for the variational paramater betakj, :func:`~vbvarsel.calcparams.calcbetakj`
         m: np.ndarray[float]
-            calculated m value
+            Calculated value for the variational paramater m, :func:`~vbvarsel.calcparams.calcM`
         b: np.ndarray[float]
-            calculated bkj value
+            Calculated value for the variational paramater B, :func:`~vbvarsel.calcparams.calcB`
         a: np.ndarray[float]
-            calculated akj value
+            Calculated value for the variational paramater akj, :func:`~vbvarsel.calcparams.calcAkj`
         C: np.ndarray[int]
-            covariate selection indicators
-
-    Returns:
+            Covariate selection indicators, :func:`~vbvarsel.calcparams.calcC`
+    Returns
         s: float
+            Calculated expected sigma values
 
     """
+
     C = np.array(C).reshape(1, XDim)
     X_exp = np.expand_dims(X, axis=1)
     m_exp = np.expand_dims(m, axis=0)
@@ -307,17 +302,16 @@ def expSigma(
 
 def expPi(alpha0: float, NK: float) -> np.ndarray[float]:
     # A45
-    """Function to calculate expPi
+    """Function to calculate Expected Pi value (A45)
 
-    Params:
+    Params
         alpha0: float
-            concentration of the Dirichlet prior on the mixture weights π
+            Concentration of the Dirichlet prior on the mixture weights π, :func:`~vbvarsel.global_parameters.Hyperparamaters.alpha0`
         NK: float
-            number of expected observations associated with the Kth component
-
-    Returns:
+            Number of expected observations associated with the Kth component
+    Returns
         pik: np.ndarray[float]
-            expected value of pi
+            Expected values of pi
 
     """
     alphak = alpha0 + NK
@@ -326,26 +320,24 @@ def expPi(alpha0: float, NK: float) -> np.ndarray[float]:
 
 
 def expTau(
-    b: np.ndarray[float], a: np.ndarray[float], C: np.ndarray[int]
+    betakj: np.ndarray[float], akj: np.ndarray[float], C: np.ndarray[int]
 ) -> list[float]:
-    """Function to calculate expTau
+    """Function to calculate Expected Tau value (A47)
 
-    Params:
-        b: np.ndarray[float]
-            calcbkj value
-        a: np.ndarray[float]
-            calcalphakj value
+    Params
+        betakj: np.ndarray[float]
+            Value for the calculated variational parameter betakj, :func:`~vbvarsel.calcparams.calcbetakj`
+        akj: np.ndarray[float]
+            Value for the calculated variational parameter akj, :func:`~vbvarsel.calcparams.calcAkj`
         C: np.ndarray[int]
-            covariate selection indicators
-
-    Returns:
+            covariate selection indicators, :func:`~vbvarsel.calcparams.calcC`
+    Returns
         invc: list[float]
-            The calculated expected Tau value
-
+            The calculated expected Tau values
 
     """
-    b = np.array(b)
-    a = np.array(a)
+    b = np.array(betakj)
+    a = np.array(akj)
     C = np.array(C)
 
     dW = np.diagonal(b, axis1=1, axis2=2)
@@ -365,9 +357,9 @@ def calcF0(
     mu_0: np.ndarray[float],
     C: np.ndarray[float],
 ) -> float:
-    """Function to calculate F0
+    """Function to calculate F0 (A30?)
 
-    Params:
+    Params
         X: np.ndarray[float]
             2-D array of normalised data
         XDim: int
@@ -377,11 +369,10 @@ def calcF0(
         mu_0: np.ndarray[float]
             Paramater estimate for Phi0j as MLE
         C: np.ndarray[int]
-            covariate selection indicators
-
-    Returns:
-        f0: float
-            calculated f0 parameter
+            covariate selection indicators, :func:`~vbvarsel.calcparams.calcC`
+    Returns
+        F0: np.ndarray
+            calculated value for variational parameter F0
 
     """
     C = np.array(C).reshape(1, XDim)
@@ -397,52 +388,52 @@ def calcF0(
             for x in X
         ]
     )
-    f0 = np.sum(f * (1 - C), axis=1)
+    F0 = np.sum(f * (1 - C), axis=1)
 
-    return f0
+    return F0
 
 
 def calcZ(
     exp_ln_pi: np.ndarray[float],
-    exp_ln_gam: np.ndarray[float],
-    exp_ln_mu: np.ndarray[float],
+    exp_ln_tau: np.ndarray[float],
+    exp_ln_sigma: np.ndarray[float],
     f0: float,
     N: int,
     K: int,
     C: np.ndarray[float],
     T: float,
 ) -> np.ndarray[float]:
-    """Function to the updated variational parameter Z
+    """Function to the updated variational parameter Z, the latent cluster assignments (A23)
 
-    Params:
+    Params
         exp_ln_pi: np.ndarray[float]
-            expected natural log of pi
-        exp_ln_gam: np.ndarray[float]
-            expected natural log of gamma
-        exp_ln_mu: np.ndarray[float]
-            expected natural log of mu
+            Expected natural log of pi, :func:`~vbvarsel.calcparams.expPi`
+        exp_ln_tau: np.ndarray[float]
+            Expected natural log of tau, :func:`~vbvarsel.calcparams.expTau`
+        exp_ln_sigma: np.ndarray[float]
+            Expected natural log of sigma, :func:`~vbvarsel.calcparams.expSigma`
         f0: float
-            calculated f0 value
+            calculated f0 value, :func:`~vbvarsel.calcparams.calcF0`
         N: int
             the nth observation
         K: int
             the kth cluster of the observation
         C: np.ndarray[int]
-            covariate selection indicator
+            covariate selection indicators, :func:`~vbvarsel.calcparams.calcC`
         T: float
-            annealing temperature
-
-    Returns:
-        Z1: np.ndarray[float]
+            annealing temperature, :func:`~vbvarsel.global_parameters.Hyperparameters.t_max`
+    Returns
+        Z: np.ndarray[float]
+            Calculated variational parameter Z
 
     """
     Z = np.zeros((N, K))  # ln Z
     for k in range(K):
         Z[:, k] = (
             exp_ln_pi[k]
-            + 0.5 * exp_ln_gam[k]
+            + 0.5 * exp_ln_tau[k]
             - 0.5 * sum(C) * np.log(2 * math.pi)
-            - 0.5 * exp_ln_mu[:, k]
+            - 0.5 * exp_ln_sigma[:, k]
             + f0
         ) / T
     # normalise ln Z:
@@ -457,15 +448,14 @@ def normal(
 ) -> np.ndarray[float]:
     """Function to get a normal distribution
 
-    Params:
+    Params
         x: np.ndarray[float]
             2-D array of normalised data
         mu: float
             mean of the normal distribution
         sigma: np.ndarray[float]
             standard deviation of the normal distribution
-
-    Returns:
+    Returns
         n: np.ndarray[float]
             Array with normalised distribution
 
@@ -483,23 +473,22 @@ def calcexpF(
     beta: np.ndarray[float],
     Z: np.ndarray[float],
 ) -> float:
-    """Function to calculate expF
+    """Function to calculate expected F, an intermediate factor to calculate the updated covariate selection indicators
 
-    Params:
+    Params
         X: np.ndarray[float]
             2-D array of normalised data
         b: np.ndarray[float]
-            calculated bkj value
+            Value for the calculated variational parameter B, :func:`~vbvarsel.calcparams.calcB`
         a: np.ndarray[float]
-            calculated akj value
+            Value for the calculated variational parameter akj, :func:`~vbvarsel.calcparams.calcAkj`
         m: np.ndarray[float]
-            calculated m value
+            Value for the calculated variational parameter m, :func:`~vbvarsel.calcparams.calcM`
         beta: np.ndarray[float]
-            calculated betakj value
+            Value for the calculated variational parameter betakj, :func:`~vbvarsel.calcparams.calcbetakj`
         Z: np.ndarray
-            cluster assignment matrix
-
-    Returns:
+            Latent cluster assignment matrix, :func:`~vbvarsel.calcparams.calcZ`
+    Returns
         expF: float
             intermediate factor to calculate the updated covariate selection indicators
 
@@ -536,9 +525,9 @@ def calcexpF0(
     sigma_0: np.ndarray[float],
     mu_0: np.ndarray[float],
 ) -> np.ndarray[float]:
-    """Function to calculate exp of F0
+    """Function to calculate expected F0, an intermediate factor to calculate the updated covariate selection indicators
 
-    Params:
+    Params
         X: np.ndarray
             2-D array of normalised data
         N: int
@@ -548,15 +537,14 @@ def calcexpF0(
         XDim: int
             number of columns
         Z: np.ndarray
-            cluster assignment matrix
+            Latent cluster assignment matrix, :func:`~vbvarsel.calcparams.calcZ`
         sigma_0: np.ndarray[float]
             n-dim array of squared sigma values
         mu_0: np.ndarray[float]
             n-dim array of squared mu values
-
-    Returns:
+    Returns
         expF0: np.ndarray[float]
-            intermediate factor to calculate the updated covariate selection indicators
+            Expected F0, an intermediate factor to calculate the updated covariate selection indicators
 
     """
     expF0 = np.zeros(XDim)
@@ -577,21 +565,21 @@ def calcexpF0(
 
 def calcN1(C: np.ndarray[int], d: int, expF: float, T: float) -> tuple:
     # A53
-    """Function to calculate N1
+    """Function to calculate N1 (A41), a parameter for Cj (A40) in the Bernoulli distribution (A39)
 
-    Params:
+    Params
         C: np.ndarray[int]
-            covariate selection indicator
+            covariate selection indicators, :func:`~vbvarsel.calcparams.calcC`
         d: int
-            Shape parameter of the Beta distribution on the probability.
+            Shape parameter of the Beta distribution on the probability. :func:`~vbvarsel.global_parameters.Hyperparameters.d0`
         expF: float
-            intermediate factor to calculate the updated covariate selection indicators
+            intermediate factor to calculate the updated covariate selection indicators :func:`~vbvarsel.calcparams.calcexpF`
         T: float
-            Annealing temperature
-
-    Returns:
+            Annealing temperature, :func:`~vbvarsel.global_parameters.Hyperparameters.t_max`
+    Returns
         N1, lnN1:
             intermediate factors to calculate the updated covariate selection indicators
+
     """
     expDelta = digamma((C + d + T - 1) / T) - digamma((2 * d + 2 * T - 1) / T)
     lnN1 = (expDelta + expF) / (T)
@@ -601,20 +589,21 @@ def calcN1(C: np.ndarray[int], d: int, expF: float, T: float) -> tuple:
 
 def calcN2(C: np.ndarray[int], d: int, expF0: float, T: float) -> tuple:
     # A54
-    """Function to calculate N2
+    """Function to calculate N1 (A42), a parameter for Cj (A40) in the Bernoulli distribution (A39)
 
-    Params:
+    Params
         C: np.ndarray[int]
-            covariate selection indicator
+            covariate selection indicators, :func:`~vbvarsel.calcparams.calcC`
         d: int
-            Shape parameter of the Beta distribution on the probability.
+            Shape parameter of the Beta distribution on the probability. :func:`~vbvarsel.global_parameters.Hyperparameters.d0`
         expF0: float
-            intermediate factor to calculate the updated covariate selection indicators
+            intermediate factor to calculate the updated covariate selection indicators :func:`~vbvarsel.calcparams.calcexpF0`
         T: float
-            Annealing temperature
+            Annealing temperature, :func:`~vbvarsel.global_parameters.Hyperparameters.t_max` 
+    Returns
+        N2, lnN2:
+            intermediate factors to calculate the updated covariate selection indicators
 
-    Returns:
-        N2, lnN2: intermediate factors to calculate the updated covariate selection indicators
     """
     expDelta = digamma((T - C + d) / T) - digamma((2 * d + 2 * T - 1) / T)
     lnN2 = (expDelta + expF0) / (T)
@@ -639,9 +628,9 @@ def calcC(
     T: float,
     trick: bool = False,
 ) -> np.ndarray[float]:
-    """Function to calculate the updated variational parameter C, covariate selection indicators
+    """Function to calculate the updated variational parameter C (A40), the covariate selection indicators
 
-    Params:
+    Params
         XDim: int
             number of columns
         N: int
@@ -651,31 +640,32 @@ def calcC(
         X: np.ndarray[float]
             2-D array of normalised data
         b: np.ndarray[float]
-            calculated bkj value
+            Calculated variational paramater B, derived from :func:`~vbvarsel.calcparams.calcB`
         a: np.ndarray[float]
-            calculated akj value
+            Calculated variational paramater akj, derived from :func:`~vbvarsel.calcparams.calcAkj`
         m: np.ndarray[float]
-            calculated m value
+            Calculated variational paramater m, derived from :func:`~vbvarsel.calcparams.calcM`
         beta: np.ndarray[float]
-            calculated beta value
+            Calculated variational paramater betakj, derived from :func:`~vbvarsel.calcparams.calcbetakj`
         d: int
             Shape parameter of the Beta distribution on the probability.
         C: np.ndarray[float]
-            covariate selection indicator
+            Covariate selection indicators, :func:`~vbvarsel.calcparams.calcC`
         Z: np.ndarray
-            cluster assignment matrix
+            Latent cluster assignment matrix
         sigma_0: np.ndarray[float]
-            n-dim array of squared sigma values
+            N-dimensional array of squared sigma values
         mu_0: np.ndarray[float]
-            n-dim array of squared mu values
+            N-dimensional array of squared mu values
         T: float
-            Annealing temperature
-        trick: bool
+            Annealing temperature, :func:`~vbvarsel.global_parameters.Hyperparameters.t_max`
+        trick: bool (Optional) (Default: True)
             whether or not to use a mathematical trick to avoid numerical errors
 
-    Returns:
+    Returns
         C0: np.ndarray[float]
-            calculated variational parameter C
+            Calculated variational parameter C
+
     """
     expF = calcexpF(X, b, a, m, beta, Z)
     expF0 = calcexpF0(X, N, K, XDim, Z, sigma_0, mu_0)
