@@ -383,9 +383,9 @@ def main(
             for i in range(hyperparameters.max_models):
                 
                 #COMMENT/DELETE after
-                print("Model " + str(i))
-                print("obs " + str(q))
-                print("rel " + str(o))
+                # print("Model " + str(i))
+                # print("obs " + str(q))
+                # print("rel " + str(o))
                 
                 if user_data == None:
                     results.add_relevants(simulation_parameters.n_relevants[n])

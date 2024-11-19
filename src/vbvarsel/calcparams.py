@@ -320,13 +320,13 @@ def expPi(alpha0: float, NK: float) -> np.ndarray[float]:
 
 
 def expTau(
-    betakj: np.ndarray[float], akj: np.ndarray[float], C: np.ndarray[int]
+    bkj: np.ndarray[float], akj: np.ndarray[float], C: np.ndarray[int]
 ) -> list[float]:
     """Function to calculate Expected Tau value (A47)
 
     Params
-        betakj: np.ndarray
-            Value for the calculated variational parameter betakj, :func:`~vbvarsel.calcparams.calcbetakj`
+        bkj: np.ndarray
+            Value for the calculated variational parameter bkj, :func:`~vbvarsel.calcparams.calcbkj`
         akj: np.ndarray
             Value for the calculated variational parameter akj, :func:`~vbvarsel.calcparams.calcAkj`
         C: np.ndarray
@@ -336,7 +336,7 @@ def expTau(
             The calculated expected Tau values
 
     """
-    b = np.array(betakj)
+    b = np.array(bkj)
     a = np.array(akj)
     C = np.array(C)
 
