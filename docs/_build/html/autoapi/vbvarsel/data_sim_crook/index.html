@@ -102,7 +102,7 @@
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#vbvarsel.data_sim_crook.SimulateCrookData" title="vbvarsel.data_sim_crook.SimulateCrookData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SimulateCrookData</span></code></a></p></td>
-<td><p></p></td>
+<td><p>A class to represent simulated data as described by Crook et al. Data will</p></td>
 </tr>
 </tbody>
 </table>
@@ -112,7 +112,11 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="vbvarsel.data_sim_crook.SimulateCrookData">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">vbvarsel.data_sim_crook.</span></span><span class="sig-name descname"><span class="pre">SimulateCrookData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_variables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_relevant</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">mixture_proportions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">means</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">variance_covariance_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/vbvarsel/data_sim_crook.html#SimulateCrookData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.data_sim_crook.SimulateCrookData" title="Link to this definition"></a></dt>
-<dd><dl class="py attribute">
+<dd><p>A class to represent simulated data as described by Crook et al. Data will
+be generated in accordance to the parameters passed through <a class="reference internal" href="../global_parameters/index.html#vbvarsel.global_parameters.SimulationParameters" title="vbvarsel.global_parameters.SimulationParameters"><code class="xref py py-func docutils literal notranslate"><span class="pre">vbvarsel.global_parameters.SimulationParameters()</span></code></a>.
+This only generates synthetic data, and as such is not used if a user
+supplies their own data source. <a class="reference external" href="https://www.degruyter.com/document/doi/10.1515/sagmb-2018-0065/html">Reference paper</a></p>
+<dl class="py attribute">
 <dt class="sig sig-object py" id="vbvarsel.data_sim_crook.SimulateCrookData.observation">
 <span class="sig-name descname"><span class="pre">observation</span></span><a class="reference internal" href="../../../_modules/vbvarsel/data_sim_crook.html#SimulateCrookData.observation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.data_sim_crook.SimulateCrookData.observation" title="Link to this definition"></a></dt>
 <dd></dd></dl>

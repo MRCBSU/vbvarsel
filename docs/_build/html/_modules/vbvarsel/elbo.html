@@ -87,7 +87,7 @@
 <span class="sd">    A class to contain the Evidence Lower Bound (ELBO) computation.</span>
 
 <span class="sd">    This class has no attributes, aside from Python&#39;s built-ins, and contains</span>
-<span class="sd">    only methods, many of which are private.</span>
+<span class="sd">    only methods, the majority of which are private.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="ELBO_Computation._ln_pi">
@@ -141,13 +141,13 @@
 <span class="sd">            f0: np.ndarray</span>
 <span class="sd">                Calculated f0 value</span>
 <span class="sd">            N: int</span>
-<span class="sd">                the Nth observation</span>
+<span class="sd">                The Nth observation</span>
 <span class="sd">            K: int</span>
-<span class="sd">                number of clusters</span>
+<span class="sd">               The Kth cluster</span>
 <span class="sd">            C: np.ndarray</span>
-<span class="sd">                Calculated variational parameter C, the covariate selection indicators</span>
+<span class="sd">                Calculated variational parameter C, the Covariate selection indicators</span>
 <span class="sd">            T: float</span>
-<span class="sd">                annealing temperature</span>
+<span class="sd">                The annealing temperature</span>
 <span class="sd">        Returns</span>
 <span class="sd">            log_resp: np.ndarray</span>
 <span class="sd">                array of calculated values</span>
@@ -167,17 +167,17 @@
 <div class="viewcode-block" id="ELBO_Computation._ln_delta_annealed">
 <a class="viewcode-back" href="../../autoapi/vbvarsel/elbo/index.html#vbvarsel.elbo.ELBO_Computation._ln_delta_annealed">[docs]</a>
     <span class="k">def</span> <span class="nf">_ln_delta_annealed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Private function to calculate the annealed value of delta natural log.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Private function to calculate the annealed value of delta natural log. (A62)</span>
 
 <span class="sd">        Params</span>
 <span class="sd">            C: np.ndarray</span>
-<span class="sd">                covariate selection indicators</span>
+<span class="sd">                Covariate selection indicators</span>
 <span class="sd">            j: int</span>
-<span class="sd">                iteration count</span>
+<span class="sd">                Iteration count</span>
 <span class="sd">            d: np.ndarray</span>
 <span class="sd">                Shape parameter of the Beta distribution on the probability.</span>
 <span class="sd">            T: float</span>
-<span class="sd">                annealing temperature</span>
+<span class="sd">                The annealing temperature</span>
 <span class="sd">        Returns</span>
 <span class="sd">            ln_delta_ann: np.ndarray</span>
 <span class="sd">                calculated array of natural log of annealed delta values</span>
@@ -192,17 +192,17 @@
 <div class="viewcode-block" id="ELBO_Computation._ln_delta_minus_annealed">
 <a class="viewcode-back" href="../../autoapi/vbvarsel/elbo/index.html#vbvarsel.elbo.ELBO_Computation._ln_delta_minus_annealed">[docs]</a>
     <span class="k">def</span> <span class="nf">_ln_delta_minus_annealed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Private function to calculate the minus of annealed delta natural log.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Private function to calculate the minus of annealed delta natural log. (A56)</span>
 
 <span class="sd">        Params</span>
 <span class="sd">            C: np.ndarray</span>
-<span class="sd">                covariate selection indicators</span>
+<span class="sd">                Covariate selection indicators</span>
 <span class="sd">            j: int</span>
-<span class="sd">                iteration count</span>
+<span class="sd">                Iteration count</span>
 <span class="sd">            d: np.ndarray</span>
 <span class="sd">                Shape parameter of the Beta distribution on the probability.</span>
 <span class="sd">            T: float</span>
-<span class="sd">                annealing temperature</span>
+<span class="sd">                The annealing temperature</span>
 <span class="sd">        Returns</span>
 <span class="sd">            ln_delta_ann_minus: np.ndarray</span>
 <span class="sd">                calculated array of natural log of annealed delta values</span>
@@ -221,13 +221,13 @@
 
 <span class="sd">        Params</span>
 <span class="sd">            K: int</span>
-<span class="sd">                the kth cluster of the observation</span>
+<span class="sd">                The Kth cluster of the observation</span>
 <span class="sd">            j: int</span>
-<span class="sd">                iteration count</span>
+<span class="sd">                Iteration count</span>
 <span class="sd">            b: np.ndarray</span>
-<span class="sd">                calculated B value</span>
+<span class="sd">                calculated value for variational parameter, betakj</span>
 <span class="sd">            a: float</span>
-<span class="sd">                calculated alphakj value</span>
+<span class="sd">                calculated value for variational parameter, alphakj</span>
 <span class="sd">        Returns</span>
 <span class="sd">            e_w: np.ndarray</span>
 <span class="sd">                array of entropy wishart values</span>
@@ -272,50 +272,51 @@
 
 <span class="sd">        Params</span>
 <span class="sd">            XDim: int</span>
-<span class="sd">                number of columns</span>
+<span class="sd">                Number of variables (columns)</span>
 <span class="sd">            K: int</span>
-<span class="sd">                the kth cluster of the observation</span>
+<span class="sd">                The Kth cluster of the observation</span>
 <span class="sd">            N: int</span>
-<span class="sd">                the Nth observation</span>
+<span class="sd">                The Nth observation</span>
 <span class="sd">            C: np.ndarray</span>
-<span class="sd">                covariate selection indicators</span>
+<span class="sd">                Covariate selection indicators</span>
 <span class="sd">            Z: np.ndarray</span>
 <span class="sd">                cluster assignment matrix</span>
 <span class="sd">            d: np.ndarray</span>
 <span class="sd">                Shape parameter of the Beta distribution on the probability.</span>
 <span class="sd">            delta: int</span>
-<span class="sd">                calculated delta value</span>
+<span class="sd">                Calculated variational parameter, delta</span>
 <span class="sd">            beta: np.ndarray</span>
-<span class="sd">                calculated betakj value</span>
+<span class="sd">                Calculated variational parameter, betakj</span>
 <span class="sd">            beta0: float</span>
 <span class="sd">                Shrinkage parameter of the Gaussian conditional prior on the cluster means</span>
 <span class="sd">            alpha: np.ndarray</span>
-<span class="sd">                calculated alphak value</span>
+<span class="sd">                Calculated variational parameter, alphak</span>
 <span class="sd">            alpha0: float</span>
 <span class="sd">                Prior coefficient count</span>
 <span class="sd">            a: float</span>
-<span class="sd">                calculated alphakj value</span>
+<span class="sd">                Calculated variational parameter, alphakj</span>
 <span class="sd">            a0: np.ndarray</span>
 <span class="sd">                Degrees of freedom for the Gamma prior on the cluster precision</span>
 <span class="sd">            b: np.ndarray</span>
-<span class="sd">                calculated B value</span>
+<span class="sd">                Calculated variational parameter, B</span>
 <span class="sd">            b0: np.ndarray</span>
-<span class="sd">                prior covariance</span>
+<span class="sd">                Prior covariance</span>
 <span class="sd">            m: np.ndarray</span>
-<span class="sd">                calculated m value</span>
+<span class="sd">                Calculated variational parameter, m</span>
 <span class="sd">            m0: np.ndarray</span>
-<span class="sd">                prior mean</span>
+<span class="sd">                Prior mean</span>
 <span class="sd">            exp_ln_tau: list</span>
 <span class="sd">                expected ln(tau) array</span>
 <span class="sd">            exp_ln_sigma: np.ndarray</span>
 <span class="sd">                expected ln(sigma) array</span>
 <span class="sd">            f0: np.ndarray</span>
-<span class="sd">                calculated f0 value</span>
+<span class="sd">                Calculated variational parameter, f0</span>
 <span class="sd">            T: float</span>
-<span class="sd">                annealing temperature</span>
+<span class="sd">                The annealing temperature</span>
 
-<span class="sd">        Returns</span>
-<span class="sd">            calculated ELBO</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            elbo: float</span>
+<span class="sd">                Calculated ELBO value</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -341,13 +342,13 @@
 
 <span class="sd">            Params</span>
 <span class="sd">                N: int</span>
-<span class="sd">                    the nth observation</span>
+<span class="sd">                    The Nth observation</span>
 <span class="sd">                K: int</span>
-<span class="sd">                    the kth cluster of the observation</span>
+<span class="sd">                    The Kth cluster of the observation</span>
 <span class="sd">                Z: np.ndarray</span>
 <span class="sd">                    cluster assignment matrix</span>
 <span class="sd">                C: np.ndarray[int]</span>
-<span class="sd">                    covariate selection indicators</span>
+<span class="sd">                    Covariate selection indicators</span>
 <span class="sd">                exp_ln_tau: list</span>
 <span class="sd">                    expected ln(tau) array</span>
 <span class="sd">                exp_ln_sigma: np.ndarray</span>
@@ -355,7 +356,7 @@
 <span class="sd">                f0: np.ndarray</span>
 <span class="sd">                    calculated f0 value</span>
 <span class="sd">                T: float</span>
-<span class="sd">                    Annealing temperature</span>
+<span class="sd">                    The Annealing temperature</span>
 <span class="sd">            Returns</span>
 <span class="sd">                F2: float</span>
 <span class="sd">                    first ELBO algorithm term</span>
@@ -375,9 +376,9 @@
 
 <span class="sd">            Params</span>
 <span class="sd">                N: int</span>
-<span class="sd">                    the nth observation</span>
+<span class="sd">                    The Nth observation</span>
 <span class="sd">                K: int</span>
-<span class="sd">                    the kth cluster of the observation</span>
+<span class="sd">                    The Kth cluster of the observation</span>
 <span class="sd">                Z: np.ndarray</span>
 <span class="sd">                    cluster assignment matrix</span>
 <span class="sd">                alpha: np.ndarray</span>
@@ -401,7 +402,7 @@
 <span class="sd">                alpha0: float</span>
 <span class="sd">                    Degrees of freedom for the Gamma prior on the cluster precision</span>
 <span class="sd">                K: int</span>
-<span class="sd">                    the kth cluster of the observation</span>
+<span class="sd">                    The Kth cluster of the observation</span>
 <span class="sd">                alpha: float</span>
 <span class="sd">                    Prior coefficient count</span>
 <span class="sd">            Return:</span>
@@ -419,9 +420,9 @@
 
 <span class="sd">            Params</span>
 <span class="sd">                K: int</span>
-<span class="sd">                    the kth cluster of the observation</span>
+<span class="sd">                    The Kth cluster of the observation</span>
 <span class="sd">                XDim: int</span>
-<span class="sd">                    number of columns</span>
+<span class="sd">                    Number of variables (columns)</span>
 <span class="sd">                beta0: float</span>
 <span class="sd">                    Shrinkage parameter of the Gaussian conditional prior on the cluster</span>
 <span class="sd">                beta: np.ndarray</span>
@@ -477,13 +478,13 @@
 
 <span class="sd">            Params</span>
 <span class="sd">                XDim: int</span>
-<span class="sd">                    number of columns</span>
+<span class="sd">                    Number of variables (columns)</span>
 <span class="sd">                d: np.ndarray</span>
 <span class="sd">                    Shape parameter of the Beta distribution on the probability.</span>
 <span class="sd">                C: np.ndarray[int]</span>
-<span class="sd">                    covariate selection indicators matrix</span>
+<span class="sd">                    Covariate selection indicators matrix</span>
 <span class="sd">                T: float</span>
-<span class="sd">                    Annealing temperature</span>
+<span class="sd">                    The Annealing temperature</span>
 
 <span class="sd">            Returns</span>
 <span class="sd">                a: ndarray</span>
@@ -507,9 +508,9 @@
 <span class="sd">                Z: np.ndarray</span>
 <span class="sd">                    cluster assignment matrix</span>
 <span class="sd">                N: int</span>
-<span class="sd">                    the Nth observation</span>
+<span class="sd">                    The Nth observation</span>
 <span class="sd">                K: int</span>
-<span class="sd">                    the Kth cluster of the observation</span>
+<span class="sd">                    The Kth cluster of the observation</span>
 
 <span class="sd">            Returns</span>
 <span class="sd">            </span>
@@ -550,15 +551,15 @@
 <span class="sd">            Params</span>
 <span class="sd">            </span>
 <span class="sd">                K: int</span>
-<span class="sd">                    the Kth cluster</span>
+<span class="sd">                    The Kth cluster of the observation</span>
 <span class="sd">                XDim: int</span>
-<span class="sd">                    number of columns</span>
+<span class="sd">                    Number of variables (columns)</span>
 <span class="sd">                beta: ndarray[float]</span>
 <span class="sd">                    claculated betakj values</span>
 <span class="sd">                a: ndarray[float]</span>
 <span class="sd">                    calculated alphakj values</span>
 <span class="sd">                b: ndarray[float]</span>
-<span class="sd">                    calculated bkj values</span>
+<span class="sd">                    calculated B values</span>
 
 <span class="sd">            Returns</span>
 <span class="sd">             </span>
@@ -583,15 +584,15 @@
 <span class="sd">            Params</span>
 <span class="sd">            </span>
 <span class="sd">                XDim: int</span>
-<span class="sd">                    number of columns</span>
+<span class="sd">                    Number of variables (columns)</span>
 <span class="sd">                d: np.ndarray</span>
 <span class="sd">                    Shape parameter of the Beta distribution on the probability.</span>
 <span class="sd">                delta: int</span>
 <span class="sd">                    calculated delta value</span>
 <span class="sd">                C: np.ndarray[int]</span>
-<span class="sd">                    covariate selection indicators matrix</span>
+<span class="sd">                    Covariate selection indicators matrix</span>
 <span class="sd">                T: float</span>
-<span class="sd">                    annealing temperature</span>
+<span class="sd">                    The annealing temperature</span>
 
 <span class="sd">            Returns</span>
 <span class="sd">            </span>

@@ -83,7 +83,8 @@
 <div class="viewcode-block" id="UserDataHandler">
 <a class="viewcode-back" href="../../autoapi/vbvarsel/custodian/index.html#vbvarsel.custodian.UserDataHandler">[docs]</a>
 <span class="k">class</span> <span class="nc">UserDataHandler</span><span class="p">:</span>
-
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Class object to represent user supplied data.&#39;&#39;&#39;</span>
+    
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;Initalizer to create the ExperimentValues object.&#39;&#39;&#39;</span>
 <div class="viewcode-block" id="UserDataHandler.ExperimentValues">
@@ -169,7 +170,7 @@
 <span class="sd">                Header rows and index column will not be loaded. CSV must only have numerical values.</span>
 <span class="sd">                Non-numerical values can be passed, via the `cols_to_ignore` parameter. </span>
 <span class="sd">            cols_to_ignore: list[str] (Optional) (Default: None)</span>
-<span class="sd">                Any columns which are irrelevant or non-numerical to be dropped. </span>
+<span class="sd">                Any columns which are irrelevant or non-numerical to be excluded from analysis. </span>
 <span class="sd">            labels: str | list[str] (Optional) (Default: None)</span>
 <span class="sd">                Labels to be used to calculate the ARI to check clustering accuracy.</span>
 <span class="sd">                This parameter is optional but strongly encouraged. If a string value</span>
@@ -198,16 +199,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">shuffle_normalised_data</span><span class="p">(</span><span class="n">normalised_data</span><span class="p">)</span></div>
 </div>
 
-
-        
-    <span class="c1"># def save_data(data: pd.DataFrame, filename: str, save_path: pathlib.Path, with_index:bool=False):</span>
-
-    <span class="c1">#     data.to_csv(path_or_buf=os.path.join(save_path, filename), index=with_index)</span>
-    <span class="c1">#     print(f&quot;{filename} saved to {save_path}.&quot;)</span>
-
-
-<span class="c1"># if __name__ == &#39;__main__&#39;:</span>
-    <span class="c1"># UserDataHandler().load_data(r&quot;C:\Users\Alan\Desktop\dev\\test importing\9_BRCA.pam50.50.csv&quot;)</span>
 </pre></div>
 
            </div>

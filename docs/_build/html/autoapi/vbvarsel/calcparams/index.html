@@ -191,17 +191,17 @@
 <dd><p>Function to calculate the updated variational parameter akj (A35/A60)</p>
 <dl class="simple">
 <dt>Params</dt><dd><dl class="simple">
-<dt>K: int</dt><dd><p>Maximum number of clusters</p>
+<dt>K: int</dt><dd><p>The Kth cluster</p>
 </dd>
-<dt>J: int</dt><dd><p>number of covariates</p>
+<dt>J: int</dt><dd><p>Iteration count</p>
 </dd>
-<dt>C: np.ndarray[float]</dt><dd><p>covariate selection indicators, <a class="reference internal" href="#vbvarsel.calcparams.calcC" title="vbvarsel.calcparams.calcC"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcC()</span></code></a></p>
+<dt>C: np.ndarray[float]</dt><dd><p>Covariate selection indicators, <a class="reference internal" href="#vbvarsel.calcparams.calcC" title="vbvarsel.calcparams.calcC"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcC()</span></code></a></p>
 </dd>
-<dt>NK: float</dt><dd><p>number of observations assigned to each cluster K</p>
+<dt>NK: float</dt><dd><p>Number of observations assigned to each cluster K</p>
 </dd>
-<dt>alpha0: float</dt><dd><p>degrees of freedom, for the Gamma prior, <a class="reference internal" href="../global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.alpha0" title="vbvarsel.global_parameters.Hyperparameters.alpha0"><code class="xref py py-func docutils literal notranslate"><span class="pre">alpha0()</span></code></a></p>
+<dt>alpha0: float</dt><dd><p>Degrees of freedom, for the Gamma prior, <a class="reference internal" href="../global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.alpha0" title="vbvarsel.global_parameters.Hyperparameters.alpha0"><code class="xref py py-func docutils literal notranslate"><span class="pre">alpha0()</span></code></a></p>
 </dd>
-<dt>T: float</dt><dd><p>annealing temperature</p>
+<dt>T: float</dt><dd><p>Annealing temperature</p>
 </dd>
 </dl>
 </dd>
@@ -262,22 +262,22 @@ posterior Gamma distribution</p>
 <dd><p>Function to calculate the updated variational parameter betaKJ. (A33/A58)</p>
 <dl class="simple">
 <dt>Params</dt><dd><dl class="simple">
-<dt>K: int</dt><dd><p>maximum number of clusters</p>
+<dt>K: int</dt><dd><p>The Kth cluster</p>
 </dd>
 <dt>XDim: int</dt><dd><p>number of variables (columns)</p>
 </dd>
 <dt>C: np.ndarray[int]</dt><dd><p>covariate selection indicators, <a class="reference internal" href="#vbvarsel.calcparams.calcC" title="vbvarsel.calcparams.calcC"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcC()</span></code></a></p>
 </dd>
-<dt>NK: float</dt><dd><p>number of observations assigned to each cluster K</p>
+<dt>NK: float</dt><dd><p>Number of observations assigned to each cluster K</p>
 </dd>
 <dt>beta0: float</dt><dd><p>shrinkage parameter of the Gaussian conditional prior, <a class="reference internal" href="../global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.beta0" title="vbvarsel.global_parameters.Hyperparameters.beta0"><code class="xref py py-func docutils literal notranslate"><span class="pre">beta0()</span></code></a></p>
 </dd>
-<dt>T: float</dt><dd><p>annealing temperature, <a class="reference internal" href="../global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.t_max" title="vbvarsel.global_parameters.Hyperparameters.t_max"><code class="xref py py-func docutils literal notranslate"><span class="pre">t_max()</span></code></a></p>
+<dt>T: float</dt><dd><p>Annealing temperature, <a class="reference internal" href="../global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.t_max" title="vbvarsel.global_parameters.Hyperparameters.t_max"><code class="xref py py-func docutils literal notranslate"><span class="pre">t_max()</span></code></a></p>
 </dd>
 </dl>
 </dd>
 <dt>Returns</dt><dd><dl class="simple">
-<dt>beta: np.ndarray[float]</dt><dd><p>updated variational shrinkage parameter for the Gaussian conditional
+<dt>beta: np.ndarray[float]</dt><dd><p>Updated variational shrinkage parameter for the Gaussian conditional
 posterior</p>
 </dd>
 </dl>
@@ -291,28 +291,28 @@ posterior</p>
 <dd><p>Function to calculate the updated variational parameter Mkj (A34/A59).</p>
 <dl class="simple">
 <dt>Params</dt><dd><dl class="simple">
-<dt>K: int</dt><dd><p>maximum number of clusters</p>
+<dt>K: int</dt><dd><p>The Kth cluster</p>
 </dd>
 <dt>XDim: int</dt><dd><p>number of variables (columns)</p>
 </dd>
-<dt>beta0: float</dt><dd><p>shrinkage parameter of the Gaussian conditional prior, <a class="reference internal" href="../global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.beta0" title="vbvarsel.global_parameters.Hyperparameters.beta0"><code class="xref py py-func docutils literal notranslate"><span class="pre">beta0()</span></code></a></p>
+<dt>beta0: float</dt><dd><p>Shrinkage parameter of the Gaussian conditional prior, <a class="reference internal" href="../global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.beta0" title="vbvarsel.global_parameters.Hyperparameters.beta0"><code class="xref py py-func docutils literal notranslate"><span class="pre">beta0()</span></code></a></p>
 </dd>
-<dt>m0: float</dt><dd><p>prior cluster means</p>
+<dt>m0: float</dt><dd><p>Prior cluster means</p>
 </dd>
-<dt>NK: float</dt><dd><p>number of observations assigned to each cluster K</p>
+<dt>NK: float</dt><dd><p>Number of observations assigned to each cluster K</p>
 </dd>
 <dt>xd: np.ndarray[float]</dt><dd><p>Value of calculated variational parameter xd, , <a class="reference internal" href="#vbvarsel.calcparams.calcXd" title="vbvarsel.calcparams.calcXd"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcXd()</span></code></a></p>
 </dd>
-<dt>betakj: np.ndarray[float]</dt><dd><p>updated variational shrinkage parameter for the Gaussian conditional posterior</p>
+<dt>betakj: np.ndarray[float]</dt><dd><p>Updated variational shrinkage parameter for the Gaussian conditional posterior</p>
 </dd>
-<dt>C: np.ndarray[int]</dt><dd><p>covariate selection indicators, <a class="reference internal" href="#vbvarsel.calcparams.calcC" title="vbvarsel.calcparams.calcC"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcC()</span></code></a></p>
+<dt>C: np.ndarray[int]</dt><dd><p>Covariate selection indicators, <a class="reference internal" href="#vbvarsel.calcparams.calcC" title="vbvarsel.calcparams.calcC"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcC()</span></code></a></p>
 </dd>
-<dt>T: float</dt><dd><p>annealing temperature, <a class="reference internal" href="../global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.t_max" title="vbvarsel.global_parameters.Hyperparameters.t_max"><code class="xref py py-func docutils literal notranslate"><span class="pre">t_max()</span></code></a></p>
+<dt>T: float</dt><dd><p>Annealing temperature, <a class="reference internal" href="../global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.t_max" title="vbvarsel.global_parameters.Hyperparameters.t_max"><code class="xref py py-func docutils literal notranslate"><span class="pre">t_max()</span></code></a></p>
 </dd>
 </dl>
 </dd>
 <dt>Returns</dt><dd><dl class="simple">
-<dt>m: np.ndarray[float]</dt><dd><p>updated variational cluster means</p>
+<dt>m: np.ndarray[float]</dt><dd><p>Updated variational cluster means</p>
 </dd>
 </dl>
 </dd>
@@ -339,7 +339,7 @@ posterior</p>
 </dd>
 <dt>S: list[np.ndarray[float]]</dt><dd><p>Calculated value of variational paramater S, <a class="reference internal" href="#vbvarsel.calcparams.calcS" title="vbvarsel.calcparams.calcS"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcS()</span></code></a></p>
 </dd>
-<dt>C: np.ndarray[float]</dt><dd><p>covariate selection indicators, <a class="reference internal" href="#vbvarsel.calcparams.calcC" title="vbvarsel.calcparams.calcC"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcC()</span></code></a></p>
+<dt>C: np.ndarray[float]</dt><dd><p>Covariate selection indicators, <a class="reference internal" href="#vbvarsel.calcparams.calcC" title="vbvarsel.calcparams.calcC"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcC()</span></code></a></p>
 </dd>
 <dt>NK: float</dt><dd><p>Number of observations assigned to each cluster K</p>
 </dd>
@@ -361,15 +361,15 @@ posterior</p>
 <dd><p>Function to calculate the updated variational parameter Delta (A43/A62)</p>
 <dl class="simple">
 <dt>Params</dt><dd><dl class="simple">
-<dt>C: np.ndarray[float]</dt><dd><p>covariate selection indicators, <a class="reference internal" href="#vbvarsel.calcparams.calcC" title="vbvarsel.calcparams.calcC"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcC()</span></code></a></p>
+<dt>C: np.ndarray[float]</dt><dd><p>Covariate selection indicators, <a class="reference internal" href="#vbvarsel.calcparams.calcC" title="vbvarsel.calcparams.calcC"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcC()</span></code></a></p>
 </dd>
 <dt>d: int</dt><dd><p>Shape of the Beta prior on the covariate selection probabilities, <a class="reference internal" href="../global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.d0" title="vbvarsel.global_parameters.Hyperparameters.d0"><code class="xref py py-func docutils literal notranslate"><span class="pre">d0()</span></code></a></p>
 </dd>
-<dt>T: float</dt><dd><p>annealing temperature, <a class="reference internal" href="../global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.t_max" title="vbvarsel.global_parameters.Hyperparameters.t_max"><code class="xref py py-func docutils literal notranslate"><span class="pre">t_max()</span></code></a></p>
+<dt>T: float</dt><dd><p>Annealing temperature, <a class="reference internal" href="../global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.t_max" title="vbvarsel.global_parameters.Hyperparameters.t_max"><code class="xref py py-func docutils literal notranslate"><span class="pre">t_max()</span></code></a></p>
 </dd>
 </dl>
 </dd>
-<dt>Returns: float</dt><dd><p>np.ndarray of calculate annealing</p>
+<dt>Returns: float</dt><dd><p>Array of calculated variational parameter delta</p>
 </dd>
 </dl>
 </dd></dl>
@@ -430,11 +430,11 @@ posterior</p>
 <dd><p>Function to calculate Expected Tau value (A47)</p>
 <dl class="simple">
 <dt>Params</dt><dd><dl class="simple">
-<dt>betakj: np.ndarray[float]</dt><dd><p>Value for the calculated variational parameter betakj, <a class="reference internal" href="#vbvarsel.calcparams.calcbetakj" title="vbvarsel.calcparams.calcbetakj"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcbetakj()</span></code></a></p>
+<dt>betakj: np.ndarray</dt><dd><p>Value for the calculated variational parameter betakj, <a class="reference internal" href="#vbvarsel.calcparams.calcbetakj" title="vbvarsel.calcparams.calcbetakj"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcbetakj()</span></code></a></p>
 </dd>
-<dt>akj: np.ndarray[float]</dt><dd><p>Value for the calculated variational parameter akj, <a class="reference internal" href="#vbvarsel.calcparams.calcAkj" title="vbvarsel.calcparams.calcAkj"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcAkj()</span></code></a></p>
+<dt>akj: np.ndarray</dt><dd><p>Value for the calculated variational parameter akj, <a class="reference internal" href="#vbvarsel.calcparams.calcAkj" title="vbvarsel.calcparams.calcAkj"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcAkj()</span></code></a></p>
 </dd>
-<dt>C: np.ndarray[int]</dt><dd><p>covariate selection indicators, <a class="reference internal" href="#vbvarsel.calcparams.calcC" title="vbvarsel.calcparams.calcC"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcC()</span></code></a></p>
+<dt>C: np.ndarray</dt><dd><p>Covariate selection indicators, <a class="reference internal" href="#vbvarsel.calcparams.calcC" title="vbvarsel.calcparams.calcC"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcC()</span></code></a></p>
 </dd>
 </dl>
 </dd>
@@ -452,20 +452,20 @@ posterior</p>
 <dd><p>Function to calculate F0 (A30?)</p>
 <dl class="simple">
 <dt>Params</dt><dd><dl class="simple">
-<dt>X: np.ndarray[float]</dt><dd><p>2-D array of normalised data</p>
+<dt>X: np.ndarray</dt><dd><p>2-D array of normalised data</p>
 </dd>
-<dt>XDim: int</dt><dd><p>number of columns</p>
+<dt>XDim: int</dt><dd><p>Number of variables (columns)</p>
 </dd>
-<dt>sigma_0: np.ndarray[float]</dt><dd><p>Paramater estimate for Phi0j as MLE</p>
+<dt>sigma_0: np.ndarray</dt><dd><p>Paramater estimate for Phi0j as MLE</p>
 </dd>
-<dt>mu_0: np.ndarray[float]</dt><dd><p>Paramater estimate for Phi0j as MLE</p>
+<dt>mu_0: np.ndarray</dt><dd><p>Paramater estimate for Phi0j as MLE</p>
 </dd>
-<dt>C: np.ndarray[int]</dt><dd><p>covariate selection indicators, <a class="reference internal" href="#vbvarsel.calcparams.calcC" title="vbvarsel.calcparams.calcC"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcC()</span></code></a></p>
+<dt>C: np.ndarray</dt><dd><p>Covariate selection indicators, <a class="reference internal" href="#vbvarsel.calcparams.calcC" title="vbvarsel.calcparams.calcC"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcC()</span></code></a></p>
 </dd>
 </dl>
 </dd>
 <dt>Returns</dt><dd><dl class="simple">
-<dt>F0: np.ndarray</dt><dd><p>calculated value for variational parameter F0</p>
+<dt>F0: np.ndarray</dt><dd><p>Calculated value for variational parameter F0</p>
 </dd>
 </dl>
 </dd>
@@ -478,26 +478,26 @@ posterior</p>
 <dd><p>Function to the updated variational parameter Z, the latent cluster assignments (A23)</p>
 <dl class="simple">
 <dt>Params</dt><dd><dl class="simple">
-<dt>exp_ln_pi: np.ndarray[float]</dt><dd><p>Expected natural log of pi, <a class="reference internal" href="#vbvarsel.calcparams.expPi" title="vbvarsel.calcparams.expPi"><code class="xref py py-func docutils literal notranslate"><span class="pre">expPi()</span></code></a></p>
+<dt>exp_ln_pi: np.ndarray</dt><dd><p>Expected natural log of pi, <a class="reference internal" href="#vbvarsel.calcparams.expPi" title="vbvarsel.calcparams.expPi"><code class="xref py py-func docutils literal notranslate"><span class="pre">expPi()</span></code></a></p>
 </dd>
-<dt>exp_ln_tau: np.ndarray[float]</dt><dd><p>Expected natural log of tau, <a class="reference internal" href="#vbvarsel.calcparams.expTau" title="vbvarsel.calcparams.expTau"><code class="xref py py-func docutils literal notranslate"><span class="pre">expTau()</span></code></a></p>
+<dt>exp_ln_tau: np.ndarray</dt><dd><p>Expected natural log of tau, <a class="reference internal" href="#vbvarsel.calcparams.expTau" title="vbvarsel.calcparams.expTau"><code class="xref py py-func docutils literal notranslate"><span class="pre">expTau()</span></code></a></p>
 </dd>
-<dt>exp_ln_sigma: np.ndarray[float]</dt><dd><p>Expected natural log of sigma, <a class="reference internal" href="#vbvarsel.calcparams.expSigma" title="vbvarsel.calcparams.expSigma"><code class="xref py py-func docutils literal notranslate"><span class="pre">expSigma()</span></code></a></p>
+<dt>exp_ln_sigma: np.ndarray</dt><dd><p>Expected natural log of sigma, <a class="reference internal" href="#vbvarsel.calcparams.expSigma" title="vbvarsel.calcparams.expSigma"><code class="xref py py-func docutils literal notranslate"><span class="pre">expSigma()</span></code></a></p>
 </dd>
-<dt>f0: float</dt><dd><p>calculated f0 value, <a class="reference internal" href="#vbvarsel.calcparams.calcF0" title="vbvarsel.calcparams.calcF0"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcF0()</span></code></a></p>
+<dt>f0: float</dt><dd><p>Calculated f0 value, <a class="reference internal" href="#vbvarsel.calcparams.calcF0" title="vbvarsel.calcparams.calcF0"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcF0()</span></code></a></p>
 </dd>
-<dt>N: int</dt><dd><p>the nth observation</p>
+<dt>N: int</dt><dd><p>The nth observation</p>
 </dd>
-<dt>K: int</dt><dd><p>the kth cluster of the observation</p>
+<dt>K: int</dt><dd><p>The kth cluster of the observation</p>
 </dd>
-<dt>C: np.ndarray[int]</dt><dd><p>covariate selection indicators, <a class="reference internal" href="#vbvarsel.calcparams.calcC" title="vbvarsel.calcparams.calcC"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcC()</span></code></a></p>
+<dt>C: np.ndarray</dt><dd><p>Covariate selection indicators, <a class="reference internal" href="#vbvarsel.calcparams.calcC" title="vbvarsel.calcparams.calcC"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcC()</span></code></a></p>
 </dd>
-<dt>T: float</dt><dd><p>annealing temperature, <code class="xref py py-func docutils literal notranslate"><span class="pre">tmax()</span></code></p>
+<dt>T: float</dt><dd><p>Annealing temperature, <a class="reference internal" href="../global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.t_max" title="vbvarsel.global_parameters.Hyperparameters.t_max"><code class="xref py py-func docutils literal notranslate"><span class="pre">t_max()</span></code></a></p>
 </dd>
 </dl>
 </dd>
 <dt>Returns</dt><dd><dl class="simple">
-<dt>Z: np.ndarray[float]</dt><dd><p>Calculated variational parameter Z</p>
+<dt>Z: np.ndarray</dt><dd><p>Calculated variational parameter Z</p>
 </dd>
 </dl>
 </dd>
@@ -510,16 +510,16 @@ posterior</p>
 <dd><p>Function to get a normal distribution</p>
 <dl class="simple">
 <dt>Params</dt><dd><dl class="simple">
-<dt>x: np.ndarray[float]</dt><dd><p>2-D array of normalised data</p>
+<dt>x: np.ndarray</dt><dd><p>2-D array of normalised data</p>
 </dd>
-<dt>mu: float</dt><dd><p>mean of the normal distribution</p>
+<dt>mu: float</dt><dd><p>Mean of the normal distribution</p>
 </dd>
-<dt>sigma: np.ndarray[float]</dt><dd><p>standard deviation of the normal distribution</p>
+<dt>sigma: np.ndarray</dt><dd><p>Standard deviation of the normal distribution</p>
 </dd>
 </dl>
 </dd>
 <dt>Returns</dt><dd><dl class="simple">
-<dt>n: np.ndarray[float]</dt><dd><p>Array with normalised distribution</p>
+<dt>n: np.ndarray</dt><dd><p>Array with normalised distribution</p>
 </dd>
 </dl>
 </dd>
@@ -532,22 +532,22 @@ posterior</p>
 <dd><p>Function to calculate expected F, an intermediate factor to calculate the updated covariate selection indicators</p>
 <dl class="simple">
 <dt>Params</dt><dd><dl class="simple">
-<dt>X: np.ndarray[float]</dt><dd><p>2-D array of normalised data</p>
+<dt>X: np.ndarray</dt><dd><p>2-D array of normalised data</p>
 </dd>
-<dt>b: np.ndarray[float]</dt><dd><p>Value for the calculated variational parameter B, <a class="reference internal" href="#vbvarsel.calcparams.calcB" title="vbvarsel.calcparams.calcB"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcB()</span></code></a></p>
+<dt>b: np.ndarray</dt><dd><p>Value for the calculated variational parameter B, <a class="reference internal" href="#vbvarsel.calcparams.calcB" title="vbvarsel.calcparams.calcB"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcB()</span></code></a></p>
 </dd>
-<dt>a: np.ndarray[float]</dt><dd><p>Value for the calculated variational parameter akj, <a class="reference internal" href="#vbvarsel.calcparams.calcAkj" title="vbvarsel.calcparams.calcAkj"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcAkj()</span></code></a></p>
+<dt>a: np.ndarray</dt><dd><p>Value for the calculated variational parameter akj, <a class="reference internal" href="#vbvarsel.calcparams.calcAkj" title="vbvarsel.calcparams.calcAkj"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcAkj()</span></code></a></p>
 </dd>
-<dt>m: np.ndarray[float]</dt><dd><p>Value for the calculated variational parameter m, <a class="reference internal" href="#vbvarsel.calcparams.calcM" title="vbvarsel.calcparams.calcM"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcM()</span></code></a></p>
+<dt>m: np.ndarray</dt><dd><p>Value for the calculated variational parameter m, <a class="reference internal" href="#vbvarsel.calcparams.calcM" title="vbvarsel.calcparams.calcM"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcM()</span></code></a></p>
 </dd>
-<dt>beta: np.ndarray[float]</dt><dd><p>Value for the calculated variational parameter betakj, <a class="reference internal" href="#vbvarsel.calcparams.calcbetakj" title="vbvarsel.calcparams.calcbetakj"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcbetakj()</span></code></a></p>
+<dt>beta: np.ndarray</dt><dd><p>Value for the calculated variational parameter betakj, <a class="reference internal" href="#vbvarsel.calcparams.calcbetakj" title="vbvarsel.calcparams.calcbetakj"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcbetakj()</span></code></a></p>
 </dd>
 <dt>Z: np.ndarray</dt><dd><p>Latent cluster assignment matrix, <a class="reference internal" href="#vbvarsel.calcparams.calcZ" title="vbvarsel.calcparams.calcZ"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcZ()</span></code></a></p>
 </dd>
 </dl>
 </dd>
 <dt>Returns</dt><dd><dl class="simple">
-<dt>expF: float</dt><dd><p>intermediate factor to calculate the updated covariate selection indicators</p>
+<dt>expF: float</dt><dd><p>Intermediate factor to calculate the updated covariate selection indicators</p>
 </dd>
 </dl>
 </dd>
@@ -562,22 +562,22 @@ posterior</p>
 <dt>Params</dt><dd><dl class="simple">
 <dt>X: np.ndarray</dt><dd><p>2-D array of normalised data</p>
 </dd>
-<dt>N: int</dt><dd><p>the nth observation</p>
+<dt>N: int</dt><dd><p>The nth observation</p>
 </dd>
-<dt>K: int</dt><dd><p>the kth cluster of the observation</p>
+<dt>K: int</dt><dd><p>The kth cluster of the observation</p>
 </dd>
-<dt>XDim: int</dt><dd><p>number of columns</p>
+<dt>XDim: int</dt><dd><p>Number of variables (columns)</p>
 </dd>
 <dt>Z: np.ndarray</dt><dd><p>Latent cluster assignment matrix, <a class="reference internal" href="#vbvarsel.calcparams.calcZ" title="vbvarsel.calcparams.calcZ"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcZ()</span></code></a></p>
 </dd>
-<dt>sigma_0: np.ndarray[float]</dt><dd><p>n-dim array of squared sigma values</p>
+<dt>sigma_0: np.ndarray</dt><dd><p>N-dim array of squared sigma values</p>
 </dd>
-<dt>mu_0: np.ndarray[float]</dt><dd><p>n-dim array of squared mu values</p>
+<dt>mu_0: np.ndarray</dt><dd><p>N-dim array of squared mu values</p>
 </dd>
 </dl>
 </dd>
 <dt>Returns</dt><dd><dl class="simple">
-<dt>expF0: np.ndarray[float]</dt><dd><p>Expected F0, an intermediate factor to calculate the updated covariate selection indicators</p>
+<dt>expF0: np.ndarray</dt><dd><p>Expected F0, an intermediate factor to calculate the updated covariate selection indicators</p>
 </dd>
 </dl>
 </dd>
@@ -590,18 +590,18 @@ posterior</p>
 <dd><p>Function to calculate N1 (A41), a parameter for Cj (A40) in the Bernoulli distribution (A39)</p>
 <dl class="simple">
 <dt>Params</dt><dd><dl class="simple">
-<dt>C: np.ndarray[int]</dt><dd><p>covariate selection indicators, <a class="reference internal" href="#vbvarsel.calcparams.calcC" title="vbvarsel.calcparams.calcC"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcC()</span></code></a></p>
+<dt>C: np.ndarray</dt><dd><p>Covariate selection indicators, <a class="reference internal" href="#vbvarsel.calcparams.calcC" title="vbvarsel.calcparams.calcC"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcC()</span></code></a></p>
 </dd>
 <dt>d: int</dt><dd><p>Shape parameter of the Beta distribution on the probability. <a class="reference internal" href="../global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.d0" title="vbvarsel.global_parameters.Hyperparameters.d0"><code class="xref py py-func docutils literal notranslate"><span class="pre">d0()</span></code></a></p>
 </dd>
-<dt>expF: float</dt><dd><p>intermediate factor to calculate the updated covariate selection indicators <a class="reference internal" href="#vbvarsel.calcparams.calcexpF" title="vbvarsel.calcparams.calcexpF"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcexpF()</span></code></a></p>
+<dt>expF: float</dt><dd><p>Intermediate factor to calculate the updated covariate selection indicators <a class="reference internal" href="#vbvarsel.calcparams.calcexpF" title="vbvarsel.calcparams.calcexpF"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcexpF()</span></code></a></p>
 </dd>
 <dt>T: float</dt><dd><p>Annealing temperature, <a class="reference internal" href="../global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.t_max" title="vbvarsel.global_parameters.Hyperparameters.t_max"><code class="xref py py-func docutils literal notranslate"><span class="pre">t_max()</span></code></a></p>
 </dd>
 </dl>
 </dd>
 <dt>Returns</dt><dd><dl class="simple">
-<dt>N1, lnN1:</dt><dd><p>intermediate factors to calculate the updated covariate selection indicators</p>
+<dt>N1, lnN1: tuple</dt><dd><p>Intermediate factors to calculate the updated covariate selection indicators</p>
 </dd>
 </dl>
 </dd>
@@ -614,18 +614,18 @@ posterior</p>
 <dd><p>Function to calculate N1 (A42), a parameter for Cj (A40) in the Bernoulli distribution (A39)</p>
 <dl class="simple">
 <dt>Params</dt><dd><dl class="simple">
-<dt>C: np.ndarray[int]</dt><dd><p>covariate selection indicators, <a class="reference internal" href="#vbvarsel.calcparams.calcC" title="vbvarsel.calcparams.calcC"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcC()</span></code></a></p>
+<dt>C: np.ndarray</dt><dd><p>Covariate selection indicators, <a class="reference internal" href="#vbvarsel.calcparams.calcC" title="vbvarsel.calcparams.calcC"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcC()</span></code></a></p>
 </dd>
 <dt>d: int</dt><dd><p>Shape parameter of the Beta distribution on the probability. <a class="reference internal" href="../global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.d0" title="vbvarsel.global_parameters.Hyperparameters.d0"><code class="xref py py-func docutils literal notranslate"><span class="pre">d0()</span></code></a></p>
 </dd>
-<dt>expF0: float</dt><dd><p>intermediate factor to calculate the updated covariate selection indicators <a class="reference internal" href="#vbvarsel.calcparams.calcexpF0" title="vbvarsel.calcparams.calcexpF0"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcexpF0()</span></code></a></p>
+<dt>expF0: float</dt><dd><p>Intermediate factor to calculate the updated covariate selection indicators <a class="reference internal" href="#vbvarsel.calcparams.calcexpF0" title="vbvarsel.calcparams.calcexpF0"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcexpF0()</span></code></a></p>
 </dd>
 <dt>T: float</dt><dd><p>Annealing temperature, <a class="reference internal" href="../global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.t_max" title="vbvarsel.global_parameters.Hyperparameters.t_max"><code class="xref py py-func docutils literal notranslate"><span class="pre">t_max()</span></code></a></p>
 </dd>
 </dl>
 </dd>
 <dt>Returns</dt><dd><dl class="simple">
-<dt>N2, lnN2:</dt><dd><p>intermediate factors to calculate the updated covariate selection indicators</p>
+<dt>N2, lnN2: tuple</dt><dd><p>Intermediate factors to calculate the updated covariate selection indicators</p>
 </dd>
 </dl>
 </dd>
@@ -638,40 +638,40 @@ posterior</p>
 <dd><p>Function to calculate the updated variational parameter C (A40), the covariate selection indicators</p>
 <dl class="simple">
 <dt>Params</dt><dd><dl class="simple">
-<dt>XDim: int</dt><dd><p>number of columns</p>
+<dt>XDim: int</dt><dd><p>Number of variables (columns)</p>
 </dd>
 <dt>N: int</dt><dd><p>the nth observation</p>
 </dd>
 <dt>K: int</dt><dd><p>the kth cluster of the observation</p>
 </dd>
-<dt>X: np.ndarray[float]</dt><dd><p>2-D array of normalised data</p>
+<dt>X: np.ndarray</dt><dd><p>2-D array of normalised data</p>
 </dd>
-<dt>b: np.ndarray[float]</dt><dd><p>Calculated variational paramater B, derived from <a class="reference internal" href="#vbvarsel.calcparams.calcB" title="vbvarsel.calcparams.calcB"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcB()</span></code></a></p>
+<dt>b: np.ndarray</dt><dd><p>Calculated variational paramater B, derived from <a class="reference internal" href="#vbvarsel.calcparams.calcB" title="vbvarsel.calcparams.calcB"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcB()</span></code></a></p>
 </dd>
-<dt>a: np.ndarray[float]</dt><dd><p>Calculated variational paramater akj, derived from <a class="reference internal" href="#vbvarsel.calcparams.calcAkj" title="vbvarsel.calcparams.calcAkj"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcAkj()</span></code></a></p>
+<dt>a: np.ndarray</dt><dd><p>Calculated variational paramater akj, derived from <a class="reference internal" href="#vbvarsel.calcparams.calcAkj" title="vbvarsel.calcparams.calcAkj"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcAkj()</span></code></a></p>
 </dd>
-<dt>m: np.ndarray[float]</dt><dd><p>Calculated variational paramater m, derived from <a class="reference internal" href="#vbvarsel.calcparams.calcM" title="vbvarsel.calcparams.calcM"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcM()</span></code></a></p>
+<dt>m: np.ndarray</dt><dd><p>Calculated variational paramater m, derived from <a class="reference internal" href="#vbvarsel.calcparams.calcM" title="vbvarsel.calcparams.calcM"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcM()</span></code></a></p>
 </dd>
-<dt>beta: np.ndarray[float]</dt><dd><p>Calculated variational paramater betakj, derived from <a class="reference internal" href="#vbvarsel.calcparams.calcbetakj" title="vbvarsel.calcparams.calcbetakj"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcbetakj()</span></code></a></p>
+<dt>beta: np.ndarray</dt><dd><p>Calculated variational paramater betakj, derived from <a class="reference internal" href="#vbvarsel.calcparams.calcbetakj" title="vbvarsel.calcparams.calcbetakj"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcbetakj()</span></code></a></p>
 </dd>
 <dt>d: int</dt><dd><p>Shape parameter of the Beta distribution on the probability.</p>
 </dd>
-<dt>C: np.ndarray[float]</dt><dd><p>Covariate selection indicators, <a class="reference internal" href="#vbvarsel.calcparams.calcC" title="vbvarsel.calcparams.calcC"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcC()</span></code></a></p>
+<dt>C: np.ndarray</dt><dd><p>Covariate selection indicators, <a class="reference internal" href="#vbvarsel.calcparams.calcC" title="vbvarsel.calcparams.calcC"><code class="xref py py-func docutils literal notranslate"><span class="pre">calcC()</span></code></a></p>
 </dd>
 <dt>Z: np.ndarray</dt><dd><p>Latent cluster assignment matrix</p>
 </dd>
-<dt>sigma_0: np.ndarray[float]</dt><dd><p>N-dimensional array of squared sigma values</p>
+<dt>sigma_0: np.ndarray</dt><dd><p>N-dimensional array of squared sigma values</p>
 </dd>
-<dt>mu_0: np.ndarray[float]</dt><dd><p>N-dimensional array of squared mu values</p>
+<dt>mu_0: np.ndarray</dt><dd><p>N-dimensional array of squared mu values</p>
 </dd>
 <dt>T: float</dt><dd><p>Annealing temperature, <a class="reference internal" href="../global_parameters/index.html#vbvarsel.global_parameters.Hyperparameters.t_max" title="vbvarsel.global_parameters.Hyperparameters.t_max"><code class="xref py py-func docutils literal notranslate"><span class="pre">t_max()</span></code></a></p>
 </dd>
-<dt>trick: bool (Optional) (Default: True)</dt><dd><p>whether or not to use a mathematical trick to avoid numerical errors</p>
+<dt>trick: bool (Optional) (Default: True)</dt><dd><p>Flag for whether or not to use a mathematical trick to avoid numerical errors</p>
 </dd>
 </dl>
 </dd>
 <dt>Returns</dt><dd><dl class="simple">
-<dt>C0: np.ndarray[float]</dt><dd><p>Calculated variational parameter C</p>
+<dt>C0: np.ndarray</dt><dd><p>Calculated variational parameter C</p>
 </dd>
 </dl>
 </dd>

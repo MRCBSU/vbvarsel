@@ -56,17 +56,17 @@ Module Contents
 
    Params
        K: int
-           Maximum number of clusters
+           The Kth cluster
        J: int
-           number of covariates
+           Iteration count
        C: np.ndarray[float]
-           covariate selection indicators, :func:`~vbvarsel.calcparams.calcC`
+           Covariate selection indicators, :func:`~vbvarsel.calcparams.calcC`
        NK: float
-           number of observations assigned to each cluster K
+           Number of observations assigned to each cluster K
        alpha0: float
-           degrees of freedom, for the Gamma prior, :func:`~vbvarsel.global_parameters.Hyperparameters.alpha0`
+           Degrees of freedom, for the Gamma prior, :func:`~vbvarsel.global_parameters.Hyperparameters.alpha0`
        T: float
-           annealing temperature
+           Annealing temperature
    Returns
        akj: float
            updated variational parameter for the degrees of freedom of the
@@ -112,20 +112,20 @@ Module Contents
 
    Params
        K: int
-           maximum number of clusters
+           The Kth cluster
        XDim: int
            number of variables (columns)
        C: np.ndarray[int]
            covariate selection indicators, :func:`~vbvarsel.calcparams.calcC`
        NK: float
-           number of observations assigned to each cluster K
+           Number of observations assigned to each cluster K
        beta0: float
            shrinkage parameter of the Gaussian conditional prior, :func:`~vbvarsel.global_parameters.Hyperparameters.beta0`
        T: float
-           annealing temperature, :func:`~vbvarsel.global_parameters.Hyperparameters.t_max`
+           Annealing temperature, :func:`~vbvarsel.global_parameters.Hyperparameters.t_max`
    Returns
        beta: np.ndarray[float]
-           updated variational shrinkage parameter for the Gaussian conditional
+           Updated variational shrinkage parameter for the Gaussian conditional
            posterior
 
 
@@ -136,26 +136,26 @@ Module Contents
 
    Params
        K: int
-           maximum number of clusters
+           The Kth cluster
        XDim: int
            number of variables (columns)
        beta0: float
-           shrinkage parameter of the Gaussian conditional prior, :func:`~vbvarsel.global_parameters.Hyperparameters.beta0`
+           Shrinkage parameter of the Gaussian conditional prior, :func:`~vbvarsel.global_parameters.Hyperparameters.beta0`
        m0: float
-           prior cluster means
+           Prior cluster means
        NK: float
-           number of observations assigned to each cluster K
+           Number of observations assigned to each cluster K
        xd: np.ndarray[float]
            Value of calculated variational parameter xd, , :func:`~vbvarsel.calcparams.calcXd`
        betakj: np.ndarray[float]
-           updated variational shrinkage parameter for the Gaussian conditional posterior
+           Updated variational shrinkage parameter for the Gaussian conditional posterior
        C: np.ndarray[int]
-           covariate selection indicators, :func:`~vbvarsel.calcparams.calcC`
+           Covariate selection indicators, :func:`~vbvarsel.calcparams.calcC`
        T: float
-           annealing temperature, :func:`~vbvarsel.global_parameters.Hyperparameters.t_max`
+           Annealing temperature, :func:`~vbvarsel.global_parameters.Hyperparameters.t_max`
    Returns
        m: np.ndarray[float]
-           updated variational cluster means
+           Updated variational cluster means
 
 
 
@@ -179,7 +179,7 @@ Module Contents
        S: list[np.ndarray[float]]
            Calculated value of variational paramater S, :func:`~vbvarsel.calcparams.calcS`
        C: np.ndarray[float]
-           covariate selection indicators, :func:`~vbvarsel.calcparams.calcC`
+           Covariate selection indicators, :func:`~vbvarsel.calcparams.calcC`
        NK: float
            Number of observations assigned to each cluster K
        T: float
@@ -197,13 +197,13 @@ Module Contents
 
    Params
        C: np.ndarray[float]
-           covariate selection indicators, :func:`~vbvarsel.calcparams.calcC`
+           Covariate selection indicators, :func:`~vbvarsel.calcparams.calcC`
        d: int
            Shape of the Beta prior on the covariate selection probabilities, :func:`~vbvarsel.global_parameters.Hyperparameters.d0`
        T: float
-           annealing temperature, :func:`~vbvarsel.global_parameters.Hyperparameters.t_max`
+           Annealing temperature, :func:`~vbvarsel.global_parameters.Hyperparameters.t_max`
    Returns: float
-       np.ndarray of calculate annealing
+       Array of calculated variational parameter delta
 
 
 
@@ -252,12 +252,12 @@ Module Contents
    Function to calculate Expected Tau value (A47)
 
    Params
-       betakj: np.ndarray[float]
+       betakj: np.ndarray
            Value for the calculated variational parameter betakj, :func:`~vbvarsel.calcparams.calcbetakj`
-       akj: np.ndarray[float]
+       akj: np.ndarray
            Value for the calculated variational parameter akj, :func:`~vbvarsel.calcparams.calcAkj`
-       C: np.ndarray[int]
-           covariate selection indicators, :func:`~vbvarsel.calcparams.calcC`
+       C: np.ndarray
+           Covariate selection indicators, :func:`~vbvarsel.calcparams.calcC`
    Returns
        invc: list[float]
            The calculated expected Tau values
@@ -269,19 +269,19 @@ Module Contents
    Function to calculate F0 (A30?)
 
    Params
-       X: np.ndarray[float]
+       X: np.ndarray
            2-D array of normalised data
        XDim: int
-           number of columns
-       sigma_0: np.ndarray[float]
+           Number of variables (columns)
+       sigma_0: np.ndarray
            Paramater estimate for Phi0j as MLE
-       mu_0: np.ndarray[float]
+       mu_0: np.ndarray
            Paramater estimate for Phi0j as MLE
-       C: np.ndarray[int]
-           covariate selection indicators, :func:`~vbvarsel.calcparams.calcC`
+       C: np.ndarray
+           Covariate selection indicators, :func:`~vbvarsel.calcparams.calcC`
    Returns
        F0: np.ndarray
-           calculated value for variational parameter F0
+           Calculated value for variational parameter F0
 
 
 
@@ -290,24 +290,24 @@ Module Contents
    Function to the updated variational parameter Z, the latent cluster assignments (A23)
 
    Params
-       exp_ln_pi: np.ndarray[float]
+       exp_ln_pi: np.ndarray
            Expected natural log of pi, :func:`~vbvarsel.calcparams.expPi`
-       exp_ln_tau: np.ndarray[float]
+       exp_ln_tau: np.ndarray
            Expected natural log of tau, :func:`~vbvarsel.calcparams.expTau`
-       exp_ln_sigma: np.ndarray[float]
+       exp_ln_sigma: np.ndarray
            Expected natural log of sigma, :func:`~vbvarsel.calcparams.expSigma`
        f0: float
-           calculated f0 value, :func:`~vbvarsel.calcparams.calcF0`
+           Calculated f0 value, :func:`~vbvarsel.calcparams.calcF0`
        N: int
-           the nth observation
+           The nth observation
        K: int
-           the kth cluster of the observation
-       C: np.ndarray[int]
-           covariate selection indicators, :func:`~vbvarsel.calcparams.calcC`
+           The kth cluster of the observation
+       C: np.ndarray
+           Covariate selection indicators, :func:`~vbvarsel.calcparams.calcC`
        T: float
-           annealing temperature, :func:`~vbvarsel.global_parameters.Hyperparameters.tmax`
+           Annealing temperature, :func:`~vbvarsel.global_parameters.Hyperparameters.t_max`
    Returns
-       Z: np.ndarray[float]
+       Z: np.ndarray
            Calculated variational parameter Z
 
 
@@ -317,14 +317,14 @@ Module Contents
    Function to get a normal distribution
 
    Params
-       x: np.ndarray[float]
+       x: np.ndarray
            2-D array of normalised data
        mu: float
-           mean of the normal distribution
-       sigma: np.ndarray[float]
-           standard deviation of the normal distribution
+           Mean of the normal distribution
+       sigma: np.ndarray
+           Standard deviation of the normal distribution
    Returns
-       n: np.ndarray[float]
+       n: np.ndarray
            Array with normalised distribution
 
 
@@ -334,21 +334,21 @@ Module Contents
    Function to calculate expected F, an intermediate factor to calculate the updated covariate selection indicators
 
    Params
-       X: np.ndarray[float]
+       X: np.ndarray
            2-D array of normalised data
-       b: np.ndarray[float]
+       b: np.ndarray
            Value for the calculated variational parameter B, :func:`~vbvarsel.calcparams.calcB`
-       a: np.ndarray[float]
+       a: np.ndarray
            Value for the calculated variational parameter akj, :func:`~vbvarsel.calcparams.calcAkj`
-       m: np.ndarray[float]
+       m: np.ndarray
            Value for the calculated variational parameter m, :func:`~vbvarsel.calcparams.calcM`
-       beta: np.ndarray[float]
+       beta: np.ndarray
            Value for the calculated variational parameter betakj, :func:`~vbvarsel.calcparams.calcbetakj`
        Z: np.ndarray
            Latent cluster assignment matrix, :func:`~vbvarsel.calcparams.calcZ`
    Returns
        expF: float
-           intermediate factor to calculate the updated covariate selection indicators
+           Intermediate factor to calculate the updated covariate selection indicators
 
 
 
@@ -360,19 +360,19 @@ Module Contents
        X: np.ndarray
            2-D array of normalised data
        N: int
-           the nth observation
+           The nth observation
        K: int
-           the kth cluster of the observation
+           The kth cluster of the observation
        XDim: int
-           number of columns
+           Number of variables (columns)
        Z: np.ndarray
            Latent cluster assignment matrix, :func:`~vbvarsel.calcparams.calcZ`
-       sigma_0: np.ndarray[float]
-           n-dim array of squared sigma values
-       mu_0: np.ndarray[float]
-           n-dim array of squared mu values
+       sigma_0: np.ndarray
+           N-dim array of squared sigma values
+       mu_0: np.ndarray
+           N-dim array of squared mu values
    Returns
-       expF0: np.ndarray[float]
+       expF0: np.ndarray
            Expected F0, an intermediate factor to calculate the updated covariate selection indicators
 
 
@@ -382,17 +382,17 @@ Module Contents
    Function to calculate N1 (A41), a parameter for Cj (A40) in the Bernoulli distribution (A39)
 
    Params
-       C: np.ndarray[int]
-           covariate selection indicators, :func:`~vbvarsel.calcparams.calcC`
+       C: np.ndarray
+           Covariate selection indicators, :func:`~vbvarsel.calcparams.calcC`
        d: int
            Shape parameter of the Beta distribution on the probability. :func:`~vbvarsel.global_parameters.Hyperparameters.d0`
        expF: float
-           intermediate factor to calculate the updated covariate selection indicators :func:`~vbvarsel.calcparams.calcexpF`
+           Intermediate factor to calculate the updated covariate selection indicators :func:`~vbvarsel.calcparams.calcexpF`
        T: float
            Annealing temperature, :func:`~vbvarsel.global_parameters.Hyperparameters.t_max`
    Returns
-       N1, lnN1:
-           intermediate factors to calculate the updated covariate selection indicators
+       N1, lnN1: tuple
+           Intermediate factors to calculate the updated covariate selection indicators
 
 
 
@@ -401,17 +401,17 @@ Module Contents
    Function to calculate N1 (A42), a parameter for Cj (A40) in the Bernoulli distribution (A39)
 
    Params
-       C: np.ndarray[int]
-           covariate selection indicators, :func:`~vbvarsel.calcparams.calcC`
+       C: np.ndarray
+           Covariate selection indicators, :func:`~vbvarsel.calcparams.calcC`
        d: int
            Shape parameter of the Beta distribution on the probability. :func:`~vbvarsel.global_parameters.Hyperparameters.d0`
        expF0: float
-           intermediate factor to calculate the updated covariate selection indicators :func:`~vbvarsel.calcparams.calcexpF0`
+           Intermediate factor to calculate the updated covariate selection indicators :func:`~vbvarsel.calcparams.calcexpF0`
        T: float
            Annealing temperature, :func:`~vbvarsel.global_parameters.Hyperparameters.t_max`
    Returns
-       N2, lnN2:
-           intermediate factors to calculate the updated covariate selection indicators
+       N2, lnN2: tuple
+           Intermediate factors to calculate the updated covariate selection indicators
 
 
 
@@ -421,38 +421,38 @@ Module Contents
 
    Params
        XDim: int
-           number of columns
+           Number of variables (columns)
        N: int
            the nth observation
        K: int
            the kth cluster of the observation
-       X: np.ndarray[float]
+       X: np.ndarray
            2-D array of normalised data
-       b: np.ndarray[float]
+       b: np.ndarray
            Calculated variational paramater B, derived from :func:`~vbvarsel.calcparams.calcB`
-       a: np.ndarray[float]
+       a: np.ndarray
            Calculated variational paramater akj, derived from :func:`~vbvarsel.calcparams.calcAkj`
-       m: np.ndarray[float]
+       m: np.ndarray
            Calculated variational paramater m, derived from :func:`~vbvarsel.calcparams.calcM`
-       beta: np.ndarray[float]
+       beta: np.ndarray
            Calculated variational paramater betakj, derived from :func:`~vbvarsel.calcparams.calcbetakj`
        d: int
            Shape parameter of the Beta distribution on the probability.
-       C: np.ndarray[float]
+       C: np.ndarray
            Covariate selection indicators, :func:`~vbvarsel.calcparams.calcC`
        Z: np.ndarray
            Latent cluster assignment matrix
-       sigma_0: np.ndarray[float]
+       sigma_0: np.ndarray
            N-dimensional array of squared sigma values
-       mu_0: np.ndarray[float]
+       mu_0: np.ndarray
            N-dimensional array of squared mu values
        T: float
            Annealing temperature, :func:`~vbvarsel.global_parameters.Hyperparameters.t_max`
        trick: bool (Optional) (Default: True)
-           whether or not to use a mathematical trick to avoid numerical errors
+           Flag for whether or not to use a mathematical trick to avoid numerical errors
 
    Returns
-       C0: np.ndarray[float]
+       C0: np.ndarray
            Calculated variational parameter C
 
 

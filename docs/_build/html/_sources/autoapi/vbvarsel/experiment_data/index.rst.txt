@@ -20,8 +20,6 @@ Module Contents
    .. py:attribute:: true_labels
       :type:  list[int]
 
-      Just a test to see what happens if I put stuff down here.
-
 
    .. py:attribute:: data
       :type:  numpy.ndarray

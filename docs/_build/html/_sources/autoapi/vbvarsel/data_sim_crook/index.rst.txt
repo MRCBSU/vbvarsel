@@ -17,6 +17,13 @@ Module Contents
 
 .. py:class:: SimulateCrookData(observation: int, n_variables: int, n_relevant: int, mixture_proportions: list, means: list, variance_covariance_matrix: numpy.ndarray)
 
+   A class to represent simulated data as described by Crook et al. Data will
+   be generated in accordance to the parameters passed through :func:`vbvarsel.global_parameters.SimulationParameters`.
+   This only generates synthetic data, and as such is not used if a user
+   supplies their own data source. `Reference paper <https://www.degruyter.com/document/doi/10.1515/sagmb-2018-0065/html>`_
+
+
+
    .. py:attribute:: observation
 
 

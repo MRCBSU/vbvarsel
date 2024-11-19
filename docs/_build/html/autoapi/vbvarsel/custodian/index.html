@@ -102,7 +102,7 @@
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#vbvarsel.custodian.UserDataHandler" title="vbvarsel.custodian.UserDataHandler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UserDataHandler</span></code></a></p></td>
-<td><p></p></td>
+<td><p>Class object to represent user supplied data.</p></td>
 </tr>
 </tbody>
 </table>
@@ -112,7 +112,8 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="vbvarsel.custodian.UserDataHandler">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">vbvarsel.custodian.</span></span><span class="sig-name descname"><span class="pre">UserDataHandler</span></span><a class="reference internal" href="../../../_modules/vbvarsel/custodian.html#UserDataHandler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.custodian.UserDataHandler" title="Link to this definition"></a></dt>
-<dd><dl class="py attribute">
+<dd><p>Class object to represent user supplied data.</p>
+<dl class="py attribute">
 <dt class="sig sig-object py" id="vbvarsel.custodian.UserDataHandler.ExperimentValues">
 <span class="sig-name descname"><span class="pre">ExperimentValues</span></span><a class="reference internal" href="../../../_modules/vbvarsel/custodian.html#UserDataHandler.ExperimentValues"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vbvarsel.custodian.UserDataHandler.ExperimentValues" title="Link to this definition"></a></dt>
 <dd></dd></dl>
@@ -167,7 +168,7 @@ IMPORTANT Format note: Columns should be variables, and rows should be observati
 Header rows and index column will not be loaded. CSV must only have numerical values.
 Non-numerical values can be passed, via the <cite>cols_to_ignore</cite> parameter.</p>
 </dd>
-<dt>cols_to_ignore: list[str] (Optional) (Default: None)</dt><dd><p>Any columns which are irrelevant or non-numerical to be dropped.</p>
+<dt>cols_to_ignore: list[str] (Optional) (Default: None)</dt><dd><p>Any columns which are irrelevant or non-numerical to be excluded from analysis.</p>
 </dd>
 <dt>labels: str | list[str] (Optional) (Default: None)</dt><dd><p>Labels to be used to calculate the ARI to check clustering accuracy.
 This parameter is optional but strongly encouraged. If a string value
