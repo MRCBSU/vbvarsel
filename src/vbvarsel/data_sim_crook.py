@@ -2,11 +2,13 @@ import numpy as np
 from .experiment_data import ExperimentValues
 
 class SimulateCrookData:
-    # """
-    # A class to represent simulated data as described by Crook et al. These 
-    # attributes mirror the simulation parameters, which are set via the
-    # `SimulationParameters()` function in `global_parameters.py`.
+    """
+    A class to represent simulated data as described by Crook et al. Data will
+    be generated in accordance to the parameters passed through :func:`vbvarsel.global_parameters.SimulationParameters`.
+    This only generates synthetic data, and as such is not used if a user
+    supplies their own data source. `Reference paper <https://www.degruyter.com/document/doi/10.1515/sagmb-2018-0065/html>`_
 
+    """
     # Attributes
     #     observation : int
     #         Number of observations to simulate.
@@ -21,8 +23,6 @@ class SimulateCrookData:
     #         Mean of the Gaussian distribution for each cluster.
     #     variance_covariance_matrix : np.ndarray
     #         Matrix of variance and covariance for simulation.
-
-    # """
 
     def __init__(
         self,

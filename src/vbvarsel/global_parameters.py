@@ -43,13 +43,13 @@ class Hyperparameters:
     #     max_models: int
     #         Maximum number of models to run for averaging (Default: 10)
 
-    threshold: float = 1e-1
+    threshold: float = 1e-1 
     k1: int = 5
     alpha0: float = field(init=False)
     a0: int = 3
     beta0: float = 1e-3
     d0: int = 1
-    t_max: int = 1
+    t_max: int = 1 #can NOT be 0. 
     max_itr: int = 25
     max_annealed_itr: int = 10
     max_models: int = 10

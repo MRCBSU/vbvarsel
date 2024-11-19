@@ -10,7 +10,7 @@ class ELBO_Computation:
     A class to contain the Evidence Lower Bound (ELBO) computation.
 
     This class has no attributes, aside from Python's built-ins, and contains
-    only methods, many of which are private.
+    only methods, the majority of which are private.
     """
 
     def _ln_pi(self, alphaK, k):
@@ -56,13 +56,13 @@ class ELBO_Computation:
             f0: np.ndarray
                 Calculated f0 value
             N: int
-                the Nth observation
+                The Nth observation
             K: int
-                number of clusters
+               The Kth cluster
             C: np.ndarray
-                Calculated variational parameter C, the covariate selection indicators
+                Calculated variational parameter C, the Covariate selection indicators
             T: float
-                annealing temperature
+                The annealing temperature
         Returns
             log_resp: np.ndarray
                 array of calculated values
@@ -79,17 +79,17 @@ class ELBO_Computation:
         return log_resp
 
     def _ln_delta_annealed(self, C, j, d, T):
-        """Private function to calculate the annealed value of delta natural log.
+        """Private function to calculate the annealed value of delta natural log. (A62)
 
         Params
             C: np.ndarray
-                covariate selection indicators
+                Covariate selection indicators
             j: int
-                iteration count
+                Iteration count
             d: np.ndarray
                 Shape parameter of the Beta distribution on the probability.
             T: float
-                annealing temperature
+                The annealing temperature
         Returns
             ln_delta_ann: np.ndarray
                 calculated array of natural log of annealed delta values
@@ -101,17 +101,17 @@ class ELBO_Computation:
         return ln_delta_ann
 
     def _ln_delta_minus_annealed(self, C, j, d, T):
-        """Private function to calculate the minus of annealed delta natural log.
+        """Private function to calculate the minus of annealed delta natural log. (A56)
 
         Params
             C: np.ndarray
-                covariate selection indicators
+                Covariate selection indicators
             j: int
-                iteration count
+                Iteration count
             d: np.ndarray
                 Shape parameter of the Beta distribution on the probability.
             T: float
-                annealing temperature
+                The annealing temperature
         Returns
             ln_delta_ann_minus: np.ndarray
                 calculated array of natural log of annealed delta values
@@ -127,13 +127,13 @@ class ELBO_Computation:
 
         Params
             K: int
-                the kth cluster of the observation
+                The Kth cluster of the observation
             j: int
-                iteration count
+                Iteration count
             b: np.ndarray
-                calculated B value
+                calculated value for variational parameter, betakj
             a: float
-                calculated alphakj value
+                calculated value for variational parameter, alphakj
         Returns
             e_w: np.ndarray
                 array of entropy wishart values
@@ -175,50 +175,51 @@ class ELBO_Computation:
 
         Params
             XDim: int
-                number of columns
+                Number of variables (columns)
             K: int
-                the kth cluster of the observation
+                The Kth cluster of the observation
             N: int
-                the Nth observation
+                The Nth observation
             C: np.ndarray
-                covariate selection indicators
+                Covariate selection indicators
             Z: np.ndarray
                 cluster assignment matrix
             d: np.ndarray
                 Shape parameter of the Beta distribution on the probability.
             delta: int
-                calculated delta value
+                Calculated variational parameter, delta
             beta: np.ndarray
-                calculated betakj value
+                Calculated variational parameter, betakj
             beta0: float
                 Shrinkage parameter of the Gaussian conditional prior on the cluster means
             alpha: np.ndarray
-                calculated alphak value
+                Calculated variational parameter, alphak
             alpha0: float
                 Prior coefficient count
             a: float
-                calculated alphakj value
+                Calculated variational parameter, alphakj
             a0: np.ndarray
                 Degrees of freedom for the Gamma prior on the cluster precision
             b: np.ndarray
-                calculated B value
+                Calculated variational parameter, B
             b0: np.ndarray
-                prior covariance
+                Prior covariance
             m: np.ndarray
-                calculated m value
+                Calculated variational parameter, m
             m0: np.ndarray
-                prior mean
+                Prior mean
             exp_ln_tau: list
                 expected ln(tau) array
             exp_ln_sigma: np.ndarray
                 expected ln(sigma) array
             f0: np.ndarray
-                calculated f0 value
+                Calculated variational parameter, f0
             T: float
-                annealing temperature
+                The annealing temperature
 
-        Returns
-            calculated ELBO
+        Returns:
+            elbo: float
+                Calculated ELBO value
 
         """
 
@@ -244,13 +245,13 @@ class ELBO_Computation:
 
             Params
                 N: int
-                    the nth observation
+                    The Nth observation
                 K: int
-                    the kth cluster of the observation
+                    The Kth cluster of the observation
                 Z: np.ndarray
                     cluster assignment matrix
                 C: np.ndarray[int]
-                    covariate selection indicators
+                    Covariate selection indicators
                 exp_ln_tau: list
                     expected ln(tau) array
                 exp_ln_sigma: np.ndarray
@@ -258,7 +259,7 @@ class ELBO_Computation:
                 f0: np.ndarray
                     calculated f0 value
                 T: float
-                    Annealing temperature
+                    The Annealing temperature
             Returns
                 F2: float
                     first ELBO algorithm term
@@ -278,9 +279,9 @@ class ELBO_Computation:
 
             Params
                 N: int
-                    the nth observation
+                    The Nth observation
                 K: int
-                    the kth cluster of the observation
+                    The Kth cluster of the observation
                 Z: np.ndarray
                     cluster assignment matrix
                 alpha: np.ndarray
@@ -304,7 +305,7 @@ class ELBO_Computation:
                 alpha0: float
                     Degrees of freedom for the Gamma prior on the cluster precision
                 K: int
-                    the kth cluster of the observation
+                    The Kth cluster of the observation
                 alpha: float
                     Prior coefficient count
             Return:
@@ -322,9 +323,9 @@ class ELBO_Computation:
 
             Params
                 K: int
-                    the kth cluster of the observation
+                    The Kth cluster of the observation
                 XDim: int
-                    number of columns
+                    Number of variables (columns)
                 beta0: float
                     Shrinkage parameter of the Gaussian conditional prior on the cluster
                 beta: np.ndarray
@@ -380,13 +381,13 @@ class ELBO_Computation:
 
             Params
                 XDim: int
-                    number of columns
+                    Number of variables (columns)
                 d: np.ndarray
                     Shape parameter of the Beta distribution on the probability.
                 C: np.ndarray[int]
-                    covariate selection indicators matrix
+                    Covariate selection indicators matrix
                 T: float
-                    Annealing temperature
+                    The Annealing temperature
 
             Returns
                 a: ndarray
@@ -410,9 +411,9 @@ class ELBO_Computation:
                 Z: np.ndarray
                     cluster assignment matrix
                 N: int
-                    the Nth observation
+                    The Nth observation
                 K: int
-                    the Kth cluster of the observation
+                    The Kth cluster of the observation
 
             Returns
             
@@ -453,15 +454,15 @@ class ELBO_Computation:
             Params
             
                 K: int
-                    the Kth cluster
+                    The Kth cluster of the observation
                 XDim: int
-                    number of columns
+                    Number of variables (columns)
                 beta: ndarray[float]
                     claculated betakj values
                 a: ndarray[float]
                     calculated alphakj values
                 b: ndarray[float]
-                    calculated bkj values
+                    calculated B values
 
             Returns
              
@@ -486,15 +487,15 @@ class ELBO_Computation:
             Params
             
                 XDim: int
-                    number of columns
+                    Number of variables (columns)
                 d: np.ndarray
                     Shape parameter of the Beta distribution on the probability.
                 delta: int
                     calculated delta value
                 C: np.ndarray[int]
-                    covariate selection indicators matrix
+                    Covariate selection indicators matrix
                 T: float
-                    annealing temperature
+                    The annealing temperature
 
             Returns
             

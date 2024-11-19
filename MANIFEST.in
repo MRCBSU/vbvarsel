@@ -2,3 +2,8 @@ include CITATION.cff
 include LICENSE
 include NOTICE
 include README.md
+
+prune virtualEnv/*
+prune build/*
+prune .github/*
+prune .githooks/*

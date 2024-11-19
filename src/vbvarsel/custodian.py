@@ -6,7 +6,8 @@ from sklearn.preprocessing import LabelEncoder
 from .experiment_data import ExperimentValues
 
 class UserDataHandler:
-
+    '''Class object to represent user supplied data.'''
+    
     def __init__(self):
         '''Initalizer to create the ExperimentValues object.'''
         self.ExperimentValues = ExperimentValues()
@@ -81,7 +82,7 @@ class UserDataHandler:
                 Header rows and index column will not be loaded. CSV must only have numerical values.
                 Non-numerical values can be passed, via the `cols_to_ignore` parameter. 
             cols_to_ignore: list[str] (Optional) (Default: None)
-                Any columns which are irrelevant or non-numerical to be dropped. 
+                Any columns which are irrelevant or non-numerical to be excluded from analysis. 
             labels: str | list[str] (Optional) (Default: None)
                 Labels to be used to calculate the ARI to check clustering accuracy.
                 This parameter is optional but strongly encouraged. If a string value

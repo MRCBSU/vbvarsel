@@ -11,7 +11,7 @@ The VBVarSel package can be installed from github using pip:
 
 `pip install git+https://github.com/<REPO>/PROJECT/#egg=<project name>`
 
-or from PyPI itself:
+or directly from PyPI:
 
 `pip install vbvarsel`
 
@@ -22,7 +22,7 @@ Parameters can be left to optional default values or may be customised by the de
 
 #### Simulation Parameters
 
-Simulation parameters are parameters for the experiment itself, such as how many observations, the mixture proportion, number of variables to look for, etc. 
+Simulation parameters are parameters for simulating an experiment with synthetic data. Data is created synthetically according to Crook et al, [read the paper here](https://www.degruyter.com/document/doi/10.1515/sagmb-2018-0065/html). 
 
 ```
 # default values for the simulation parameters.
@@ -41,10 +41,9 @@ Some things to note when customising parameters:
 
 #### Hyperparameters
 
-Hyperparameters affect equation itself, such as how many iterations the model will have, the annealing temperature, the threshold for the convergence and so on. More information on the hyperparameters can be found within the docstrings. These as well have default values, but can be altered by the user if desired. 
+Hyperparameters affect equation itself, such as how many iterations the model will have, the annealing temperature, the threshold for the convergence and so on. More information on the hyperparameters can be found within the docstrings. These as well have default values, but can be altered by the user if desired. The default Hyperparameters are described below
 
 ```
-default Hyperparameter values are:
 #Threshold for the ELBO convergence
 threshold = 1e-1
 
@@ -63,8 +62,10 @@ a0 = 3.
 #Shape parameter of the Beta distribution
 d = 1
 
-#Maximum starting annealing temperature (by default no annealing is applied)
+#Maximum starting annealing temperature. The default value of 1 applies no annealing.
 t_max = 1.
+#NOTE: t_max CANNOT equal zero. There are several functions that divide or multiply by t_max. One cannot divide by zero.
+#If you need to get very close to zero, just use a very small decimal.
 
 #Maximum number of iterations for the simulation
 max_itr = 25
@@ -72,19 +73,27 @@ max_itr = 25
 #Maximum number of models
 max_models = 10
 ```
+
+### User-supplied data
+
+Users may supply their own data, pending a few caveats. Data must be passed in by using a path to a file location, which is then loaded into a pandas DataFrame. Data used in the algorithm can only have numerical data. A set of labels (so-called "true labels") is preferred to verify accuracy via ARI (adjusted Rand index), but not required. If a dataset contains non-numerical data, these columns must be passed as the `cols_to_skip` parameter in `vbvarsel.main()`, and they will be dropped from the DataFrame before the algorithm commences. Users using their own data will not use any of the `SimulationParameters`, even if they are initialised they will be ignored. 
+
+
 ### Entry point
 
-The packages entry point is `vbvarsel.main()`, and this where all the parameters will be passed. If they are not passed, they will be generated using default values. Users may supply their own data to use in the package. If no data is provided, data will be simulated according to [Crook et al (2019)](https://pubmed.ncbi.nlm.nih.gov/31119032/)'s methodology. 
+The packages entry point is `vbvarsel.main()`, and this where all the aforementioned experiment parameters will be passed. If they are not passed, they will be generated using default values or ignored in the case of user-supplied data. 
 
-Data is processed through the simulation to identify clustering of relevant data. An optional `save_output` parameter can be passed to save the data, as well as a path to the targeted directory. If no path is provided, data will be saved in the current working directory.
+Data is processed through the simulation to identify clustering of relevant data. An optional `save_output` parameter can be passed to save the data to the current working directory. The simulation also returns a results object, if a user wishes to
+use the output data for further uses. 
 
 ```
-from vbvarsel import vbvarsel as vbvs
+import vbvarsel as vbvs
 
 sim_params = vbvs.SimulationParameters()
 hyp_params = vbvs.Hyperparameters()
 
-vbs.main(sim_params, hyp_params)
+results = vbs.main(simulation_parameters=sim_params, hyperparameters=hyp_params)
+#pretty much runs on its own here.
 ```
 
 ### Contributing
@@ -93,7 +102,7 @@ If you are interested in contributing to this package, please submit a pull requ
 
 #### Future implementations
 
-A CLI command suite.
+A CLI interface.
 
 ### Issues
 
@@ -101,4 +110,4 @@ If you come across an issue when using this package, please create an issue on t
 
 ### License
 
-This project is developed by the MRC-Biostatistical Unit at Cambridge University under the GNU Public license.
+This project is developed by the MRC-Biostatistics Unit at Cambridge University under the GNU Public license.
