@@ -5,12 +5,13 @@ title: "vbvarsel"
 authors:
   - family-names: Kirk
     given-names: Paul
-    orcid: "https://orcid.org/0000-0000-0000-0000"
+    orcid: "https://orcid.org/0000-0002-5931-7489"
   - family-names: Prevot
     given-names: Emma
-    oricid: "https://orcid.org/0000-0000-0000-0000"
-  - family-names: Nardo
-    given-names: Alan
+    orcid: "https://orcid.org/0009-0002-6729-9505"
+  - family-names: Pagani
+    given-names: Filippo
+    orcid: "https://orcid.org/0000-0003-1584-0881
 date-released: 2024-10-01
 version: "0.0.1"
 repository-code: "https://github.com/anardo9/vbvarsel" #change this later when its moved onto the unit gh

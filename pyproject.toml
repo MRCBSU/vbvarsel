@@ -9,7 +9,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 authors = [
-    { name = "Alan Nardo", email = "alan.nardo@mrc-bsu.cam.ac.uk" }
+    { name = "Alan Nardo", email = "alan.nardo@mrc-bsu.cam.ac.uk" },
+    { name = "Paul Kirk", email = "paul.kirk@mrc-bsu.cam.ac.uk" },
+    { name = "Emma Prevot", email = "prevot.emma@icloud.com" },
+    { name = "Rory Toogood", email = "iiauthor@gmail.com" },
+    { name = "Filippo Pagani", email = "filippo.pagani@mrc-bsu.cam.ac.uk" }
 ]
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",
