@@ -2,8 +2,6 @@
 
 The goal of this package is to quickly and efficiently identify clusters of variables by using a scalable, computationally efficienty annealed variational Bayes algorithm for fitting high-dimensional mixture models with variable selection.
 
-![equation](https://latex.codecogs.com/svg.image?\textit{p}(\textit{X}|\Phi,\pi)=\prod_{\textit{n=1}}^{\textit{N}}\prod_{\textit{k=1}}^{\textit{K}}\pi_k\mathit{f}\textsc{x}(\textsc{x}_n|\Phi_k))
-
 For more information and to read the full research paper please visit [LINK]
 
 ## Installation
@@ -47,7 +45,7 @@ Hyperparameters affect equation itself, such as how many iterations the model wi
 #Threshold for the ELBO convergence
 threshold = 1e-1
 
-#Number of components to inference
+#Maximum number of mixture components
 k1 = 5 
 
 #Prior coefficient count for Dirichlet prior
