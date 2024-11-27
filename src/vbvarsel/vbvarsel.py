@@ -310,7 +310,7 @@ def _run_sim(
 
 def main(
          hyperparameters: Hyperparameters,
-         simulation_parameters: SimulationParameters, 
+         simulation_parameters: SimulationParameters = SimulationParameters(), 
          Ctrick:bool = True,
          user_data: str | os.PathLike = None,
          user_labels: str | list[str] = None,
@@ -376,8 +376,8 @@ def main(
     ####BEGIN SIMULATION ONLY
     #IF USER DATA IGNORE THE FIRST TWO LOOPS
     #FOR USER DATA RUN ONLY MAX MODELS AMOUNT OF TIMES
-    print(simulation_parameters)
-    print(hyperparameters)
+    # print(simulation_parameters)
+    # print(hyperparameters)
     for p, q in enumerate(simulation_parameters.n_observations): #nrows of user data [100]
         for n, o in enumerate(simulation_parameters.n_relevants): #nrows or anything [100]
             for i in range(hyperparameters.max_models):
@@ -479,14 +479,14 @@ def main(
 
                 #USERS SHOULD GET CSV WITH RUNTIME, CONVERGENCE, ELBO, ARI (if labels), VAR_SELECTION_ORDERED AND CLUST PREDICTIONS
                 # print(results)
-                print(f"conv: {results.convergence_ELBO}")
-                print(f"iter: {results.convergence_itr}")
-                print(f"clusters: {results.clust_predictions}")
-                print(f"var sel: {results.variable_selected}")
-                print(f"time: {results.runtimes}")
-                print(f"aris: {results.ARIs}")
-                print(f"rels: {results.relevants}")
-                print(f"obs: {results.observations}")
+                # print(f"conv: {results.convergence_ELBO}")
+                # print(f"iter: {results.convergence_itr}")
+                # print(f"clusters: {results.clust_predictions}")
+                # print(f"var sel: {results.variable_selected}")
+                # print(f"time: {results.runtimes}")
+                # print(f"aris: {results.ARIs}")
+                # print(f"rels: {results.relevants}")
+                # print(f"obs: {results.observations}")
     if save_output:
         results.save_results()
 

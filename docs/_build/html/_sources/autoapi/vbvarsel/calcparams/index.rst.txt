@@ -35,7 +35,7 @@ Module Contents
 
 .. py:function:: calcAlphak(NK: float, alpha0: float, T: float) -> float
 
-   Function to find the updated variational parameter alphaK, i.e., the concentration parameter for Dirichelet posterior distribution on the mixture proportions (A29/A57)
+   Function to find the updated variational parameter alphaK, i.e., the concentration parameter for Dirichelet posterior distribution on the mixture proportions
 
    Params
        NK: float
@@ -52,7 +52,7 @@ Module Contents
 
 .. py:function:: calcAkj(K: int, J: int, C: numpy.ndarray[float], NK: float, a0: float, T: float) -> numpy.ndarray[float]
 
-   Function to calculate the updated variational parameter akj (A35/A60)
+   Function to calculate the updated variational parameter akj
 
    Params
        K: int
@@ -76,7 +76,7 @@ Module Contents
 
 .. py:function:: calcXd(Z: numpy.ndarray, X: numpy.ndarray[float]) -> numpy.ndarray[float]
 
-   Function to find Xd. (A37)
+   Function to find Xd.
 
    Params
        Z: np.ndarray
@@ -91,7 +91,7 @@ Module Contents
 
 .. py:function:: calcS(Z: numpy.ndarray, X: numpy.ndarray[float], xd: numpy.ndarray[float]) -> numpy.ndarray[float]
 
-   Function to calculate Skj. (A38)
+   Function to calculate Skj.
 
    Params
        Z: np.ndarray
@@ -108,7 +108,7 @@ Module Contents
 
 .. py:function:: calcbetakj(K: int, XDim: int, C: numpy.ndarray[int], NK: float, beta0: float, T: float) -> numpy.ndarray[float]
 
-   Function to calculate the updated variational parameter betaKJ. (A33/A58)
+   Function to calculate the updated variational parameter betaKJ.
 
    Params
        K: int
@@ -132,7 +132,7 @@ Module Contents
 
 .. py:function:: calcM(K: int, XDim: int, beta0: float, m0: float, NK: float, xd: numpy.ndarray[float], betakj: numpy.ndarray[float], C: numpy.ndarray[int], T: float) -> numpy.ndarray[float]
 
-   Function to calculate the updated variational parameter Mkj (A34/A59).
+   Function to calculate the updated variational parameter Mkj
 
    Params
        K: int
@@ -193,7 +193,7 @@ Module Contents
 
 .. py:function:: calcDelta(C: numpy.ndarray[float], d: int, T: float) -> numpy.ndarray[float]
 
-   Function to calculate the updated variational parameter Delta (A43/A62)
+   Function to calculate the updated variational parameter Delta
 
    Params
        C: np.ndarray[float]
@@ -209,7 +209,7 @@ Module Contents
 
 .. py:function:: expSigma(X: numpy.ndarray[float], XDim: int, betak: float, m: numpy.ndarray[float], b: numpy.ndarray[float], a: numpy.ndarray[float], C: numpy.ndarray[float]) -> float
 
-   Function to calculate the expected Sigma values. (A47/A48)
+   Function to calculate the expected Sigma values.
 
    Params
        X: np.ndarray[float]
@@ -234,7 +234,7 @@ Module Contents
 
 .. py:function:: expPi(alpha0: float, NK: float) -> numpy.ndarray[float]
 
-   Function to calculate Expected Pi value (A45)
+   Function to calculate Expected Pi value
 
    Params
        alpha0: float
@@ -247,13 +247,13 @@ Module Contents
 
 
 
-.. py:function:: expTau(betakj: numpy.ndarray[float], akj: numpy.ndarray[float], C: numpy.ndarray[int]) -> list[float]
+.. py:function:: expTau(bkj: numpy.ndarray[float], akj: numpy.ndarray[float], C: numpy.ndarray[int]) -> list[float]
 
-   Function to calculate Expected Tau value (A47)
+   Function to calculate Expected Tau value
 
    Params
-       betakj: np.ndarray
-           Value for the calculated variational parameter betakj, :func:`~vbvarsel.calcparams.calcbetakj`
+       bkj: np.ndarray
+           Value for the calculated variational parameter bkj, :func:`~vbvarsel.calcparams.calcbkj`
        akj: np.ndarray
            Value for the calculated variational parameter akj, :func:`~vbvarsel.calcparams.calcAkj`
        C: np.ndarray
@@ -266,7 +266,7 @@ Module Contents
 
 .. py:function:: calcF0(X: numpy.ndarray[float], XDim: int, sigma_0: numpy.ndarray[float], mu_0: numpy.ndarray[float], C: numpy.ndarray[float]) -> float
 
-   Function to calculate F0 (A30?)
+   Function to calculate F0
 
    Params
        X: np.ndarray
@@ -287,7 +287,7 @@ Module Contents
 
 .. py:function:: calcZ(exp_ln_pi: numpy.ndarray[float], exp_ln_tau: numpy.ndarray[float], exp_ln_sigma: numpy.ndarray[float], f0: float, N: int, K: int, C: numpy.ndarray[float], T: float) -> numpy.ndarray[float]
 
-   Function to the updated variational parameter Z, the latent cluster assignments (A23)
+   Function to the updated variational parameter Z, the latent cluster assignments
 
    Params
        exp_ln_pi: np.ndarray
@@ -379,7 +379,7 @@ Module Contents
 
 .. py:function:: calcN1(C: numpy.ndarray[int], d: int, expF: float, T: float) -> tuple
 
-   Function to calculate N1 (A41), a parameter for Cj (A40) in the Bernoulli distribution (A39)
+   Function to calculate N1, a parameter for Cj in the Bernoulli distribution
 
    Params
        C: np.ndarray
@@ -398,7 +398,7 @@ Module Contents
 
 .. py:function:: calcN2(C: numpy.ndarray[int], d: int, expF0: float, T: float) -> tuple
 
-   Function to calculate N1 (A42), a parameter for Cj (A40) in the Bernoulli distribution (A39)
+   Function to calculate N2 , a parameter for Cj in the Bernoulli distribution
 
    Params
        C: np.ndarray
@@ -417,7 +417,7 @@ Module Contents
 
 .. py:function:: calcC(XDim: int, N: int, K: int, X: numpy.ndarray[float], b: numpy.ndarray[float], a: numpy.ndarray[float], m: numpy.ndarray[float], beta: numpy.ndarray[float], d: int, C: numpy.ndarray[float], Z: numpy.ndarray, sigma_0: numpy.ndarray[float], mu_0: numpy.ndarray[float], T: float, trick: bool = False) -> numpy.ndarray[float]
 
-   Function to calculate the updated variational parameter C (A40), the covariate selection indicators
+   Function to calculate the updated variational parameter C, the covariate selection indicators
 
    Params
        XDim: int

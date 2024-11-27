@@ -114,9 +114,9 @@ publishing = [
 ]
 
 [project.urls]
-Repository = "https://github.com/anardo9/vbvarsel"
-Issues = "https://github.com/anardo9/vbvarsel/issues"
-Changelog = "https://github.com/anardo9/vbvarsel/CHANGELOG.md"
+Repository = "https://github.com/MRCBSU/vbvarsel"
+Issues = "https://github.com/MRCBSU/vbvarsel/issues"
+Changelog = "https://github.com/MRCBSU/vbvarsel/CHANGELOG.md"
 ReadTheDocs = "https://vbvarsel.readthedocs.io"
 
 [tool.pytest.ini_options]

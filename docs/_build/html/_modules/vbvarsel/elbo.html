@@ -128,10 +128,12 @@
         <span class="k">return</span> <span class="n">psi</span><span class="p">(</span><span class="n">akj</span><span class="p">)</span> <span class="o">-</span> <span class="n">ld</span></div>
 
 
+
+    <span class="c1">#(A27?)</span>
 <div class="viewcode-block" id="ELBO_Computation._log_resp_annealed">
 <a class="viewcode-back" href="../../autoapi/vbvarsel/elbo/index.html#vbvarsel.elbo.ELBO_Computation._log_resp_annealed">[docs]</a>
     <span class="k">def</span> <span class="nf">_log_resp_annealed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exp_ln_tau</span><span class="p">,</span> <span class="n">exp_ln_sigma</span><span class="p">,</span> <span class="n">f0</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Private function to calculate log resp annealed. (A27?)</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Private function to calculate log resp annealed. </span>
 
 <span class="sd">        Params</span>
 <span class="sd">            exp_ln_tau: list</span>
@@ -164,10 +166,11 @@
         <span class="k">return</span> <span class="n">log_resp</span></div>
 
 
+    <span class="c1">#(A62)</span>
 <div class="viewcode-block" id="ELBO_Computation._ln_delta_annealed">
 <a class="viewcode-back" href="../../autoapi/vbvarsel/elbo/index.html#vbvarsel.elbo.ELBO_Computation._ln_delta_annealed">[docs]</a>
     <span class="k">def</span> <span class="nf">_ln_delta_annealed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Private function to calculate the annealed value of delta natural log. (A62)</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Private function to calculate the annealed value of delta natural log. </span>
 
 <span class="sd">        Params</span>
 <span class="sd">            C: np.ndarray</span>
@@ -189,10 +192,11 @@
         <span class="k">return</span> <span class="n">ln_delta_ann</span></div>
 
 
+    <span class="c1">#(A56)</span>
 <div class="viewcode-block" id="ELBO_Computation._ln_delta_minus_annealed">
 <a class="viewcode-back" href="../../autoapi/vbvarsel/elbo/index.html#vbvarsel.elbo.ELBO_Computation._ln_delta_minus_annealed">[docs]</a>
     <span class="k">def</span> <span class="nf">_ln_delta_minus_annealed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Private function to calculate the minus of annealed delta natural log. (A56)</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Private function to calculate the minus of annealed delta natural log. </span>
 
 <span class="sd">        Params</span>
 <span class="sd">            C: np.ndarray</span>
@@ -241,6 +245,8 @@
         <span class="k">return</span> <span class="n">e_w</span></div>
 
 
+
+    <span class="c1">#(A51)</span>
 <div class="viewcode-block" id="ELBO_Computation.compute">
 <a class="viewcode-back" href="../../autoapi/vbvarsel/elbo/index.html#vbvarsel.elbo.ELBO_Computation.compute">[docs]</a>
     <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span>
@@ -268,7 +274,7 @@
         <span class="n">T</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to compute the Evidence Lower Bound (ELBO). The ELBO is</span>
-<span class="sd">        the useful lower-bound on the log-likelihood of observed data. (A51)</span>
+<span class="sd">        the useful lower-bound on the log-likelihood of observed data. </span>
 
 <span class="sd">        Params</span>
 <span class="sd">            XDim: int</span>

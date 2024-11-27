@@ -465,7 +465,7 @@
 <a class="viewcode-back" href="../../autoapi/vbvarsel/vbvarsel/index.html#vbvarsel.main">[docs]</a>
 <span class="k">def</span> <span class="nf">main</span><span class="p">(</span>
          <span class="n">hyperparameters</span><span class="p">:</span> <span class="n">Hyperparameters</span><span class="p">,</span>
-         <span class="n">simulation_parameters</span><span class="p">:</span> <span class="n">SimulationParameters</span><span class="p">,</span> 
+         <span class="n">simulation_parameters</span><span class="p">:</span> <span class="n">SimulationParameters</span> <span class="o">=</span> <span class="n">SimulationParameters</span><span class="p">(),</span> 
          <span class="n">Ctrick</span><span class="p">:</span><span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
          <span class="n">user_data</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
          <span class="n">user_labels</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -531,16 +531,16 @@
     <span class="c1">####BEGIN SIMULATION ONLY</span>
     <span class="c1">#IF USER DATA IGNORE THE FIRST TWO LOOPS</span>
     <span class="c1">#FOR USER DATA RUN ONLY MAX MODELS AMOUNT OF TIMES</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">simulation_parameters</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">hyperparameters</span><span class="p">)</span>
+    <span class="c1"># print(simulation_parameters)</span>
+    <span class="c1"># print(hyperparameters)</span>
     <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">simulation_parameters</span><span class="o">.</span><span class="n">n_observations</span><span class="p">):</span> <span class="c1">#nrows of user data [100]</span>
         <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">simulation_parameters</span><span class="o">.</span><span class="n">n_relevants</span><span class="p">):</span> <span class="c1">#nrows or anything [100]</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">hyperparameters</span><span class="o">.</span><span class="n">max_models</span><span class="p">):</span>
                 
                 <span class="c1">#COMMENT/DELETE after</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Model &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;obs &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">q</span><span class="p">))</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;rel &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">o</span><span class="p">))</span>
+                <span class="c1"># print(&quot;Model &quot; + str(i))</span>
+                <span class="c1"># print(&quot;obs &quot; + str(q))</span>
+                <span class="c1"># print(&quot;rel &quot; + str(o))</span>
                 
                 <span class="k">if</span> <span class="n">user_data</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">results</span><span class="o">.</span><span class="n">add_relevants</span><span class="p">(</span><span class="n">simulation_parameters</span><span class="o">.</span><span class="n">n_relevants</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
@@ -634,14 +634,14 @@
 
                 <span class="c1">#USERS SHOULD GET CSV WITH RUNTIME, CONVERGENCE, ELBO, ARI (if labels), VAR_SELECTION_ORDERED AND CLUST PREDICTIONS</span>
                 <span class="c1"># print(results)</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;conv: </span><span class="si">{</span><span class="n">results</span><span class="o">.</span><span class="n">convergence_ELBO</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;iter: </span><span class="si">{</span><span class="n">results</span><span class="o">.</span><span class="n">convergence_itr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;clusters: </span><span class="si">{</span><span class="n">results</span><span class="o">.</span><span class="n">clust_predictions</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;var sel: </span><span class="si">{</span><span class="n">results</span><span class="o">.</span><span class="n">variable_selected</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;time: </span><span class="si">{</span><span class="n">results</span><span class="o">.</span><span class="n">runtimes</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;aris: </span><span class="si">{</span><span class="n">results</span><span class="o">.</span><span class="n">ARIs</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;rels: </span><span class="si">{</span><span class="n">results</span><span class="o">.</span><span class="n">relevants</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;obs: </span><span class="si">{</span><span class="n">results</span><span class="o">.</span><span class="n">observations</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="c1"># print(f&quot;conv: {results.convergence_ELBO}&quot;)</span>
+                <span class="c1"># print(f&quot;iter: {results.convergence_itr}&quot;)</span>
+                <span class="c1"># print(f&quot;clusters: {results.clust_predictions}&quot;)</span>
+                <span class="c1"># print(f&quot;var sel: {results.variable_selected}&quot;)</span>
+                <span class="c1"># print(f&quot;time: {results.runtimes}&quot;)</span>
+                <span class="c1"># print(f&quot;aris: {results.ARIs}&quot;)</span>
+                <span class="c1"># print(f&quot;rels: {results.relevants}&quot;)</span>
+                <span class="c1"># print(f&quot;obs: {results.observations}&quot;)</span>
     <span class="k">if</span> <span class="n">save_output</span><span class="p">:</span>
         <span class="n">results</span><span class="o">.</span><span class="n">save_results</span><span class="p">()</span>
 

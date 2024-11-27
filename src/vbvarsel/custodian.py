@@ -98,10 +98,11 @@ class UserDataHandler:
             None
 
         """
-
+        
         raw_data = pd.read_csv(data_source, header=header, index_col=index_col)
 
         if isinstance(labels, str):
+            #If the labels param is a string used to indicate a column target of the df
             self.ExperimentValues.true_labels = raw_data[labels].to_numpy()
         else:
             self.ExperimentValues.true_labels = np.array(labels)

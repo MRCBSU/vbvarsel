@@ -7,3 +7,6 @@ simulation_old.py
 *.egg-info
 *.pytest_cache
 main.py
+dist/*
+build/*
+.github/*

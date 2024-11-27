@@ -187,4 +187,4 @@ python -m twine upload dist/*
 
 ### (3/3) GitHub
 
-Don't forget to also make a [release on GitHub](https://github.com/anardo9/vbvarsel/releases/new).GitHub-Zenodo integration will also trigger Zenodo into making a snapshot of your repository and sticking a DOI on it.
+Don't forget to also make a [release on GitHub](https://github.com/MRCBSU/vbvarsel/releases/new).GitHub-Zenodo integration will also trigger Zenodo into making a snapshot of your repository and sticking a DOI on it.

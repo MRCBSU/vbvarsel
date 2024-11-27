@@ -45,8 +45,10 @@ class ELBO_Computation:
             ld = 0.0
         return psi(akj) - ld
 
+
+    #(A27?)
     def _log_resp_annealed(self, exp_ln_tau, exp_ln_sigma, f0, N, K, C, T):
-        """Private function to calculate log resp annealed. (A27?)
+        """Private function to calculate log resp annealed. 
 
         Params
             exp_ln_tau: list
@@ -78,8 +80,9 @@ class ELBO_Computation:
             ) / T
         return log_resp
 
+    #(A62)
     def _ln_delta_annealed(self, C, j, d, T):
-        """Private function to calculate the annealed value of delta natural log. (A62)
+        """Private function to calculate the annealed value of delta natural log. 
 
         Params
             C: np.ndarray
@@ -100,8 +103,9 @@ class ELBO_Computation:
         )
         return ln_delta_ann
 
+    #(A56)
     def _ln_delta_minus_annealed(self, C, j, d, T):
-        """Private function to calculate the minus of annealed delta natural log. (A56)
+        """Private function to calculate the minus of annealed delta natural log. 
 
         Params
             C: np.ndarray
@@ -146,6 +150,8 @@ class ELBO_Computation:
         e_w = gammaln(a[k][j]) - (a[k][j] - 1) * digamma(a[k][j]) - ld + a[k][j]
         return e_w
 
+
+    #(A51)
     def compute(
         self,
         XDim,
@@ -171,7 +177,7 @@ class ELBO_Computation:
         T=1,
     ) -> float:
         """Function to compute the Evidence Lower Bound (ELBO). The ELBO is
-        the useful lower-bound on the log-likelihood of observed data. (A51)
+        the useful lower-bound on the log-likelihood of observed data. 
 
         Params
             XDim: int

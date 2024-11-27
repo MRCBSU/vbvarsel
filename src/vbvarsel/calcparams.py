@@ -2,9 +2,9 @@ import numpy as np
 import math
 from scipy.special import digamma
 
-
+#(A29/A57)
 def calcAlphak(NK: float, alpha0: float, T: float) -> float:
-    """Function to find the updated variational parameter alphaK, i.e., the concentration parameter for Dirichelet posterior distribution on the mixture proportions (A29/A57)
+    """Function to find the updated variational parameter alphaK, i.e., the concentration parameter for Dirichelet posterior distribution on the mixture proportions 
 
     Params
         NK: float
@@ -22,10 +22,11 @@ def calcAlphak(NK: float, alpha0: float, T: float) -> float:
     return alphaK
 
 
+#(A35/A60)
 def calcAkj(
     K: int, J: int, C: np.ndarray[float], NK: float, a0: float, T: float
 ) -> np.ndarray[float]:
-    """Function to calculate the updated variational parameter akj (A35/A60)
+    """Function to calculate the updated variational parameter akj 
 
     Params
         K: int
@@ -52,9 +53,9 @@ def calcAkj(
     akj = (C * NK / 2 + a0 + T - 1) / T
     return akj
 
-
+#(A37)
 def calcXd(Z: np.ndarray, X: np.ndarray[float]) -> np.ndarray[float]:
-    """Function to find Xd. (A37)
+    """Function to find Xd. 
 
     Params
         Z: np.ndarray
@@ -82,11 +83,11 @@ def calcXd(Z: np.ndarray, X: np.ndarray[float]) -> np.ndarray[float]:
 
     return xd
 
-
+#(A38)
 def calcS(
     Z: np.ndarray, X: np.ndarray[float], xd: np.ndarray[float]
 ) -> np.ndarray[float]:
-    """Function to calculate Skj. (A38)
+    """Function to calculate Skj. 
 
     Params
         Z: np.ndarray
@@ -117,11 +118,11 @@ def calcS(
 
     return S
 
-
+#(A33/A58)
 def calcbetakj(
     K: int, XDim: int, C: np.ndarray[int], NK: float, beta0: float, T: float
 ) -> np.ndarray[float]:
-    """Function to calculate the updated variational parameter betaKJ. (A33/A58)
+    """Function to calculate the updated variational parameter betaKJ. 
 
     Params
         K: int
@@ -147,7 +148,7 @@ def calcbetakj(
     beta = (C * NK + beta0) / T
     return beta
 
-
+#(A34/A59)
 def calcM(
     K: int,
     XDim: int,
@@ -159,7 +160,7 @@ def calcM(
     C: np.ndarray[int],
     T: float,
 ) -> np.ndarray[float]:
-    """Function to calculate the updated variational parameter Mkj (A34/A59).
+    """Function to calculate the updated variational parameter Mkj 
 
     Params
         K: int
@@ -234,9 +235,9 @@ def calcB(W0, xd, K, m0, XDim, beta0, S, C, NK, T) -> np.ndarray[float]:
     B = M / (2 * T)
     return B
 
-
+#(A43/A62)
 def calcDelta(C: np.ndarray[float], d: int, T: float) -> np.ndarray[float]:
-    """Function to calculate the updated variational parameter Delta (A43/A62)
+    """Function to calculate the updated variational parameter Delta 
 
     Params
         C: np.ndarray[float]
@@ -251,7 +252,7 @@ def calcDelta(C: np.ndarray[float], d: int, T: float) -> np.ndarray[float]:
     """
     return np.array([(c + d + T - 1) / (2 * d + 2 * T - 1) for c in C])
 
-
+#(A47/A48)
 def expSigma(
     X: np.ndarray[float],
     XDim: int,
@@ -261,7 +262,7 @@ def expSigma(
     a: np.ndarray[float],
     C: np.ndarray[float],
 ) -> float:
-    """Function to calculate the expected Sigma values. (A47/A48)
+    """Function to calculate the expected Sigma values. 
 
     Params
         X: np.ndarray[float]
@@ -299,10 +300,10 @@ def expSigma(
 
     return s
 
-
+#(A45)
 def expPi(alpha0: float, NK: float) -> np.ndarray[float]:
-    # A45
-    """Function to calculate Expected Pi value (A45)
+
+    """Function to calculate Expected Pi value 
 
     Params
         alpha0: float
@@ -318,11 +319,11 @@ def expPi(alpha0: float, NK: float) -> np.ndarray[float]:
     pik = digamma(alphak) - digamma(alphak.sum())
     return pik
 
-
+#(A47)
 def expTau(
     bkj: np.ndarray[float], akj: np.ndarray[float], C: np.ndarray[int]
 ) -> list[float]:
-    """Function to calculate Expected Tau value (A47)
+    """Function to calculate Expected Tau value 
 
     Params
         bkj: np.ndarray
@@ -349,7 +350,7 @@ def expTau(
 
     return invc.tolist()
 
-
+#(A30?)
 def calcF0(
     X: np.ndarray[float],
     XDim: int,
@@ -357,7 +358,7 @@ def calcF0(
     mu_0: np.ndarray[float],
     C: np.ndarray[float],
 ) -> float:
-    """Function to calculate F0 (A30?)
+    """Function to calculate F0 
 
     Params
         X: np.ndarray
@@ -392,7 +393,7 @@ def calcF0(
 
     return F0
 
-
+# (A23)
 def calcZ(
     exp_ln_pi: np.ndarray[float],
     exp_ln_tau: np.ndarray[float],
@@ -403,7 +404,7 @@ def calcZ(
     C: np.ndarray[float],
     T: float,
 ) -> np.ndarray[float]:
-    """Function to the updated variational parameter Z, the latent cluster assignments (A23)
+    """Function to the updated variational parameter Z, the latent cluster assignments
 
     Params
         exp_ln_pi: np.ndarray
@@ -562,10 +563,9 @@ def calcexpF0(
         expF0[j] = s
     return expF0
 
-
+#(A41)
 def calcN1(C: np.ndarray[int], d: int, expF: float, T: float) -> tuple:
-    # A53
-    """Function to calculate N1 (A41), a parameter for Cj (A40) in the Bernoulli distribution (A39)
+    """Function to calculate N1, a parameter for Cj in the Bernoulli distribution 
 
     Params
         C: np.ndarray
@@ -586,10 +586,9 @@ def calcN1(C: np.ndarray[int], d: int, expF: float, T: float) -> tuple:
     N1 = np.exp(lnN1)
     return N1, lnN1
 
-
+#(A42)
 def calcN2(C: np.ndarray[int], d: int, expF0: float, T: float) -> tuple:
-    # A54
-    """Function to calculate N1 (A42), a parameter for Cj (A40) in the Bernoulli distribution (A39)
+    """Function to calculate N2 , a parameter for Cj in the Bernoulli distribution 
 
     Params
         C: np.ndarray
@@ -610,7 +609,7 @@ def calcN2(C: np.ndarray[int], d: int, expF0: float, T: float) -> tuple:
     N2 = np.exp(lnN2)
     return N2, lnN2
 
-
+#(A40)
 def calcC(
     XDim: int,
     N: int,
@@ -628,7 +627,7 @@ def calcC(
     T: float,
     trick: bool = False,
 ) -> np.ndarray[float]:
-    """Function to calculate the updated variational parameter C (A40), the covariate selection indicators
+    """Function to calculate the updated variational parameter C, the covariate selection indicators
 
     Params
         XDim: int

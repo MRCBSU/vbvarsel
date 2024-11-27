@@ -21,12 +21,11 @@ After installing the package, it can be imported using standard import syntax:
 .. code-block:: python3
 
     import vbvarsel
-    #if you want to limit your imports:
-    #from vbvarsel import main, Hyperparameters
 
-The main entry point to the package is :code:`vbvarsel.main()`
 
-This function requires at minimum :code:`Hyperparameters` and one of either :code:`SimulationParameters` or a user-supplied dataset.
+The main entry point to the package is :func:`~vbvarsel.vbvarsel.main()`
+
+This function requires at minimum :func:`~vbvarsel.global_parameters.Hyperparameters` and one of either :func:`~vbvarsel.global_parameters.SimulationParameters` or a user-supplied dataset.
 The user-supplied dataset should be only numeric values. An optional parameter, :code:`cols_to_ignore` may be passed, which is a list of column name strings that are to be dropped.
 If the data contains any non-numeric values, the process will fail.
 

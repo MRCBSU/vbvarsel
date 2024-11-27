@@ -49,7 +49,7 @@ Functions
 Package Contents
 ----------------
 
-.. py:function:: main(hyperparameters: vbvarsel.global_parameters.Hyperparameters, simulation_parameters: vbvarsel.global_parameters.SimulationParameters, Ctrick: bool = True, user_data: str | os.PathLike = None, user_labels: str | list[str] = None, cols_to_skip: list[str] = None, annealing_type: str = 'fixed', save_output: bool = False) -> _Results
+.. py:function:: main(hyperparameters: vbvarsel.global_parameters.Hyperparameters, simulation_parameters: vbvarsel.global_parameters.SimulationParameters = SimulationParameters(), Ctrick: bool = True, user_data: str | os.PathLike = None, user_labels: str | list[str] = None, cols_to_skip: list[str] = None, annealing_type: str = 'fixed', save_output: bool = False) -> _Results
 
    The main entry point to the package.
 

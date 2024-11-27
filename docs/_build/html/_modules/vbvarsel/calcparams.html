@@ -77,11 +77,11 @@
 <span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">digamma</span>
 
-
+<span class="c1">#(A29/A57)</span>
 <div class="viewcode-block" id="calcAlphak">
 <a class="viewcode-back" href="../../autoapi/vbvarsel/calcparams/index.html#vbvarsel.calcparams.calcAlphak">[docs]</a>
 <span class="k">def</span> <span class="nf">calcAlphak</span><span class="p">(</span><span class="n">NK</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">alpha0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">T</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to find the updated variational parameter alphaK, i.e., the concentration parameter for Dirichelet posterior distribution on the mixture proportions (A29/A57)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to find the updated variational parameter alphaK, i.e., the concentration parameter for Dirichelet posterior distribution on the mixture proportions </span>
 
 <span class="sd">    Params</span>
 <span class="sd">        NK: float</span>
@@ -100,12 +100,13 @@
 
 
 
+<span class="c1">#(A35/A60)</span>
 <div class="viewcode-block" id="calcAkj">
 <a class="viewcode-back" href="../../autoapi/vbvarsel/calcparams/index.html#vbvarsel.calcparams.calcAkj">[docs]</a>
 <span class="k">def</span> <span class="nf">calcAkj</span><span class="p">(</span>
     <span class="n">K</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">J</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">C</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">NK</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">T</span><span class="p">:</span> <span class="nb">float</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to calculate the updated variational parameter akj (A35/A60)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to calculate the updated variational parameter akj </span>
 
 <span class="sd">    Params</span>
 <span class="sd">        K: int</span>
@@ -133,11 +134,11 @@
     <span class="k">return</span> <span class="n">akj</span></div>
 
 
-
+<span class="c1">#(A37)</span>
 <div class="viewcode-block" id="calcXd">
 <a class="viewcode-back" href="../../autoapi/vbvarsel/calcparams/index.html#vbvarsel.calcparams.calcXd">[docs]</a>
 <span class="k">def</span> <span class="nf">calcXd</span><span class="p">(</span><span class="n">Z</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to find Xd. (A37)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to find Xd. </span>
 
 <span class="sd">    Params</span>
 <span class="sd">        Z: np.ndarray</span>
@@ -166,13 +167,13 @@
     <span class="k">return</span> <span class="n">xd</span></div>
 
 
-
+<span class="c1">#(A38)</span>
 <div class="viewcode-block" id="calcS">
 <a class="viewcode-back" href="../../autoapi/vbvarsel/calcparams/index.html#vbvarsel.calcparams.calcS">[docs]</a>
 <span class="k">def</span> <span class="nf">calcS</span><span class="p">(</span>
     <span class="n">Z</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">xd</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to calculate Skj. (A38)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to calculate Skj. </span>
 
 <span class="sd">    Params</span>
 <span class="sd">        Z: np.ndarray</span>
@@ -204,13 +205,13 @@
     <span class="k">return</span> <span class="n">S</span></div>
 
 
-
+<span class="c1">#(A33/A58)</span>
 <div class="viewcode-block" id="calcbetakj">
 <a class="viewcode-back" href="../../autoapi/vbvarsel/calcparams/index.html#vbvarsel.calcparams.calcbetakj">[docs]</a>
 <span class="k">def</span> <span class="nf">calcbetakj</span><span class="p">(</span>
     <span class="n">K</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">XDim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">C</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">NK</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">beta0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">T</span><span class="p">:</span> <span class="nb">float</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to calculate the updated variational parameter betaKJ. (A33/A58)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to calculate the updated variational parameter betaKJ. </span>
 
 <span class="sd">    Params</span>
 <span class="sd">        K: int</span>
@@ -237,7 +238,7 @@
     <span class="k">return</span> <span class="n">beta</span></div>
 
 
-
+<span class="c1">#(A34/A59)</span>
 <div class="viewcode-block" id="calcM">
 <a class="viewcode-back" href="../../autoapi/vbvarsel/calcparams/index.html#vbvarsel.calcparams.calcM">[docs]</a>
 <span class="k">def</span> <span class="nf">calcM</span><span class="p">(</span>
@@ -251,7 +252,7 @@
     <span class="n">C</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
     <span class="n">T</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to calculate the updated variational parameter Mkj (A34/A59).</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to calculate the updated variational parameter Mkj </span>
 
 <span class="sd">    Params</span>
 <span class="sd">        K: int</span>
@@ -330,11 +331,11 @@
     <span class="k">return</span> <span class="n">B</span></div>
 
 
-
+<span class="c1">#(A43/A62)</span>
 <div class="viewcode-block" id="calcDelta">
 <a class="viewcode-back" href="../../autoapi/vbvarsel/calcparams/index.html#vbvarsel.calcparams.calcDelta">[docs]</a>
 <span class="k">def</span> <span class="nf">calcDelta</span><span class="p">(</span><span class="n">C</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">d</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">T</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to calculate the updated variational parameter Delta (A43/A62)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to calculate the updated variational parameter Delta </span>
 
 <span class="sd">    Params</span>
 <span class="sd">        C: np.ndarray[float]</span>
@@ -350,7 +351,7 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([(</span><span class="n">c</span> <span class="o">+</span> <span class="n">d</span> <span class="o">+</span> <span class="n">T</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">d</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">T</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">C</span><span class="p">])</span></div>
 
 
-
+<span class="c1">#(A47/A48)</span>
 <div class="viewcode-block" id="expSigma">
 <a class="viewcode-back" href="../../autoapi/vbvarsel/calcparams/index.html#vbvarsel.calcparams.expSigma">[docs]</a>
 <span class="k">def</span> <span class="nf">expSigma</span><span class="p">(</span>
@@ -362,7 +363,7 @@
     <span class="n">a</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
     <span class="n">C</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to calculate the expected Sigma values. (A47/A48)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to calculate the expected Sigma values. </span>
 
 <span class="sd">    Params</span>
 <span class="sd">        X: np.ndarray[float]</span>
@@ -401,12 +402,12 @@
     <span class="k">return</span> <span class="n">s</span></div>
 
 
-
+<span class="c1">#(A45)</span>
 <div class="viewcode-block" id="expPi">
 <a class="viewcode-back" href="../../autoapi/vbvarsel/calcparams/index.html#vbvarsel.calcparams.expPi">[docs]</a>
 <span class="k">def</span> <span class="nf">expPi</span><span class="p">(</span><span class="n">alpha0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">NK</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
-    <span class="c1"># A45</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to calculate Expected Pi value (A45)</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to calculate Expected Pi value </span>
 
 <span class="sd">    Params</span>
 <span class="sd">        alpha0: float</span>
@@ -423,17 +424,17 @@
     <span class="k">return</span> <span class="n">pik</span></div>
 
 
-
+<span class="c1">#(A47)</span>
 <div class="viewcode-block" id="expTau">
 <a class="viewcode-back" href="../../autoapi/vbvarsel/calcparams/index.html#vbvarsel.calcparams.expTau">[docs]</a>
 <span class="k">def</span> <span class="nf">expTau</span><span class="p">(</span>
-    <span class="n">betakj</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">akj</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">C</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">bkj</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">akj</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">C</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to calculate Expected Tau value (A47)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to calculate Expected Tau value </span>
 
 <span class="sd">    Params</span>
-<span class="sd">        betakj: np.ndarray</span>
-<span class="sd">            Value for the calculated variational parameter betakj, :func:`~vbvarsel.calcparams.calcbetakj`</span>
+<span class="sd">        bkj: np.ndarray</span>
+<span class="sd">            Value for the calculated variational parameter bkj, :func:`~vbvarsel.calcparams.calcbkj`</span>
 <span class="sd">        akj: np.ndarray</span>
 <span class="sd">            Value for the calculated variational parameter akj, :func:`~vbvarsel.calcparams.calcAkj`</span>
 <span class="sd">        C: np.ndarray</span>
@@ -443,7 +444,7 @@
 <span class="sd">            The calculated expected Tau values</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">betakj</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">bkj</span><span class="p">)</span>
     <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">akj</span><span class="p">)</span>
     <span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
 
@@ -457,7 +458,7 @@
     <span class="k">return</span> <span class="n">invc</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span></div>
 
 
-
+<span class="c1">#(A30?)</span>
 <div class="viewcode-block" id="calcF0">
 <a class="viewcode-back" href="../../autoapi/vbvarsel/calcparams/index.html#vbvarsel.calcparams.calcF0">[docs]</a>
 <span class="k">def</span> <span class="nf">calcF0</span><span class="p">(</span>
@@ -467,7 +468,7 @@
     <span class="n">mu_0</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
     <span class="n">C</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to calculate F0 (A30?)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to calculate F0 </span>
 
 <span class="sd">    Params</span>
 <span class="sd">        X: np.ndarray</span>
@@ -503,7 +504,7 @@
     <span class="k">return</span> <span class="n">F0</span></div>
 
 
-
+<span class="c1"># (A23)</span>
 <div class="viewcode-block" id="calcZ">
 <a class="viewcode-back" href="../../autoapi/vbvarsel/calcparams/index.html#vbvarsel.calcparams.calcZ">[docs]</a>
 <span class="k">def</span> <span class="nf">calcZ</span><span class="p">(</span>
@@ -516,7 +517,7 @@
     <span class="n">C</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
     <span class="n">T</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to the updated variational parameter Z, the latent cluster assignments (A23)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to the updated variational parameter Z, the latent cluster assignments</span>
 
 <span class="sd">    Params</span>
 <span class="sd">        exp_ln_pi: np.ndarray</span>
@@ -685,12 +686,11 @@
     <span class="k">return</span> <span class="n">expF0</span></div>
 
 
-
+<span class="c1">#(A41)</span>
 <div class="viewcode-block" id="calcN1">
 <a class="viewcode-back" href="../../autoapi/vbvarsel/calcparams/index.html#vbvarsel.calcparams.calcN1">[docs]</a>
 <span class="k">def</span> <span class="nf">calcN1</span><span class="p">(</span><span class="n">C</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">d</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">expF</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">T</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
-    <span class="c1"># A53</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to calculate N1 (A41), a parameter for Cj (A40) in the Bernoulli distribution (A39)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to calculate N1, a parameter for Cj in the Bernoulli distribution </span>
 
 <span class="sd">    Params</span>
 <span class="sd">        C: np.ndarray</span>
@@ -712,12 +712,11 @@
     <span class="k">return</span> <span class="n">N1</span><span class="p">,</span> <span class="n">lnN1</span></div>
 
 
-
+<span class="c1">#(A42)</span>
 <div class="viewcode-block" id="calcN2">
 <a class="viewcode-back" href="../../autoapi/vbvarsel/calcparams/index.html#vbvarsel.calcparams.calcN2">[docs]</a>
 <span class="k">def</span> <span class="nf">calcN2</span><span class="p">(</span><span class="n">C</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">d</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">expF0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">T</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
-    <span class="c1"># A54</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to calculate N1 (A42), a parameter for Cj (A40) in the Bernoulli distribution (A39)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to calculate N2 , a parameter for Cj in the Bernoulli distribution </span>
 
 <span class="sd">    Params</span>
 <span class="sd">        C: np.ndarray</span>
@@ -739,7 +738,7 @@
     <span class="k">return</span> <span class="n">N2</span><span class="p">,</span> <span class="n">lnN2</span></div>
 
 
-
+<span class="c1">#(A40)</span>
 <div class="viewcode-block" id="calcC">
 <a class="viewcode-back" href="../../autoapi/vbvarsel/calcparams/index.html#vbvarsel.calcparams.calcC">[docs]</a>
 <span class="k">def</span> <span class="nf">calcC</span><span class="p">(</span>
@@ -759,7 +758,7 @@
     <span class="n">T</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">trick</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to calculate the updated variational parameter C (A40), the covariate selection indicators</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to calculate the updated variational parameter C, the covariate selection indicators</span>
 
 <span class="sd">    Params</span>
 <span class="sd">        XDim: int</span>
