@@ -2,12 +2,12 @@
 
 The goal of this package is to quickly and efficiently identify clusters of variables by using a scalable, computationally efficienty annealed variational Bayes algorithm for fitting high-dimensional mixture models with variable selection.
 
-For more information and to read the full research paper please visit [LINK]
+The preprint for the underlying research paper can be found [here](https://arxiv.org/abs/2411.19262).
 
 ## Installation
 The VBVarSel package can be installed from github using pip:
 
-`pip install git+https://github.com/<REPO>/PROJECT/#egg=<project name>`
+`pip install git+https://github.com/MRCBSU/PROJECT/#egg=vbvarsel`
 
 or directly from PyPI:
 
