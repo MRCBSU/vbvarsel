@@ -91,7 +91,7 @@ sim_params = vbvs.SimulationParameters()
 hyp_params = vbvs.Hyperparameters()
 
 results = vbs.main(simulation_parameters=sim_params, hyperparameters=hyp_params)
-#pretty much runs on its own here.
+#an optional `save_output` flag will save the output to the current working directory.
 ```
 
 ### Contributing
